@@ -1,11 +1,10 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Mic, StopCircle, Loader } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import AnimatedOtter from './AnimatedOtter';
+import AnimatedAvatar from './AnimatedAvatar';
 import { fetchVoices, transcribeAudio, getDebateResponse, textToSpeech, Voice } from '@/lib/api';
 
 const debateTopics = [
@@ -299,7 +298,7 @@ const DebateInterface = () => {
       </Card>
 
       <div className="bg-debator-secondary w-full max-w-[300px] h-[350px] rounded-2xl overflow-hidden shadow-lg">
-        <AnimatedOtter speaking={isSpeaking} />
+        <AnimatedAvatar speaking={isSpeaking} />
       </div>
     </div>
   );
