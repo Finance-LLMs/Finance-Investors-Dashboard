@@ -4,27 +4,40 @@ interface AnimatedAvatarProps {
   speaking: boolean;
 }
 
-const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({ speaking }) => {
-  const [mouthState, setMouthState] = useState('M130,170 Q150,175 170,170');
-  
-  useEffect(() => {
+const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({ speaking }) => {  const [mouthState, setMouthState] = useState('M130,170 Q150,175 170,170');
+    useEffect(() => {
     let mouthInterval: NodeJS.Timeout | null = null;
+    let animationFrame: number | null = null;
     
     if (speaking) {
-      // Create mouth animation when speaking
-      mouthInterval = setInterval(() => {
-        setMouthState(prev => 
-          prev === 'M130,170 Q150,175 170,170' 
-            ? 'M130,170 Q150,190 170,170' 
-            : 'M130,170 Q150,175 170,170'
-        );
-      }, 200);
+      // Create randomized mouth animation when speaking - oval shape when open
+      const animateMouth = () => {
+        // Random probability to change mouth state - creates natural speaking pattern
+        const shouldChangeMouth = Math.random() > 0.4; // 60% chance to change on each frame
+        
+        if (shouldChangeMouth) {
+          setMouthState(prev => 
+            prev === 'M130,170 Q150,175 170,170' 
+              ? 'M130,170 Q150,195 170,170' 
+              : 'M130,170 Q150,175 170,170'
+          );
+        }
+        
+        // Schedule next animation with variable timing (100-300ms)
+        mouthInterval = setTimeout(() => {
+          animationFrame = requestAnimationFrame(animateMouth);
+        }, Math.random() * 200 + 100);
+      };
+      
+      // Start the animation
+      animationFrame = requestAnimationFrame(animateMouth);
     } else {
       setMouthState('M130,170 Q150,175 170,170');
     }
     
     return () => {
       if (mouthInterval) clearInterval(mouthInterval);
+      if (animationFrame) cancelAnimationFrame(animationFrame);
     };
   }, [speaking]);
   return (
@@ -36,41 +49,44 @@ const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({ speaking }) => {
           xmlns="http://www.w3.org/2000/svg"
           className="w-full h-full"
         >
-          {/* Background shadow for depth */}
-          <ellipse cx="150" cy="380" rx="70" ry="10" fill="#E5E7EB" opacity="0.5" />
           
-          {/* Feet/shoes */}
-          <path d="M100,388 Q105,378 120,378 Q130,383 130,388 Z" fill="#4B5563" />
-          <path d="M170,388 Q175,378 190,378 Q200,383 200,388 Z" fill="#4B5563" />
-          
-          {/* Legs with proper jeans */}
-          <path d="M110,350 L105,388 L125,388 L130,350 Z" fill="#2563EB" />
-          <path d="M190,350 L195,388 L175,388 L170,350 Z" fill="#2563EB" />
-          
-          {/* Jean details */}
-          <path d="M110,350 L130,350" stroke="#1E40AF" strokeWidth="1" />
-          <path d="M170,350 L190,350" stroke="#1E40AF" strokeWidth="1" />
-          <path d="M113,360 L127,360" stroke="#1E40AF" strokeWidth="0.5" opacity="0.5" />
-          <path d="M173,360 L187,360" stroke="#1E40AF" strokeWidth="0.5" opacity="0.5" />
-          
-          {/* Body/torso - realistic boy t-shirt */}
+          {/* Body/torso - T-shirt under coat */}
           <path d="M110,220 Q150,200 190,220 L190,350 L110,350 Z" fill="#3B82F6" />
-          <path d="M110,220 L190,220 L190,350 L110,350 Z" stroke="#2563EB" strokeWidth="0.5" />
           
-          {/* T-shirt details */}
-          <path d="M135,240 L165,240 L160,260 L140,260 Z" fill="#60A5FA" opacity="0.6" />
-          <path d="M130,220 L150,235 L170,220" stroke="#2563EB" strokeWidth="1.5" fill="none" />
-          <path d="M110,270 Q130,260 150,270 Q170,260 190,270" stroke="#2563EB" strokeWidth="0.5" opacity="0.3" />
+          {/* Doctor's white coat */}
+          <path d="M100,220 Q150,195 200,220 L200,360 L100,360 Z" fill="white" stroke="#E5E7EB" />
+          <path d="M100,220 L200,220" stroke="#E5E7EB" strokeWidth="1" />
+          
+          {/* Coat lapels */}
+          <path d="M135,220 L130,260 L150,230 L170,260 L165,220" fill="#F9FAFB" />
+            {/* Coat buttons */}
+          <circle cx="150" cy="270" r="3" fill="#D1D5DB" />
+          <circle cx="150" cy="300" r="3" fill="#D1D5DB" />
+          <circle cx="150" cy="330" r="3" fill="#D1D5DB" />
+          
+          {/* Small red plus sign - medical symbol (moved to right breast) */}
+          <path d="M167,245 L183,245 M175,237 L175,253" stroke="#EF4444" strokeWidth="4" strokeLinecap="round" />
+          
+          {/* Coat pockets */}
+          <path d="M115,290 L135,290 L135,320 L115,320 Z" stroke="#E5E7EB" />
+          <path d="M165,290 L185,290 L185,320 L165,320 Z" stroke="#E5E7EB" />
           
           {/* Arms */}
           <path d="M110,220 Q90,240 85,280 Q84,300 90,320" stroke="#C9A887" strokeWidth="16" strokeLinecap="round" />
           <path d="M190,220 Q210,240 215,280 Q216,300 210,320" stroke="#C9A887" strokeWidth="16" strokeLinecap="round" />
           
+          {/* White coat sleeves */}
+          <path d="M110,220 Q90,240 85,280 Q84,300 90,320" stroke="white" strokeWidth="20" strokeLinecap="round" opacity="0.9" />
+          <path d="M190,220 Q210,240 215,280 Q216,300 210,320" stroke="white" strokeWidth="20" strokeLinecap="round" opacity="0.9" />
+          
           {/* Hands */}
           <ellipse cx="90" cy="320" rx="10" ry="12" fill="#C9A887" />
-          <ellipse cx="210" cy="320" rx="10" ry="12" fill="#C9A887" />          {/* Neck - more natural shape */}
+          <ellipse cx="210" cy="320" rx="10" ry="12" fill="#C9A887" />          
+          
+          {/* Neck - more natural shape */}
           <path d="M140,190 Q150,195 160,190 L160,220 L140,220 Z" fill="#C9A887" />
-              {/* Head shape - completely bald with slightly shinier scalp */}
+          
+          {/* Head shape - completely bald with slightly shinier scalp */}
           <ellipse cx="150" cy="140" rx="55" ry="65" fill="#C9A887" />
 
           {/* Face features */}
@@ -98,14 +114,16 @@ const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({ speaking }) => {
             <path d="M168,133 Q175,135 182,133" stroke="#E5A282" strokeWidth="1" opacity="0.5" />
           </g>
         
-          
-          {/* Mouth - with better animation */}
+            {/* Mouth - with oval animation when speaking */}
           <path 
             d={mouthState}
             stroke="#C27D7D" 
             strokeWidth="1.5" 
-            fill="none"
-          />          {/* Natural cheek shading */}
+            fill={speaking ? "#8B4513" : "none"}
+            opacity={speaking ? "0.7" : "1"}
+          />          
+          
+          {/* Natural cheek shading */}
           <path d="M120,150 Q130,160 120,165" stroke="#B39578" strokeWidth="3" opacity="0.2" />
           <path d="M180,150 Q170,160 180,165" stroke="#B39578" strokeWidth="3" opacity="0.2" />
           
