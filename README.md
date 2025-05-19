@@ -22,6 +22,8 @@ The only requirement is having Node.js & npm installed - [install with nvm](http
 
 Follow these steps:
 
+First, make sure you have installed Node js to use npm, and all the libraries given in requirements.txt
+
 ```sh
 # Step 1: Clone the repository using the project's Git URL.
 git clone <YOUR_GIT_URL>
@@ -32,7 +34,9 @@ cd <YOUR_PROJECT_NAME>
 # Step 3: Install the necessary dependencies.
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Step 4: Make sure u run 'ollama run deepseek-r1' in the backaground
+
+# Step 5: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
