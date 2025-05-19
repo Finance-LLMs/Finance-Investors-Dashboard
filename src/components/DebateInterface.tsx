@@ -10,10 +10,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 const debateTopics = [
   { id: 'ai-decisions', value: 'Allowing AI to override human decisions' },
-  { id: 'universal-income', value: 'Universal Basic Income is necessary' },
-  { id: 'social-media', value: 'Social media does more harm than good' },
-  { id: 'remote-work', value: 'Remote work should be the new normal' },
-  { id: 'climate-action', value: 'Climate action should take priority over economic growth' },
 ];
 
 const stanceOptions = [
