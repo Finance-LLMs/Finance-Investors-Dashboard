@@ -1,8 +1,7 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Mic, StopCircle, Loader } from "lucide-react";
+import { Mic, StopCircle, Loader, RotateCcw } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import AnimatedOtter from './AnimatedOtter';
@@ -92,7 +91,7 @@ const DebateInterface = () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
         await processUserInput(audioBlob);
         
-        // Stop the audio tracks to release the microphone
+        // Stop all audio tracks to release the microphone
         stream.getTracks().forEach(track => track.stop());
       };
       
@@ -192,9 +191,11 @@ const DebateInterface = () => {
         description: "An error occurred while processing your input. Please try again.",
         variant: "destructive",
       });
-    } finally {      setIsProcessing(false);
+    } finally {
+      setIsProcessing(false);
     }
   };
+  
   // Reset the debate
   const resetDebate = () => {
     setChatHistory([]);
@@ -259,9 +260,30 @@ const DebateInterface = () => {
             </Select>
           </div>
         </div>
+        
+        {voices.length > 0 && (
+          <div className="mb-6">
+            <label htmlFor="voice" className="block text-white text-sm mb-2">AI Voice</label>
+            <Select value={selectedVoice} onValueChange={setSelectedVoice}>
+              <SelectTrigger id="voice" className="border-debator-secondary bg-white">
+                <SelectValue placeholder="Select voice" />
+              </SelectTrigger>
+              <SelectContent>
+                {voices.map((voice) => (
+                  <SelectItem key={voice.voice_id} value={voice.voice_id}>{voice.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         <div className="bg-white rounded-xl p-4 mb-6 min-h-[100px] flex items-center">
-          {debateText ? (
+          {isProcessing ? (
+            <div className="flex items-center justify-center w-full text-gray-400">
+              <Loader size={24} className="animate-spin mr-2" />
+              <span>Processing your input...</span>
+            </div>
+          ) : debateText ? (
             <p className="text-debator-text">{debateText}</p>
           ) : (
             <div className="flex items-center justify-center w-full text-gray-400">
@@ -277,29 +299,60 @@ const DebateInterface = () => {
               </div>
             </div>
           )}
-        </div>        {!isRecording ? (
+        </div>
+
+        <div className="flex gap-3 justify-center">
+          {!isRecording ? (
+            <Button 
+              onClick={startRecording} 
+              disabled={isProcessing || isSpeaking}
+              className="flex items-center justify-center gap-2 bg-debator-button hover:bg-opacity-90 text-white py-2 px-6 rounded-full transition-all"
+            >
+              <Mic size={20} />
+              Start Recording
+            </Button>
+          ) : (
+            <Button 
+              onClick={stopRecording}
+              className="flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-full transition-all"
+            >
+              <StopCircle size={20} />
+              Stop Recording
+            </Button>
+          )}
+          
           <Button 
-            onClick={startRecording} 
-            disabled={isSpeaking || isProcessing}
-            className="w-full md:w-auto mx-auto flex items-center justify-center gap-2 bg-debator-button hover:bg-opacity-90 text-white py-2 px-6 rounded-full transition-all"
+            onClick={resetDebate}
+            variant="outline" 
+            className="flex items-center justify-center gap-2 border-debator-secondary text-debator-button py-2 px-6 rounded-full transition-all"
           >
-            <Mic size={20} />
-            Start Recording
+            <RotateCcw size={16} />
+            Reset
           </Button>
-        ) : (
-          <Button 
-            onClick={stopRecording} 
-            disabled={isProcessing}
-            className="w-full md:w-auto mx-auto flex items-center justify-center gap-2 bg-destructive hover:bg-opacity-90 text-white py-2 px-6 rounded-full transition-all"
-          >
-            <StopCircle size={20} />
-            Stop Recording
-          </Button>
+        </div>
+        
+        {chatHistory.length > 0 && (
+          <div className="mt-6 border-t border-white/20 pt-4">
+            <h3 className="text-white font-medium mb-2">Debate History</h3>
+            <div className="max-h-[200px] overflow-y-auto">
+              {chatHistory.map((msg, i) => (
+                <div key={i} className={`mb-3 p-2 rounded-lg ${msg.role === 'user' ? 'bg-white/10' : 'bg-debator-button/20'}`}>
+                  <div className="font-medium text-sm text-white/80">
+                    {msg.role === 'user' ? '👤 You:' : '🦦 AI:'}
+                  </div>
+                  <p className="text-sm text-white">{msg.text}</p>
+                  {msg.audio && (
+                    <audio src={msg.audio} controls className="mt-2 w-full h-8" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         )}
       </Card>
 
       <div className="bg-debator-secondary w-full max-w-[300px] h-[350px] rounded-2xl overflow-hidden shadow-lg">
-        <AnimatedOtter speaking={isSpeaking} />
+        <AnimatedOtter speaking={isSpeaking || isRecording} />
       </div>
     </div>
   );
