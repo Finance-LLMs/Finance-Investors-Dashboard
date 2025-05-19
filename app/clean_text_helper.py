@@ -4,6 +4,7 @@
 import sys
 import os
 import re
+import json
 
 # Add the directory containing this script to the Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -17,5 +18,8 @@ if __name__ == "__main__":
     text = sys.argv[1]
     cleaned_text = clean_text_for_tts(text)
     
-    # Just print the cleaned text without any additional output
-    print(cleaned_text)
+    # Handle Unicode issues by replacing invalid characters
+    cleaned_text = cleaned_text.replace('\ufffd', '-')
+    
+    # Use JSON to properly encode special characters
+    print(json.dumps(cleaned_text))

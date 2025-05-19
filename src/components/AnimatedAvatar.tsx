@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 
 interface AnimatedAvatarProps {
@@ -28,7 +27,6 @@ const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({ speaking }) => {
       if (mouthInterval) clearInterval(mouthInterval);
     };
   }, [speaking]);
-
   return (
     <div className="relative w-full h-full flex items-center justify-center">
       <div className="animate-float w-full h-full max-w-[300px]">
@@ -38,76 +36,95 @@ const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({ speaking }) => {
           xmlns="http://www.w3.org/2000/svg"
           className="w-full h-full"
         >
-          {/* Human body/torso */}
-          <path d="M110,220 Q150,200 190,220 L190,350 L110,350 Z" fill="#6B7280" />
+          {/* Background shadow for depth */}
+          <ellipse cx="150" cy="380" rx="70" ry="10" fill="#E5E7EB" opacity="0.5" />
           
-          {/* Neck */}
-          <rect x="140" y="190" width="20" height="30" fill="#F4C2A6" />
+          {/* Feet/shoes */}
+          <path d="M100,388 Q105,378 120,378 Q130,383 130,388 Z" fill="#4B5563" />
+          <path d="M170,388 Q175,378 190,378 Q200,383 200,388 Z" fill="#4B5563" />
           
-          {/* Head shape - more rounded like the reference */}
-          <circle cx="150" cy="145" r="70" fill="#F4C2A6" />
+          {/* Legs with proper jeans */}
+          <path d="M110,350 L105,388 L125,388 L130,350 Z" fill="#2563EB" />
+          <path d="M190,350 L195,388 L175,388 L170,350 Z" fill="#2563EB" />
           
-          {/* Hair - styled more like the reference image with more volume on top */}
-          <path d="M90,120 Q100,65 150,55 Q200,65 210,120 L210,140 Q190,120 150,120 Q110,120 90,140 Z" fill="#4B5563" />
+          {/* Jean details */}
+          <path d="M110,350 L130,350" stroke="#1E40AF" strokeWidth="1" />
+          <path d="M170,350 L190,350" stroke="#1E40AF" strokeWidth="1" />
+          <path d="M113,360 L127,360" stroke="#1E40AF" strokeWidth="0.5" opacity="0.5" />
+          <path d="M173,360 L187,360" stroke="#1E40AF" strokeWidth="0.5" opacity="0.5" />
           
-          {/* Hair details - spiky top */}
-          <path d="M110,80 L120,65 L130,75 L140,60 L150,70 L160,55 L170,70 L180,60 L190,75" stroke="#4B5563" strokeWidth="8" fill="#4B5563" />
+          {/* Body/torso - realistic boy t-shirt */}
+          <path d="M110,220 Q150,200 190,220 L190,350 L110,350 Z" fill="#3B82F6" />
+          <path d="M110,220 L190,220 L190,350 L110,350 Z" stroke="#2563EB" strokeWidth="0.5" />
           
-          {/* Side hair */}
-          <path d="M80,140 Q75,150 80,170 Q85,190 90,180 L95,140 Z" fill="#4B5563" />
-          <path d="M220,140 Q225,150 220,170 Q215,190 210,180 L205,140 Z" fill="#4B5563" />
+          {/* T-shirt details */}
+          <path d="M135,240 L165,240 L160,260 L140,260 Z" fill="#60A5FA" opacity="0.6" />
+          <path d="M130,220 L150,235 L170,220" stroke="#2563EB" strokeWidth="1.5" fill="none" />
+          <path d="M110,270 Q130,260 150,270 Q170,260 190,270" stroke="#2563EB" strokeWidth="0.5" opacity="0.3" />
           
-          {/* Glasses - rounder frames like the reference */}
-          <path d="M105,135 Q115,130 125,135 Q135,140 145,135 Q155,130 165,135 Q175,140 185,135 Q195,130 195,135" 
-                stroke="#333333" 
-                strokeWidth="2" 
-                fill="none" />
-          {/* Left lens - rounder */}
-          <circle cx="125" cy="135" r="15" stroke="#333333" strokeWidth="1.5" fill="none" />
-          {/* Right lens - rounder */}
-          <circle cx="175" cy="135" r="15" stroke="#333333" strokeWidth="1.5" fill="none" />
-          {/* Temple arms */}
-          <path d="M90,135 L110,135" stroke="#333333" strokeWidth="1.5" />
-          <path d="M190,135 L210,135" stroke="#333333" strokeWidth="1.5" />
+          {/* Arms */}
+          <path d="M110,220 Q90,240 85,280 Q84,300 90,320" stroke="#C9A887" strokeWidth="16" strokeLinecap="round" />
+          <path d="M190,220 Q210,240 215,280 Q216,300 210,320" stroke="#C9A887" strokeWidth="16" strokeLinecap="round" />
           
-          {/* Eyes - slightly larger like the reference */}
+          {/* Hands */}
+          <ellipse cx="90" cy="320" rx="10" ry="12" fill="#C9A887" />
+          <ellipse cx="210" cy="320" rx="10" ry="12" fill="#C9A887" />          {/* Neck - more natural shape */}
+          <path d="M140,190 Q150,195 160,190 L160,220 L140,220 Z" fill="#C9A887" />
+              {/* Head shape - completely bald with slightly shinier scalp */}
+          <ellipse cx="150" cy="140" rx="55" ry="65" fill="#C9A887" />
+
+          {/* Face features */}
+          
+          {/* Eyebrows - natural boyish shape */}
+          <path d="M115,115 Q130,110 140,115" stroke="#3F2305" strokeWidth="2.5" fill="none" />
+          <path d="M160,115 Q170,110 185,115" stroke="#3F2305" strokeWidth="2.5" fill="none" />
+          
+          {/* Eyes with natural blinking animation */}
           <g className="animate-blink">
-            <ellipse cx="125" cy="135" rx="12" ry="7" fill="#FFFFFF" />
-            <ellipse cx="175" cy="135" rx="12" ry="7" fill="#FFFFFF" />
+            {/* Eye whites with better shape */}
+            <path d="M115,130 Q125,125 135,130 Q125,135 115,130 Z" fill="white" />
+            <path d="M165,130 Q175,125 185,130 Q175,135 165,130 Z" fill="white" />
             
-            <circle cx="125" cy="135" r="5" fill="#000000" />
-            <circle cx="175" cy="135" r="5" fill="#000000" />
+            {/* Realistic pupils */}
+            <circle cx="125" cy="130" r="3.5" fill="#594A3C" />
+            <circle cx="175" cy="130" r="3.5" fill="#594A3C" />
             
-            <circle cx="127" cy="133" r="1.5" fill="white" />
-            <circle cx="177" cy="133" r="1.5" fill="white" />
+            {/* Eye highlights for realism */}
+            <circle cx="123" cy="128" r="1" fill="white" />
+            <circle cx="173" cy="128" r="1" fill="white" />
+            
+            {/* Lower eyelids for more natural look */}
+            <path d="M118,133 Q125,135 132,133" stroke="#E5A282" strokeWidth="1" opacity="0.5" />
+            <path d="M168,133 Q175,135 182,133" stroke="#E5A282" strokeWidth="1" opacity="0.5" />
           </g>
+        
           
-          {/* Eyebrows - fuller and more expressionable */}
-          <path d="M110,118 Q125,112 140,118" stroke="#4B5563" strokeWidth="3" fill="none" />
-          <path d="M160,118 Q175,112 190,118" stroke="#4B5563" strokeWidth="3" fill="none" />
-          
-          {/* Nose - smaller, cuter */}
-          <path d="M150,145 Q153,158 150,160" stroke="#E5A282" strokeWidth="2" fill="none" />
-          
-          {/* Mouth - this will animate */}
+          {/* Mouth - with better animation */}
           <path 
             d={mouthState}
-            stroke="#D24545" 
-            strokeWidth="3" 
+            stroke="#C27D7D" 
+            strokeWidth="1.5" 
             fill="none"
-          />
+          />          {/* Natural cheek shading */}
+          <path d="M120,150 Q130,160 120,165" stroke="#B39578" strokeWidth="3" opacity="0.2" />
+          <path d="M180,150 Q170,160 180,165" stroke="#B39578" strokeWidth="3" opacity="0.2" />
           
-          {/* Cheeks - slight blush like the reference */}
-          <circle cx="120" cy="155" r="10" fill="#E5A282" opacity="0.4" />
-          <circle cx="180" cy="155" r="10" fill="#E5A282" opacity="0.4" />
+          {/* Mouth area subtle shading */}
+          <path d="M140,170 Q150,175 160,170" stroke="#B39578" strokeWidth="1" opacity="0.3" />
           
-          {/* Ears */}
-          <path d="M80,140 Q75,150 80,160 Q90,165 95,160 L95,140 Z" fill="#F4C2A6" />
-          <path d="M220,140 Q225,150 220,160 Q210,165 205,160 L205,140 Z" fill="#F4C2A6" />
+          {/* Square glasses */}
+          <path d="M105,130 L135,130 L135,145 L105,145 Z" fill="none" stroke="#31363F" strokeWidth="2" />
+          <path d="M165,130 L195,130 L195,145 L165,145 Z" fill="none" stroke="#31363F" strokeWidth="2" />
+          <path d="M135,137 L165,137" stroke="#31363F" strokeWidth="2" />
+          <path d="M105,130 L95,125" stroke="#31363F" strokeWidth="2" />
+          <path d="M195,130 L205,125" stroke="#31363F" strokeWidth="2" />
           
-          {/* Shoulders */}
-          <path d="M110,220 Q90,230 80,260" stroke="#6B7280" strokeWidth="3" fill="none" />
-          <path d="M190,220 Q210,230 220,260" stroke="#6B7280" strokeWidth="3" fill="none" />
+          {/* Ears with more detail */}
+          <path d="M90,135 Q85,145 90,155 Q100,160 105,155 L102,135 Z" fill="#C9A887" />
+          <path d="M95,140 Q93,145 95,150" stroke="#B39578" strokeWidth="1" opacity="0.6" />
+          
+          <path d="M210,135 Q215,145 210,155 Q200,160 195,155 L198,135 Z" fill="#C9A887" />
+          <path d="M205,140 Q207,145 205,150" stroke="#B39578" strokeWidth="1" opacity="0.6" />
         </svg>
       </div>
     </div>

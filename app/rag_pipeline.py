@@ -63,10 +63,10 @@ def llm_response_medical_debate(query: str, debate_side: str = "for") -> str:
         f"the following medical proposition: '{topic}'. "
         f"Respond to your opponent's opening argument. "
         f"Be persuasive, logical, and cite medical evidence when possible. "
-        f"Keep your response concise (50-60 words). Sound like a confident medical professional in a debate.\n\n"
+        f"Keep your response concise (30-40 words). Sound like a confident medical professional in a debate.\n\n"
         f"Your opponent just said: {user_argument}\n\n"
         f"Give your response as one paragraph with all the final arguments, no need to deep think and all of that"
-        f"And it is very important that you keep it in nearly 50 words.\n\n"
+        f"And it is very important that you keep it in nearly 30 words.\n\n"
         f"Your response:\n"
     )
     

@@ -191,8 +191,7 @@ app.post('/api/debate-response', async (req, res) => {
     // Combine all output lines
     const fullOutput = results.join('\n');
     console.log(`[DEBUG] Received debate response of length: ${fullOutput.length}`);
-    
-    // Clean the output using the same function used for TTS
+      // Clean the output using the same function used for TTS
     const cleanOptions = {
       mode: 'text',
       pythonPath: 'C:\\Users\\Akshat\\AppData\\Local\\Programs\\Python\\Python312\\python.exe',
@@ -203,7 +202,15 @@ app.post('/api/debate-response', async (req, res) => {
     
     // Use the clean_text helper to extract just the response text
     const cleanResult = await PythonShell.run('clean_text_helper.py', cleanOptions);
-    const cleanedResponse = cleanResult[0]; // Get just the cleaned text
+    
+    // Parse the JSON-encoded response
+    let cleanedResponse = '';
+    try {
+      cleanedResponse = JSON.parse(cleanResult[0]); // Parse the JSON-encoded cleaned text
+    } catch (e) {
+      console.error('[ERROR] Failed to parse JSON response from clean_text_helper.py', e);
+      cleanedResponse = cleanResult[0] || 'Failed to process response';
+    }
     
     // Send only the cleaned response to the frontend
     res.json({ 

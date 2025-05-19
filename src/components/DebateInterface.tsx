@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Mic, StopCircle, Loader } from "lucide-react";
+import { Mic, StopCircle, Loader, MessageCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import AnimatedAvatar from './AnimatedAvatar';
 import { fetchVoices, transcribeAudio, getDebateResponse, textToSpeech, Voice } from '@/lib/api';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const debateTopics = [
   { id: 'ai-decisions', value: 'Allowing AI to override human decisions' },
@@ -40,18 +41,15 @@ const DebateInterface = () => {
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
-  const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
-  
-  // Load available voices when component mounts
+  const audioPlayerRef = useRef<HTMLAudioElement | null>(null);    // Load available voices when component mounts
   useEffect(() => {
     const loadVoices = async () => {
       try {
         const availableVoices = await fetchVoices();
         setVoices(availableVoices);
         
-        if (availableVoices.length > 0) {
-          setSelectedVoice(availableVoices[0].voice_id);
-        }
+        // Set default male voice ID
+        setSelectedVoice("nPczCjzI2devNBz1zQrb");
       } catch (error) {
         console.error('Failed to load voices:', error);
         toast({
@@ -257,14 +255,24 @@ const DebateInterface = () => {
               </SelectContent>
             </Select>
           </div>
-        </div>
-
-        <div className="bg-white rounded-xl p-4 mb-6 min-h-[100px] flex items-center">
+        </div>        <div className="mb-6">
           {debateText ? (
-            <p className="text-debator-text">{debateText}</p>
+            <Accordion type="single" collapsible className="bg-white rounded-xl">
+              <AccordionItem value="debate-text" className="border-none">
+                <AccordionTrigger className="px-4 py-3 hover:no-underline">
+                  <div className="flex items-center gap-2">
+                    <MessageCircle size={18} />
+                    <span>View Debate Text</span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="px-4 pb-3">
+                  <p className="text-debator-text">{debateText}</p>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           ) : (
-            <div className="flex items-center justify-center w-full text-gray-400">
-              <div className="flex items-center gap-3">
+            <div className="bg-white rounded-xl p-4 min-h-[60px] flex items-center justify-center">
+              <div className="flex items-center gap-3 text-gray-400">
                 <div className="bg-gray-100 p-2 rounded-full">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -276,7 +284,7 @@ const DebateInterface = () => {
               </div>
             </div>
           )}
-        </div>        {!isRecording ? (
+        </div>{!isRecording ? (
           <Button 
             onClick={startRecording} 
             disabled={isSpeaking || isProcessing}
