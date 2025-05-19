@@ -44,49 +44,50 @@ const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({ speaking }) => {
           {/* Neck */}
           <rect x="140" y="190" width="20" height="30" fill="#F4C2A6" />
           
-          {/* Head shape */}
+          {/* Head shape - more rounded like the reference */}
           <circle cx="150" cy="145" r="70" fill="#F4C2A6" />
           
-          {/* Hair - enhanced with fuller style */}
-          <path d="M90,120 Q100,60 150,50 Q200,60 210,120 L210,140 Q190,120 150,120 Q110,120 90,140 Z" fill="#4B5563" />
-          <path d="M85,130 Q90,100 100,90 L90,120 Q80,140 85,130 Z" fill="#4B5563" />
-          <path d="M215,130 Q210,100 200,90 L210,120 Q220,140 215,130 Z" fill="#4B5563" />
+          {/* Hair - styled more like the reference image with more volume on top */}
+          <path d="M90,120 Q100,65 150,55 Q200,65 210,120 L210,140 Q190,120 150,120 Q110,120 90,140 Z" fill="#4B5563" />
+          
+          {/* Hair details - spiky top */}
+          <path d="M110,80 L120,65 L130,75 L140,60 L150,70 L160,55 L170,70 L180,60 L190,75" stroke="#4B5563" strokeWidth="8" fill="#4B5563" />
           
           {/* Side hair */}
           <path d="M80,140 Q75,150 80,170 Q85,190 90,180 L95,140 Z" fill="#4B5563" />
           <path d="M220,140 Q225,150 220,170 Q215,190 210,180 L205,140 Z" fill="#4B5563" />
           
-          {/* Glasses */}
+          {/* Glasses - rounder frames like the reference */}
           <path d="M105,135 Q115,130 125,135 Q135,140 145,135 Q155,130 165,135 Q175,140 185,135 Q195,130 195,135" 
                 stroke="#333333" 
                 strokeWidth="2" 
                 fill="none" />
-          {/* Left lens */}
-          <ellipse cx="125" cy="135" rx="15" ry="12" stroke="#333333" strokeWidth="1.5" fill="none" />
-          {/* Right lens */}
-          <ellipse cx="175" cy="135" rx="15" ry="12" stroke="#333333" strokeWidth="1.5" fill="none" />
+          {/* Left lens - rounder */}
+          <circle cx="125" cy="135" r="15" stroke="#333333" strokeWidth="1.5" fill="none" />
+          {/* Right lens - rounder */}
+          <circle cx="175" cy="135" r="15" stroke="#333333" strokeWidth="1.5" fill="none" />
           {/* Temple arms */}
           <path d="M90,135 L110,135" stroke="#333333" strokeWidth="1.5" />
           <path d="M190,135 L210,135" stroke="#333333" strokeWidth="1.5" />
           
-          {/* Eyes */}
+          {/* Eyes - slightly larger like the reference */}
           <g className="animate-blink">
-            <ellipse cx="125" cy="135" rx="10" ry="5" fill="#FFFFFF" />
-            <ellipse cx="175" cy="135" rx="10" ry="5" fill="#FFFFFF" />
+            <ellipse cx="125" cy="135" rx="12" ry="7" fill="#FFFFFF" />
+            <ellipse cx="175" cy="135" rx="12" ry="7" fill="#FFFFFF" />
             
-            <circle cx="125" cy="135" r="4" fill="#000000" />
-            <circle cx="175" cy="135" r="4" fill="#000000" />
+            <circle cx="125" cy="135" r="5" fill="#000000" />
+            <circle cx="175" cy="135" r="5" fill="#000000" />
             
             <circle cx="127" cy="133" r="1.5" fill="white" />
             <circle cx="177" cy="133" r="1.5" fill="white" />
           </g>
           
-          {/* Eyebrows */}
-          <path d="M115,120 Q125,115 135,120" stroke="#4B5563" strokeWidth="2" fill="none" />
-          <path d="M165,120 Q175,115 185,120" stroke="#4B5563" strokeWidth="2" fill="none" />
+          {/* Eyebrows - fuller and more expressionable */}
+          <path d="M110,118 Q125,112 140,118" stroke="#4B5563" strokeWidth="3" fill="none" />
+          <path d="M160,118 Q175,112 190,118" stroke="#4B5563" strokeWidth="3" fill="none" />
           
-          {/* Nose */}
-          <path d="M150,145 Q155,160 150,165" stroke="#E5A282" strokeWidth="2" fill="none" />
+          {/* Nose - smaller, cuter */}
+          <path d="M150,145 Q153,158 150,160" stroke="#E5A282" strokeWidth="2" fill="none" />
           
           {/* Mouth - this will animate */}
           <path 
@@ -95,6 +96,10 @@ const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({ speaking }) => {
             strokeWidth="3" 
             fill="none"
           />
+          
+          {/* Cheeks - slight blush like the reference */}
+          <circle cx="120" cy="155" r="10" fill="#E5A282" opacity="0.4" />
+          <circle cx="180" cy="155" r="10" fill="#E5A282" opacity="0.4" />
           
           {/* Ears */}
           <path d="M80,140 Q75,150 80,160 Q90,165 95,160 L95,140 Z" fill="#F4C2A6" />
