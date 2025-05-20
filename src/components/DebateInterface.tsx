@@ -45,7 +45,7 @@ const DebateInterface = () => {
         setVoices(availableVoices);
         
         // Set default male voice ID
-        setSelectedVoice("nPczCjzI2devNBz1zQrb");
+        setSelectedVoice("iP95p4xoKVk53GoZ742B");
       } catch (error) {
         console.error('Failed to load voices:', error);
         toast({
