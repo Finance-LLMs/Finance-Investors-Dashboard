@@ -22,7 +22,7 @@ def list_voices() -> dict:
 def text_to_speech(
     text: str,
     voice_id: str,
-    model_id: str = "eleven_multilingual_v2",
+    model_id: str = "eleven_flash_v2",
     output_format: str = "mp3_44100_128"
 ) -> bytes:
     """

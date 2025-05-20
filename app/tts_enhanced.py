@@ -47,7 +47,7 @@ def verify_api_key():
         print(f"[ERROR] Error verifying API key: {str(e)}")
         return False
 
-def text_to_speech(text, voice_id, model_id="eleven_multilingual_v2", timeout=30):
+def text_to_speech(text, voice_id, model_id="eleven_flash_v2", timeout=30):
     """
     Enhanced text-to-speech function with timeout and better error handling
     """
