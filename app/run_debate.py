@@ -28,7 +28,7 @@ if __name__ == "__main__":
           # Verify Ollama connection before proceeding
         from langchain_ollama import OllamaLLM
         print("Creating OllamaLLM instance...")
-        llm = OllamaLLM(model="deepseek-r1", temperature=0.7)
+        llm = OllamaLLM(model="qwen2:1.5b", temperature=0.7)
         
         print("Generating debate response...")
         response = llm_response_medical_debate(

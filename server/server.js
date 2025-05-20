@@ -175,7 +175,7 @@ app.post('/api/debate-response', async (req, res) => {
       debateRound.toString()
     ];
     
-    console.log(`[DEBUG] Starting Python debate script with model deepseek-r1`);
+    console.log(`[DEBUG] Starting Python debate script with model qwen2:1.5b`);
     
     // Run the Python script with proper timeout
     const options = {

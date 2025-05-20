@@ -19,7 +19,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 docs = text_splitter.create_documents([raw_text])
 
 # Create embeddings
-embedding_model = OllamaEmbeddings(model="deepseek-r1")
+embedding_model = OllamaEmbeddings(model="qwen2:1.5b")
 
 # Create and persist the vector database
 vector_db = Chroma.from_documents(
