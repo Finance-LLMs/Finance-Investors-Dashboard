@@ -200,6 +200,9 @@ app.post('/api/debate-response', async (req, res) => {
       args: [fullOutput]
     };
     
+    console.log('[DEBUG] Printing cleaned output');
+    console.log(`[DEBUG] Full output: ${fullOutput}`);
+
     // Use the clean_text helper to extract just the response text
     const cleanResult = await PythonShell.run('clean_text_helper.py', cleanOptions);
     
@@ -207,6 +210,7 @@ app.post('/api/debate-response', async (req, res) => {
     let cleanedResponse = '';
     try {
       cleanedResponse = JSON.parse(cleanResult[0]); // Parse the JSON-encoded cleaned text
+      console.log(`[DEBUG] Cleaned response: ${cleanedResponse}`);
     } catch (e) {
       console.error('[ERROR] Failed to parse JSON response from clean_text_helper.py', e);
       cleanedResponse = cleanResult[0] || 'Failed to process response';

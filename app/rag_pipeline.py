@@ -58,15 +58,18 @@ def llm_response_sit(query: str) -> str:
 def llm_response_medical_debate(query: str, debate_side: str = "for") -> str:
     topic = "AI in healthcare, allowing AI to override human decisions in healthcare."
     user_argument = query
+    response_length = max(100,len(query.split()))
+    
     system_prompt = (
-        f"You are participating in a formal debate on medical topics. You are arguing {debate_side.upper()} "
-        f"the following medical proposition: '{topic}'. "
+        f"You are participating in a formal debate. You are arguing {debate_side.upper()} "
+        f"the following proposition: '{topic}'. "
         f"Respond to your opponent's opening argument. "
-        f"Be persuasive, logical, and cite medical evidence when possible. "
-        f"Keep your response concise (30-40 words). Sound like a confident medical professional in a debate.\n\n"
+        f"Be persuasive, logical, and cite evidence when possible. "
+        f"Keep your response in approximately {response_length} words - matching the length of your opponent's argument. "
+        f"Sound like a confident professional in a debate.\n\n"
         f"Your opponent just said: {user_argument}\n\n"
-        f"Give your response as one paragraph with all the final arguments, no need to deep think and all of that"
-        f"And it is very important that you keep it in nearly 30 words.\n\n"
+        f"Very important: give your response as one paragraph with all the final arguments. "
+        f"It is very important that you keep your response to {response_length} words, matching the length of the opponent's statement.\n\n"
         f"Your response:\n"
     )
     
@@ -75,7 +78,7 @@ def llm_response_medical_debate(query: str, debate_side: str = "for") -> str:
     if vector_db:
         response = query_llm(vector_db, full_prompt)
     else:
-        llm = OllamaLLM(model="deepseek-r1")
+        llm = OllamaLLM(model="qwen2:1.5b")
         response = llm.invoke(full_prompt)
         
     return response

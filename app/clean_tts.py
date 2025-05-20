@@ -29,12 +29,12 @@ def clean_text_for_tts(text):
         # Clean up other potential problematic characters
         response_text = ''.join(char if ord(char) < 65536 else '-' for char in response_text)
         
-        # Split into paragraphs and get the last non-empty one
-        paragraphs = [p for p in re.split(r'\n\s*\n', response_text) if p.strip()]
-        if paragraphs:
-            # Get the last paragraph
-            final_paragraph = paragraphs[-1].strip()
-            return final_paragraph
+        # # Split into paragraphs and get the last non-empty one
+        # paragraphs = [p for p in re.split(r'\n\s*\n', response_text) if p.strip()]
+        # if paragraphs:
+        #     # Get the last paragraph
+        #     final_paragraph = paragraphs[-1].strip()
+        #     return final_paragraph
         
         return response_text.strip()
     
