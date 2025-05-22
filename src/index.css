@@ -90,6 +90,6 @@
   }
 
   body {
-    @apply bg-debator-background text-debator-text;
+    @apply bg-debater-background text-debater-text;
   }
 }

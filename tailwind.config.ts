@@ -63,7 +63,7 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				debator: {
+				debater: {
 					'primary': '#e67e55', // Main terracotta color
 					'secondary': '#f8d8b9', // Lighter accent color
 					'background': '#fdf4eb', // Light beige background

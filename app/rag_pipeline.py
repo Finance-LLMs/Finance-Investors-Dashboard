@@ -58,18 +58,32 @@ def llm_response_sit(query: str) -> str:
 def llm_response_medical_debate(query: str, debate_side: str = "for") -> str:
     topic = "AI in healthcare, allowing AI to override human decisions in healthcare."
     user_argument = query
-    response_length = max(100,len(query.split()))
+    user_argument = '''
+    AI is a tool—yes, a powerful one—but allowing it to overrule human judgment leads us down a dangerous path. It risks eroding personal autonomy, moral responsibility, and even the principles of democratic decision-making.
+
+We often hear that AI is more efficient, more objective, or more consistent. But I want to begin with a fundamental concern: accountability. What happens when AI gets it wrong?
+
+Imagine a scenario in healthcare. An AI overrides a doctor's treatment plan, and the patient dies. Who takes responsibility? The developer who wrote the code? The hospital that deployed the system? Or the AI itself? The truth is, AI cannot be held responsible. It cannot apologize, show remorse, or be punished. And yet, it may have made a decision that directly affected a human life.
+
+This lack of responsibility is a major flaw. Human decisions are accountable. Doctors can explain themselves. Judges can be appealed. Pilots can be questioned. But when a machine overrides a person, the chain of accountability is broken. We're left pointing fingers at developers, institutions, or regulatory bodies—none of whom were actually there when the decision was made.
+
+Let me ask you: Are we ready to hand over serious decisions to systems that can't be held accountable? Can we trust a machine that can't explain its reasoning, can't accept blame, and can't be held to ethical standards?
+
+Technology must serve us, not rule over us. Yes, AI is a tool—and a powerful one—but tools are meant to assist, not overrule. When we let machines override human judgment, we lose not only our control but also our responsibility for outcomes.
+'''
+    response_length = max(500,len(query.split()))
     
     system_prompt = (
-        f"You are participating in a formal debate. You are arguing {debate_side.upper()} "
+        f"You are my opposing debater, participating in a formal debate and you have to give a speech, arguing {debate_side.upper()} "
         f"the following proposition: '{topic}'. "
-        f"Respond to your opponent's opening argument. "
+        f"I am your opponent and I just made an argument: {user_argument}\n\n"
+        f"Respond to my argument. "
+        f"Your response should include sarcasm, humor, and a counter-argument. And try to counter question my argument. "
         f"Be persuasive, logical, and cite evidence when possible. "
-        f"Keep your response in approximately {response_length} words - matching the length of your opponent's argument. "
+        f"Keep your response in approximately {response_length} words. "
         f"Sound like a confident professional in a debate.\n\n"
-        f"Your opponent just said: {user_argument}\n\n"
         f"Very important: give your response as one paragraph with all the final arguments. "
-        f"It is very important that you keep your response to {response_length} words, matching the length of the opponent's statement.\n\n"
+        f"It is very very important that you keep your response to {response_length} words. Just elaborate on all the points\n\n"
         f"Your response:\n"
     )
     

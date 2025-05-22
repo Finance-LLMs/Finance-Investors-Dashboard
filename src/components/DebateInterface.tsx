@@ -208,9 +208,9 @@ const DebateInterface = () => {
       {/* Hidden audio player for AI speech */}
       <audio ref={audioPlayerRef} className="hidden" />
       
-      <Card className="w-full max-w-md p-6 md:p-8 bg-debator-primary rounded-2xl shadow-lg">
+      <Card className="w-full max-w-md p-6 md:p-8 bg-debater-primary rounded-2xl shadow-lg">
         <div className="flex items-center gap-3 mb-4">
-          <div className="bg-debator-button text-white p-2 rounded-full">
+          <div className="bg-debater-button text-white p-2 rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
               <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
@@ -218,8 +218,8 @@ const DebateInterface = () => {
             </svg>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white">AI Debator</h2>
-            <p className="text-debator-secondary text-sm">Engage in a formal debate with AI</p>
+            <h2 className="text-2xl font-bold text-white">AI Debater</h2>
+            <p className="text-debater-secondary text-sm">Engage in a formal debate with AI</p>
           </div>
         </div>
 
@@ -227,7 +227,7 @@ const DebateInterface = () => {
           <div>
             <label htmlFor="topic" className="block text-white text-sm mb-2">Debate Topic</label>
             <Select value={topic} onValueChange={setTopic}>
-              <SelectTrigger id="topic" className="border-debator-secondary bg-white">
+              <SelectTrigger id="topic" className="border-debater-secondary bg-white">
                 <SelectValue placeholder="Select a topic" />
               </SelectTrigger>
               <SelectContent>
@@ -241,7 +241,7 @@ const DebateInterface = () => {
           <div>
             <label htmlFor="stance" className="block text-white text-sm mb-2">Your Stance</label>
             <Select value={stance} onValueChange={setStance}>
-              <SelectTrigger id="stance" className="border-debator-secondary bg-white">
+              <SelectTrigger id="stance" className="border-debater-secondary bg-white">
                 <SelectValue placeholder="Select stance" />
               </SelectTrigger>
               <SelectContent>
@@ -262,7 +262,7 @@ const DebateInterface = () => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="px-4 pb-3">
-                  <p className="text-debator-text">{debateText}</p>
+                  <p className="text-debater-text">{debateText}</p>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -284,7 +284,7 @@ const DebateInterface = () => {
           <Button 
             onClick={startRecording} 
             disabled={isSpeaking || isProcessing}
-            className="w-full md:w-auto mx-auto flex items-center justify-center gap-2 bg-debator-button hover:bg-opacity-90 text-white py-2 px-6 rounded-full transition-all"
+            className="w-full md:w-auto mx-auto flex items-center justify-center gap-2 bg-debater-button hover:bg-opacity-90 text-white py-2 px-6 rounded-full transition-all"
           >
             <Mic size={20} />
             Start Recording
@@ -301,7 +301,7 @@ const DebateInterface = () => {
         )}
       </Card>
 
-      <div className="bg-debator-secondary w-full max-w-[300px] h-[350px] rounded-2xl overflow-hidden shadow-lg">
+      <div className="bg-debater-secondary w-full max-w-[300px] h-[350px] rounded-2xl overflow-hidden shadow-lg">
         <AnimatedAvatar speaking={isSpeaking} />
       </div>
     </div>
