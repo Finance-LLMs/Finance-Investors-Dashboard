@@ -26,10 +26,10 @@ First, make sure you have installed Node js to use npm, and all the libraries gi
 
 ```sh
 # Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone https://github.com/akshatparmar2634/AI-debate-bot.git
 
 # Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+cd AI-debate-bot
 
 # Step 3: Install the necessary dependencies.
 npm i
