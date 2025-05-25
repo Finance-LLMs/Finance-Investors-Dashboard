@@ -9,8 +9,7 @@ export default {
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
 	],
-	prefix: "",
-	theme: {
+	prefix: "",	theme: {
 		container: {
 			center: true,
 			padding: '2rem',
@@ -19,6 +18,9 @@ export default {
 			}
 		},
 		extend: {
+			scale: {
+				'150': '1.5',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Mic, StopCircle, Loader, MessageCircle } from "lucide-react";
+import { Mic, StopCircle, Loader } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import AnimatedAvatar from './AnimatedAvatar';
 import { fetchVoices, transcribeAudio, getDebateResponse, textToSpeech, Voice } from '@/lib/api';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
 
 const debateTopics = [
   { id: 'ai-decisions', value: 'Allowing AI to override human decisions' },
@@ -200,32 +200,25 @@ const DebateInterface = () => {
     toast({
       title: "Debate reset",
       description: "Starting a new debate. Select a topic and stance to begin.",
-    });
-  };
-
-  return (
-    <div className="min-h-screen p-4 md:p-8 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
+    });  };
+    return (
+    <div className="min-h-screen p-6 md:p-12 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 scale-150 origin-top overflow-x-hidden">
       {/* Hidden audio player for AI speech */}
       <audio ref={audioPlayerRef} className="hidden" />
       
-      <Card className="w-full max-w-md p-6 md:p-8 bg-debater-primary rounded-2xl shadow-lg">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="bg-debater-button text-white p-2 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <Card className="w-full max-w-md p-6 md:p-8 bg-debater-primary rounded-2xl shadow-lg">        <div className="flex items-center gap-4 mb-6">
+          <div className="bg-debater-button text-white p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
               <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
               <path d="M12 14l-6.16-3.422a12.083 12.083 0 00-.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 006.824-2.998 12.078 12.078 0 00-.665-6.479L12 14z"></path>
             </svg>
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-white">AI Debater</h2>
+          </div>          <div>            <h2 className="text-2xl font-bold text-white">AI Debater</h2>
             <p className="text-debater-secondary text-sm">Engage in a formal debate with AI</p>
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        </div>        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-9">
           <div>
-            <label htmlFor="topic" className="block text-white text-sm mb-2">Debate Topic</label>
+            <label htmlFor="topic" className="block text-white text-sm mb-3">Debate Topic</label>
             <Select value={topic} onValueChange={setTopic}>
               <SelectTrigger id="topic" className="border-debater-secondary bg-white">
                 <SelectValue placeholder="Select a topic" />
@@ -236,10 +229,8 @@ const DebateInterface = () => {
                 ))}
               </SelectContent>
             </Select>
-          </div>
-
-          <div>
-            <label htmlFor="stance" className="block text-white text-sm mb-2">Your Stance</label>
+          </div>          <div>
+            <label htmlFor="stance" className="block text-white text-sm mb-3">Your Stance</label>
             <Select value={stance} onValueChange={setStance}>
               <SelectTrigger id="stance" className="border-debater-secondary bg-white">
                 <SelectValue placeholder="Select stance" />
@@ -252,56 +243,24 @@ const DebateInterface = () => {
             </Select>
           </div>
         </div>        <div className="mb-6">
-          {debateText ? (
-            <Accordion type="single" collapsible className="bg-white rounded-xl">
-              <AccordionItem value="debate-text" className="border-none">
-                <AccordionTrigger className="px-4 py-3 hover:no-underline">
-                  <div className="flex items-center gap-2">
-                    <MessageCircle size={18} />
-                    <span>View Debate Text</span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="px-4 pb-3">
-                  <p className="text-debater-text">{debateText}</p>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          ) : (
-            <div className="bg-white rounded-xl p-4 min-h-[60px] flex items-center justify-center">
-              <div className="flex items-center gap-3 text-gray-400">
-                <div className="bg-gray-100 p-2 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                  </svg>
-                </div>
-                <span>Click "Start Recording" to begin the debate...</span>
-              </div>
-            </div>
-          )}
         </div>{!isRecording ? (
           <Button 
             onClick={startRecording} 
-            disabled={isSpeaking || isProcessing}
-            className="w-full md:w-auto mx-auto flex items-center justify-center gap-2 bg-debater-button hover:bg-opacity-90 text-white py-2 px-6 rounded-full transition-all"
+            disabled={isSpeaking || isProcessing}            className="w-full md:w-auto mx-auto flex items-center justify-center gap-3 bg-debater-button hover:bg-opacity-90 text-white py-3 px-9 rounded-full transition-all text-base"
           >
-            <Mic size={20} />
+            <Mic size={30} />
             Start Recording
           </Button>
         ) : (
           <Button 
             onClick={stopRecording} 
-            disabled={isProcessing}
-            className="w-full md:w-auto mx-auto flex items-center justify-center gap-2 bg-destructive hover:bg-opacity-90 text-white py-2 px-6 rounded-full transition-all"
+            disabled={isProcessing}            className="w-full md:w-auto mx-auto flex items-center justify-center gap-3 bg-destructive hover:bg-opacity-90 text-white py-3 px-9 rounded-full transition-all text-base"
           >
-            <StopCircle size={20} />
+            <StopCircle size={30} />
             Stop Recording
           </Button>
         )}
-      </Card>
-
-      <div className="bg-debater-secondary w-full max-w-[300px] h-[350px] rounded-2xl overflow-hidden shadow-lg">
+      </Card>      <div className="bg-debater-secondary w-full max-w-[300px] h-[360px] rounded-2xl overflow-hidden shadow-lg">
         <AnimatedAvatar speaking={isSpeaking} />
       </div>
     </div>
