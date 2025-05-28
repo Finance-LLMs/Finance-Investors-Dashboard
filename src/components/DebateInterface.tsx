@@ -160,8 +160,7 @@ const DebateInterface = () => {
       
       // Step 3: Convert AI response to speech
       const aiAudioUrl = await textToSpeech(aiResponse, selectedVoice);
-      
-      // Add AI message to chat history
+        // Add AI message to chat history
       const aiMessage: Message = {
         role: 'ai',
         text: aiResponse,
@@ -171,15 +170,26 @@ const DebateInterface = () => {
       setChatHistory(prev => [...prev, aiMessage]);
       setDebateText(aiResponse);
       
+      console.log('🔊 [DEBUG] Playing AI response audio...');
+      
       // Play the audio response
       if (audioPlayerRef.current) {
         audioPlayerRef.current.src = aiAudioUrl;
-        audioPlayerRef.current.onplay = () => setIsSpeaking(true);
-        audioPlayerRef.current.onended = () => setIsSpeaking(false);
+        audioPlayerRef.current.onplay = () => {
+          console.log('🔊 [DEBUG] Audio playback started');
+          setIsSpeaking(true);
+        };
+        audioPlayerRef.current.onended = () => {
+          console.log('🔊 [DEBUG] Audio playback ended');
+          setIsSpeaking(false);
+        };
         audioPlayerRef.current.play();
       }
+      
+      console.log('✅ [DEBUG] User input processing completed successfully');
+      
     } catch (error) {
-      console.error('Error processing user input:', error);
+      console.error('❌ [DEBUG] Error processing user input:', error);
       toast({
         title: "Processing error",
         description: "An error occurred while processing your input. Please try again.",
@@ -200,27 +210,28 @@ const DebateInterface = () => {
     toast({
       title: "Debate reset",
       description: "Starting a new debate. Select a topic and stance to begin.",
-    });  };
-    return (
-    <div className="min-h-screen p-6 md:p-12 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 scale-150 origin-top overflow-x-hidden">
+    });  };  return (
+    <div className="h-screen w-screen flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 scale-150 origin-center overflow-hidden fixed inset-0">
       {/* Hidden audio player for AI speech */}
       <audio ref={audioPlayerRef} className="hidden" />
       
-      <Card className="w-full max-w-md p-6 md:p-8 bg-debater-primary rounded-2xl shadow-lg">        <div className="flex items-center gap-4 mb-6">
+      <Card className="w-full max-w-[380px] p-5 bg-debater-primary rounded-2xl shadow-lg">        <div className="flex items-center gap-4 mb-5">
           <div className="bg-debater-button text-white p-3 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
               <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
               <path d="M12 14l-6.16-3.422a12.083 12.083 0 00-.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 006.824-2.998 12.078 12.078 0 00-.665-6.479L12 14z"></path>
             </svg>
-          </div>          <div>            <h2 className="text-2xl font-bold text-white">AI Debater</h2>
-            <p className="text-debater-secondary text-sm">Engage in a formal debate with AI</p>
+          </div>          <div>
+            <h2 className="text-2xl font-bold text-white">AI Debater</h2>
+            <p className="text-debater-secondary text-base">Engage in a formal debate with AI</p>
           </div>
-        </div>        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-9">
-          <div>
-            <label htmlFor="topic" className="block text-white text-sm mb-3">Debate Topic</label>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 mb-5"><div>
+            <label htmlFor="topic" className="block text-white text-sm mb-2">Debate Topic</label>
             <Select value={topic} onValueChange={setTopic}>
-              <SelectTrigger id="topic" className="border-debater-secondary bg-white">
+              <SelectTrigger id="topic" className="border-debater-secondary bg-white text-sm h-10">
                 <SelectValue placeholder="Select a topic" />
               </SelectTrigger>
               <SelectContent>
@@ -230,9 +241,9 @@ const DebateInterface = () => {
               </SelectContent>
             </Select>
           </div>          <div>
-            <label htmlFor="stance" className="block text-white text-sm mb-3">Your Stance</label>
+            <label htmlFor="stance" className="block text-white text-sm mb-2">Your Stance</label>
             <Select value={stance} onValueChange={setStance}>
-              <SelectTrigger id="stance" className="border-debater-secondary bg-white">
+              <SelectTrigger id="stance" className="border-debater-secondary bg-white text-sm h-10">
                 <SelectValue placeholder="Select stance" />
               </SelectTrigger>
               <SelectContent>
@@ -242,25 +253,28 @@ const DebateInterface = () => {
               </SelectContent>
             </Select>
           </div>
-        </div>        <div className="mb-6">
-        </div>{!isRecording ? (
+        </div>
+
+        {!isRecording ? (
           <Button 
             onClick={startRecording} 
-            disabled={isSpeaking || isProcessing}            className="w-full md:w-auto mx-auto flex items-center justify-center gap-3 bg-debater-button hover:bg-opacity-90 text-white py-3 px-9 rounded-full transition-all text-base"
-          >
-            <Mic size={30} />
+            disabled={isSpeaking || isProcessing}
+            className="w-full flex items-center justify-center gap-2 bg-debater-button hover:bg-opacity-90 text-white py-3 px-6 rounded-full transition-all text-sm"
+          >            <Mic size={20} />
             Start Recording
           </Button>
         ) : (
           <Button 
             onClick={stopRecording} 
-            disabled={isProcessing}            className="w-full md:w-auto mx-auto flex items-center justify-center gap-3 bg-destructive hover:bg-opacity-90 text-white py-3 px-9 rounded-full transition-all text-base"
-          >
-            <StopCircle size={30} />
+            disabled={isProcessing}
+            className="w-full flex items-center justify-center gap-2 bg-destructive hover:bg-opacity-90 text-white py-3 px-6 rounded-full transition-all text-sm"
+          >            <StopCircle size={20} />
             Stop Recording
           </Button>
         )}
-      </Card>      <div className="bg-debater-secondary w-full max-w-[300px] h-[360px] rounded-2xl overflow-hidden shadow-lg">
+      </Card>
+
+      <div className="bg-debater-secondary w-full max-w-[280px] h-[320px] rounded-2xl overflow-hidden shadow-lg">
         <AnimatedAvatar speaking={isSpeaking} />
       </div>
     </div>
