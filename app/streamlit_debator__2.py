@@ -8,8 +8,8 @@ import requests
 
 # Constants
 UPLOAD_DIR = "uploads"
-ELEVEN_API_KEY = "sk_a649a82e1aea55930753e9171ca5a3ad17f7aa1b55afe493"
-AGENT_ID = "agent_01jvyxr1wkft5bddtqqrwaqkn5"
+ELEVEN_API_KEY = "sk_947d7c6316e1efef0b5edd9a107473c7743fbd5d75129890"
+AGENT_ID = "agent_01jw5fzsbnek3bfab7p690qp44"
 ELEVEN_API_URL = f"https://api.elevenlabs.io/v1/convai/agents/{AGENT_ID}/simulate-conversation"
 
 # Ensure upload directory
