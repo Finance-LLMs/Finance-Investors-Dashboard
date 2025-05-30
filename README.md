@@ -25,6 +25,9 @@ Follow these steps:
 First, make sure you have installed Node js to use npm, and all the libraries given in requirements.txt
 
 ```sh
+# Step 0: If you want to use Ollama on your local machine:
+ollama run <model_name> # Eg: ollama run deepseekr1
+
 # Step 1: Clone the repository using the project's Git URL.
 git clone https://github.com/akshatparmar2634/AI-debate-bot.git
 
@@ -34,7 +37,9 @@ cd AI-debate-bot
 # Step 3: Install the necessary dependencies.
 npm i
 
-# Step 4: Make sure u run 'ollama run qwen2:1.5b' in the backaground
+# Step 4: Install the express package inside `server/` directory.
+cd server/
+npm install express
 
 # Step 5: Start the development server with auto-reloading and an instant preview.
 npm run dev
