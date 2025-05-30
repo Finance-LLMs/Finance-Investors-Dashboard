@@ -57,6 +57,61 @@ function promiseWithTimeout(promise, timeoutMs, errorMsg) {
   ]).finally(() => clearTimeout(timeoutId));
 }
 
+// Helper function to clean up old audio files (older than 24 hours)
+// REMOVED: No longer needed since files are deleted immediately after use
+
+// Helper function to clean up any leftover files on startup
+function cleanupLeftoverFiles() {
+  try {
+    // Clean uploads directory
+    const uploadDir = path.join(__dirname, 'uploads');
+    if (fs.existsSync(uploadDir)) {
+      const uploadFiles = fs.readdirSync(uploadDir);
+      uploadFiles.forEach(file => {
+        const filePath = path.join(uploadDir, file);
+        fs.unlinkSync(filePath);
+      });
+      if (uploadFiles.length > 0) {
+        console.log(`[DEBUG] Cleaned up ${uploadFiles.length} leftover upload files`);
+      }
+    }
+    
+    // Clean audio directory
+    const audioDir = path.join(__dirname, 'audio');
+    if (fs.existsSync(audioDir)) {
+      const audioFiles = fs.readdirSync(audioDir);
+      audioFiles.forEach(file => {
+        const filePath = path.join(audioDir, file);
+        fs.unlinkSync(filePath);
+      });
+      if (audioFiles.length > 0) {
+        console.log(`[DEBUG] Cleaned up ${audioFiles.length} leftover audio files`);
+      }
+    }
+    
+    // Clean any temporary files that might be created by Python scripts
+    const tempPattern = /^(temp_|tts_|recording_|output_)/;
+    const currentDir = __dirname;
+    if (fs.existsSync(currentDir)) {
+      const allFiles = fs.readdirSync(currentDir);
+      const tempFiles = allFiles.filter(file => tempPattern.test(file) && (file.endsWith('.mp3') || file.endsWith('.wav') || file.endsWith('.tmp')));
+      tempFiles.forEach(file => {
+        const filePath = path.join(currentDir, file);
+        try {
+          fs.unlinkSync(filePath);
+        } catch (err) {
+          console.error(`[ERROR] Failed to delete temp file ${file}:`, err.message);
+        }
+      });
+      if (tempFiles.length > 0) {
+        console.log(`[DEBUG] Cleaned up ${tempFiles.length} temporary files`);
+      }
+    }
+  } catch (error) {
+    console.error('Error cleaning up leftover files:', error);
+  }
+}
+
 // API Endpoints
 // List available voices from ElevenLabs
 app.get('/api/voices', async (req, res) => {
@@ -129,6 +184,15 @@ app.post('/api/transcribe', upload.single('audio'), async (req, res) => {
     .then(results => {
       const transcription = results[0] || 'Transcription failed';
       console.log(`[DEBUG] Transcription result: ${transcription.slice(0, 50)}...`);
+      
+      // Delete the uploaded audio file immediately after processing
+      try {
+        fs.unlinkSync(audioFilePath);
+        console.log(`[DEBUG] Deleted uploaded audio file: ${audioFilePath}`);
+      } catch (deleteError) {
+        console.error(`[ERROR] Failed to delete uploaded file: ${deleteError.message}`);
+      }
+      
       res.json({ text: transcription });
     })
     .catch(err => {
@@ -147,15 +211,43 @@ app.post('/api/transcribe', upload.single('audio'), async (req, res) => {
         timeout: 30000 // 30s timeout
       })
       .then(response => {
+        // Delete the uploaded audio file after fallback processing
+        try {
+          fs.unlinkSync(audioFilePath);
+          console.log(`[DEBUG] Deleted uploaded audio file after fallback: ${audioFilePath}`);
+        } catch (deleteError) {
+          console.error(`[ERROR] Failed to delete uploaded file after fallback: ${deleteError.message}`);
+        }
+        
         res.json({ text: response.data.text });
       })
       .catch(fallbackErr => {
         console.error('Fallback transcription error:', fallbackErr);
+        
+        // Delete the uploaded audio file even if transcription fails
+        try {
+          fs.unlinkSync(audioFilePath);
+          console.log(`[DEBUG] Deleted uploaded audio file after failure: ${audioFilePath}`);
+        } catch (deleteError) {
+          console.error(`[ERROR] Failed to delete uploaded file after failure: ${deleteError.message}`);
+        }
+        
         res.status(500).json({ error: 'Failed to transcribe audio' });
       });
     });
   } catch (error) {
     console.error('Error in transcription route:', error);
+    
+    // Clean up uploaded file if there's an error
+    if (req.file && req.file.path) {
+      try {
+        fs.unlinkSync(req.file.path);
+        console.log(`[DEBUG] Deleted uploaded audio file after error: ${req.file.path}`);
+      } catch (deleteError) {
+        console.error(`[ERROR] Failed to delete uploaded file after error: ${deleteError.message}`);
+      }
+    }
+    
     res.status(500).json({ error: 'Failed to transcribe audio' });
   }
 });
@@ -175,7 +267,7 @@ app.post('/api/debate-response', async (req, res) => {
       debateRound.toString()
     ];
     
-    // console.log(`[DEBUG] Starting Python debate script with model qwen2:1.5b`);
+    console.log(`[DEBUG] Starting Python debate script with model qwen2:1.5b`);
     
     // Run the Python script with proper timeout
     const options = {
@@ -260,16 +352,21 @@ app.post('/api/tts', async (req, res) => {
         
         // Get the file path from the Python script output
         const outputPath = results && results.length > 0 ? results[results.length - 1].trim() : null;
-        
-        if (outputPath && fs.existsSync(outputPath)) {
+          if (outputPath && fs.existsSync(outputPath)) {
           console.log(`[DEBUG] Audio file exists at ${outputPath}`);
+          
           // Read the audio file and send as base64
           const audioBuffer = fs.readFileSync(outputPath);
           const base64Audio = audioBuffer.toString('base64');
           console.log(`[DEBUG] Audio converted to base64 (${base64Audio.length} characters)`);
           
-          // Clean up the file
-          fs.unlinkSync(outputPath);
+          // Clean up the temporary file immediately after reading it
+          try {
+            fs.unlinkSync(outputPath);
+            console.log(`[DEBUG] Deleted temporary audio file: ${outputPath}`);
+          } catch (deleteError) {
+            console.error(`[ERROR] Failed to delete temporary audio file: ${deleteError.message}`);
+          }
           
           res.json({
             audioContent: base64Audio,
@@ -301,4 +398,8 @@ app.post('/api/tts', async (req, res) => {
 // Start the server
 app.listen(PORT, () => {
   console.log(`Enhanced server running on port ${PORT}`);
+  console.log(`[INFO] Files will be deleted immediately after processing`);
+  
+  // Clean up any leftover files from previous sessions
+  cleanupLeftoverFiles();
 });

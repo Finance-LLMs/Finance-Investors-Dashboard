@@ -39,10 +39,9 @@ const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({ speaking }) => {  const
       if (mouthInterval) clearInterval(mouthInterval);
       if (animationFrame) cancelAnimationFrame(animationFrame);
     };
-  }, [speaking]);
-  return (
+  }, [speaking]);  return (
     <div className="relative w-full h-full flex items-center justify-center">
-      <div className="animate-float w-full h-full max-w-[300px]">
+      <div className="w-full h-full max-w-[300px]">
         <svg 
           viewBox="0 0 300 400" 
           fill="none" 
