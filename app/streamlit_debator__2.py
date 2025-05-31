@@ -6,17 +6,44 @@ import requests
 # from app.stt_elevenlabs import transcribe_audio
 # from app.tts_elevenlabs import list_voices, text_to_speech
 
+# New ElevenLabs SDK integration
+try:
+    from elevenlabs_conversation import create_conversation_manager, DebateConversationManager, FallbackConversationManager
+    CONVERSATION_SDK_AVAILABLE = True
+except ImportError:
+    print("[WARNING] ElevenLabs conversation SDK not available")
+    CONVERSATION_SDK_AVAILABLE = False
+
 # Constants
 UPLOAD_DIR = "uploads"
-ELEVEN_API_KEY = "sk_947d7c6316e1efef0b5edd9a107473c7743fbd5d75129890"
+ELEVEN_API_KEY = os.getenv("ELEVENLABS_API_KEY", "sk_947d7c6316e1efef0b5edd9a107473c7743fbd5d75129890")
 AGENT_ID = "agent_01jw5fzsbnek3bfab7p690qp44"
 ELEVEN_API_URL = f"https://api.elevenlabs.io/v1/convai/agents/{AGENT_ID}/simulate-conversation"
 
 # Ensure upload directory
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-# Helper: call ElevenLabs ConvAI agent for response
+# Initialize conversation manager
+conversation_manager = None
+if CONVERSATION_SDK_AVAILABLE:
+    conversation_manager = create_conversation_manager(AGENT_ID, ELEVEN_API_KEY)
+
+# Helper: call ElevenLabs ConvAI agent for response (Enhanced with SDK support)
 def get_agent_response(first_message: str) -> str:
+    """
+    Get agent response using either SDK or REST API fallback.
+    """
+    global conversation_manager
+    
+    # For now, skip the SDK approach due to audio interface issues
+    # and go directly to REST API which is more reliable for text-based interaction
+    print("Using REST API for agent response (SDK temporarily disabled)")
+    return get_agent_response_rest_api(first_message)
+
+def get_agent_response_rest_api(first_message: str) -> str:
+    """
+    Original REST API implementation for getting agent response.
+    """
     print("Sending to Agent...")
     headers = {
         "Xi-Api-Key": ELEVEN_API_KEY,
@@ -30,14 +57,64 @@ def get_agent_response(first_message: str) -> str:
             }
         }
     }
-    resp = requests.post(ELEVEN_API_URL, json=payload, headers=headers)
+    try:
+        resp = requests.post(ELEVEN_API_URL, json=payload, headers=headers)
+        resp.raise_for_status()
+        
+        data = resp.json()
+        conv = data.get("simulated_conversation", [])
+        agent_msgs = [m.get("message") for m in conv if m.get("role") == "agent"]
+        response = agent_msgs[-1] if agent_msgs else ""
+        print(f"Agent Response: {response}")
+        return response
+    except Exception as e:
+        print(f"[ERROR] REST API request failed: {e}")
+        return ""
 
-    data = resp.json()
-    conv = data.get("simulated_conversation", [])
-    agent_msgs = [m.get("message") for m in conv if m.get("role") == "agent"]
-    response = agent_msgs[-1] if agent_msgs else ""
-    print(f"Agent Response: {response}")
-    return response
+# Enhanced conversation management functions
+def start_realtime_conversation():
+    """
+    Start a real-time conversation using ElevenLabs SDK.
+    This would be used for voice-to-voice interaction.
+    """
+    global conversation_manager
+    
+    if not conversation_manager or not isinstance(conversation_manager, DebateConversationManager):
+        print("[ERROR] SDK conversation manager not available")
+        return None
+    
+    try:
+        conversation_id = conversation_manager.start_conversation(timeout_seconds=300)  # 5 minute timeout
+        print(f"[DEBUG] Started real-time conversation: {conversation_id}")
+        return conversation_id
+    except Exception as e:
+        print(f"[ERROR] Failed to start real-time conversation: {e}")
+        return None
+
+def end_realtime_conversation():
+    """
+    End the current real-time conversation.
+    """
+    global conversation_manager
+    
+    if conversation_manager and isinstance(conversation_manager, DebateConversationManager):
+        try:
+            conversation_id = conversation_manager.end_conversation()
+            print(f"[DEBUG] Ended conversation: {conversation_id}")
+            return conversation_id
+        except Exception as e:
+            print(f"[ERROR] Failed to end conversation: {e}")
+    return None
+
+def get_conversation_history():
+    """
+    Get the conversation history from the SDK manager.
+    """
+    global conversation_manager
+    
+    if conversation_manager and isinstance(conversation_manager, DebateConversationManager):
+        return conversation_manager.get_conversation_history()
+    return []
 
 # # Play temporary audio response
 # def play_thinking_message():

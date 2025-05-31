@@ -29,15 +29,30 @@ if __name__ == "__main__":
         # from langchain_ollama import OllamaLLM
         # print("Creating OllamaLLM instance...")
         # llm = OllamaLLM(model="qwen2:1.5b", temperature=0.7)
-        
         print("Generating debate response...")
         topic = "AI in healthcare, allowing AI to override human decisions in healthcare."
         
-        prompt = f"You are an AI assistant participating in a debate about {topic}. You are on the {debate_side} side of the motion. Respond to the user's statements: {user_input} with well-reasoned arguments that support your position."
+        # Create a more specific and contextual prompt for the debate
+        if debate_side.lower() == "for":
+            stance_instruction = "You strongly SUPPORT allowing AI to override human decisions in healthcare when appropriate."
+            examples = "Argue points like: AI can process vast amounts of data faster than humans, reduce medical errors, provide consistent care 24/7, and make unbiased decisions based purely on medical evidence."
+        else:
+            stance_instruction = "You strongly OPPOSE allowing AI to override human decisions in healthcare."
+            examples = "Argue points like: Human judgment and empathy are irreplaceable, AI can have biases in training data, patients deserve human decision-makers, and medical ethics require human accountability."
+        
+        prompt = f"""You are participating in a formal debate about: "{topic}"
 
-        response = get_agent_response(
-            prompt
-        )
+Your Position: {stance_instruction}
+
+Context: The user just said: "{user_input}"
+
+Your task: Provide a strong, well-reasoned argument that directly addresses their point while advancing your position. {examples}
+
+Be engaging, use specific examples, and challenge their reasoning. Keep your response focused and persuasive. Respond as if you're in a live debate - be assertive and confident in your position.
+
+Your response:"""
+
+        response = get_agent_response(prompt)
         
         # Only output the final response without debug logs
         print(f"--- RESPONSE BEGIN ---")
