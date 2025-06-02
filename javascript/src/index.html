@@ -3,21 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ElevenLabs Conversational AI Demo</title>
+    <title>Medical Debater</title>
+    <meta name="description" content="Engage in medical debates with AI using ElevenLabs ConvAI" />
     <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </head>
 <body>
-    <div class="container">
-        <h1>ElevenLabs Conversational AI Demo</h1>
-        <div class="status-container">
-            <div id="connectionStatus" class="status">Disconnected</div>
-            <div id="speakingStatus" class="speaking-status">Agent Silent</div>
-        </div>
-        <div class="controls">
-            <button id="startButton" class="button">Start Conversation</button>
-            <button id="endButton" class="button" disabled>End Conversation</button>
+    <div class="app-container">
+        <!-- Hidden audio player for AI speech -->
+        <audio id="audioPlayer" class="hidden"></audio>
+        
+        <div class="main-content">
+            <!-- Left Panel: Controls -->
+            <div class="control-panel">
+                <div class="header">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                            <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                        </svg>
+                    </div>
+                    <div class="title-section">
+                        <h2>AI Debater</h2>
+                        <p>Engage in a formal debate with AI</p>
+                    </div>
+                </div>                <div class="form-section">
+                    <div class="form-group">
+                        <label for="topicSelect">Debate Topic</label>
+                        <select id="topicSelect" class="select-input">
+                            <option value="">Select a topic</option>
+                            <option value="ai-decisions">Allowing AI to override human decisions</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="stanceSelect">Your Stance</label>
+                        <select id="stanceSelect" class="select-input">
+                            <option value="">Select stance</option>
+                            <option value="for">For the motion</option>
+                            <option value="against">Against the motion</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="status-container">
+                    <div id="statusText" class="status-text">Ready to record</div>
+                </div>
+
+                <div class="recording-controls">
+                    <button id="recordButton" class="record-btn start-recording" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m12 8-9.04 4.9a2.78 2.78 0 0 0 0 4.9L12 24l9.04-4.9a2.78 2.78 0 0 0 0-4.9L12 8Z"/>
+                        </svg>
+                        Start Recording
+                    </button>
+                    
+                    <button id="resetButton" class="record-btn reset-btn">
+                        Reset Debate
+                    </button>
+                </div>
+
+                <div class="chat-history" id="chatHistory">
+                    <!-- Chat messages will appear here -->
+                </div>
+            </div>            <!-- Right Panel: Avatar -->
+            <div class="avatar-panel">
+                <div id="animatedAvatar" class="avatar-container">
+                    <svg viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg" class="avatar-svg">
+                        <!-- Body/torso - T-shirt under coat -->
+                        <path d="M110,220 Q150,200 190,220 L190,350 L110,350 Z" fill="#3B82F6" />
+                        
+                        <!-- Doctor's white coat -->
+                        <path d="M100,220 Q150,195 200,220 L200,360 L100,360 Z" fill="white" stroke="#E5E7EB" />
+                        <path d="M100,220 L200,220" stroke="#E5E7EB" stroke-width="1" />
+                        
+                        <!-- Coat lapels -->
+                        <path d="M135,220 L130,260 L150,230 L170,260 L165,220" fill="#F9FAFB" />
+                        
+                        <!-- Coat buttons -->
+                        <circle cx="150" cy="270" r="3" fill="#D1D5DB" />
+                        <circle cx="150" cy="300" r="3" fill="#D1D5DB" />
+                        <circle cx="150" cy="330" r="3" fill="#D1D5DB" />
+                        
+                        <!-- Coat pockets -->
+                        <path d="M115,290 L135,290 L135,320 L115,320 Z" stroke="#E5E7EB" />
+                        <path d="M165,290 L185,290 L185,320 L165,320 Z" stroke="#E5E7EB" />
+                        
+                        <!-- Arms -->
+                        <path d="M110,220 Q90,240 85,280 Q84,300 90,320" stroke="#E8C4A2" stroke-width="16" stroke-linecap="round" />
+                        <path d="M190,220 Q210,240 215,280 Q216,300 210,320" stroke="#E8C4A2" stroke-width="16" stroke-linecap="round" />
+                        
+                        <!-- White coat sleeves -->
+                        <path d="M110,220 Q90,240 85,280 Q84,300 90,320" stroke="white" stroke-width="20" stroke-linecap="round" opacity="0.9" />
+                        <path d="M190,220 Q210,240 215,280 Q216,300 210,320" stroke="white" stroke-width="20" stroke-linecap="round" opacity="0.9" />
+                        
+                        <!-- Hands -->
+                        <ellipse cx="90" cy="320" rx="10" ry="12" fill="#E8C4A2" />
+                        <ellipse cx="210" cy="320" rx="10" ry="12" fill="#E8C4A2" />
+                        
+                        <!-- Neck -->
+                        <path d="M135,190 Q150,195 165,190 L165,220 L135,220 Z" fill="#E8C4A2" />
+                        
+                        <!-- Head shape -->
+                        <ellipse cx="150" cy="140" rx="55" ry="65" fill="#E8C4A2" />
+
+                        <!-- Eyebrows -->
+                        <path d="M115,115 Q130,110 140,115" stroke="#3F2305" stroke-width="2.5" fill="none" />
+                        <path d="M160,115 Q170,110 185,115" stroke="#3F2305" stroke-width="2.5" fill="none" />
+                        
+                        <!-- Eyes -->
+                        <path d="M115,130 Q125,125 135,130 Q125,135 115,130 Z" fill="white" />
+                        <path d="M165,130 Q175,125 185,130 Q175,135 165,130 Z" fill="white" />
+                        
+                        <!-- Pupils -->
+                        <circle cx="125" cy="130" r="3.5" fill="#594A3C" />
+                        <circle cx="175" cy="130" r="3.5" fill="#594A3C" />
+                        
+                        <!-- Eye highlights -->
+                        <circle cx="123" cy="128" r="1" fill="white" />
+                        <circle cx="173" cy="128" r="1" fill="white" />
+                        
+                        <!-- Lower eyelids -->
+                        <path d="M118,133 Q125,135 132,133" stroke="#E5A282" stroke-width="1" opacity="0.5" />
+                        <path d="M168,133 Q175,135 182,133" stroke="#E5A282" stroke-width="1" opacity="0.5" />
+                        
+                        <!-- Mouth - animated -->
+                        <path id="avatarMouth" d="M130,170 Q150,175 170,170" stroke="#C27D7D" stroke-width="1.5" fill="none" />
+                        
+                        <!-- Cheek shading -->
+                        <path d="M120,150 Q130,160 120,165" stroke="#D4B08C" stroke-width="3" opacity="0.2" />
+                        <path d="M180,150 Q170,160 180,165" stroke="#D4B08C" stroke-width="3" opacity="0.2" />
+                        
+                        <!-- Mouth area shading -->
+                        <path d="M140,170 Q150,175 160,170" stroke="#D4B08C" stroke-width="1" opacity="0.3" />
+                        
+                        <!-- Square glasses -->
+                        <path d="M105,130 L135,130 L135,145 L105,145 Z" fill="none" stroke="#31363F" stroke-width="2" />
+                        <path d="M165,130 L195,130 L195,145 L165,145 Z" fill="none" stroke="#31363F" stroke-width="2" />
+                        <path d="M135,137 L165,137" stroke="#31363F" stroke-width="2" />
+                        <path d="M105,130 L95,125" stroke="#31363F" stroke-width="2" />
+                        <path d="M195,130 L205,125" stroke="#31363F" stroke-width="2" />
+                        
+                        <!-- Ears -->
+                        <path d="M90,135 Q85,145 90,155 Q100,160 105,155 L102,135 Z" fill="#E8C4A2" />
+                        <path d="M95,140 Q93,145 95,150" stroke="#D4B08C" stroke-width="1" opacity="0.6" />
+                        
+                        <path d="M210,135 Q215,145 210,155 Q200,160 195,155 L198,135 Z" fill="#E8C4A2" />
+                        <path d="M205,140 Q207,145 205,150" stroke="#D4B08C" stroke-width="1" opacity="0.6" />
+                    </svg>
+                </div>
+            </div>
         </div>
     </div>
+    
     <script src="/static/bundle.js"></script>
 </body>
 </html>
