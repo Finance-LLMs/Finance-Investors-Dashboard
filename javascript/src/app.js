@@ -213,13 +213,25 @@ async function startConversation() {
         if (!hasPermission) {
             alert('Microphone permission is required for the conversation.');
             return;
-        }
-
-        const signedUrl = await getSignedUrl();
+        }        const signedUrl = await getSignedUrl();
         //const agentId = await getAgentId(); // You can switch to agentID for public agents
-          conversation = await Conversation.startSession({
+        
+        // Get user stance and calculate opposite AI stance
+        const userStance = document.getElementById('stance').value;
+        const aiStance = userStance === 'for' ? 'against' : 'for';
+        
+        // Get the actual topic text instead of the value
+        const topicSelect = document.getElementById('topic');
+        const topicText = topicSelect.options[topicSelect.selectedIndex].text;
+        
+        conversation = await Conversation.startSession({
             signedUrl: signedUrl,
             //agentId: agentId, // You can switch to agentID for public agents
+            dynamicVariables: {
+                topic: topicText,
+                user_stance: userStance,
+                ai_stance: aiStance
+            },
             onConnect: () => {
                 console.log('Connected');
                 updateStatus(true);
@@ -263,9 +275,9 @@ document.getElementById('startButton').addEventListener('click', startConversati
 document.getElementById('endButton').addEventListener('click', endConversation);
 
 // Initialize avatar when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    initializeAvatar();
-      // Enable start button when both topic and stance are selected
+document.addEventListener('DOMContentLoaded', () => {    initializeAvatar();
+    
+    // Enable start button when both topic and stance are selected
     const topicSelect = document.getElementById('topic');
     const stanceSelect = document.getElementById('stance');
     const startButton = document.getElementById('startButton');

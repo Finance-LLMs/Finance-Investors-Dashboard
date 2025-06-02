@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Debate Arena</title>
+    <title>Medical Debater</title>
     <meta name="description" content="Engage in medical debates with AI using ElevenLabs ConvAI" />
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="debate-container">
@@ -24,23 +27,19 @@
                             <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
                             <path d="M12 14l-6.16-3.422a12.083 12.083 0 00-.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 006.824-2.998 12.078 12.078 0 00-.665-6.479L12 14z"></path>
                         </svg>
-                    </div>
-                    <div class="header-text">
-                        <h2>AI Debater</h2>
-                        <p>Engage in a formal debate with AI</p>
+                    </div>                    <div class="header-text">
+                        <h2>Medical Debater</h2>
+                        <p>Engage in intelligent medical discussions with AI</p>
                     </div>
                 </div>
 
                 <div class="form-controls">
                     <div class="control-group">
-                        <label for="topic">Debate Topic</label>
-                        <select id="topic" class="control-select">
+                        <label for="topic">Debate Topic</label>                        <select id="topic" class="control-select">
                             <option value="">Select a topic</option>
-                            <option value="ai-decisions">Allowing AI to override human decisions</option>
+                            <option value="ai-decisions">Allowing AI to override human decisions in healthcare</option>
                         </select>
-                    </div>
-                    
-                    <div class="control-group">
+                    </div>                    <div class="control-group">
                         <label for="stance">Your Stance</label>
                         <select id="stance" class="control-select">
                             <option value="">Select stance</option>
@@ -62,10 +61,16 @@
                         Stop Debate
                     </button>
                 </div>
-            </div>
-
-            <!-- Right Panel: Avatar -->
+            </div>            <!-- Right Panel: Avatar -->
             <div class="avatar-card">
+                <div class="voice-selection">
+                    <label for="voiceProfile">AI Voice</label>
+                    <select id="voiceProfile" class="control-select">
+                        <option value="">Select voice</option>
+                        <option value="yucTFWCmTWBRo1RvKk1s">Taylor Swift</option>
+                        <option value="sU3B9GUngxAZCSlryz9F">Nelson Mandela</option>
+                    </select>
+                </div>
                 <div id="animatedAvatar" class="avatar-wrapper">
                     <!-- Avatar SVG will be inserted here by JavaScript -->
                 </div>
