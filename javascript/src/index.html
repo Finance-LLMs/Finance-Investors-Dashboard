@@ -3,21 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ElevenLabs Conversational AI Demo</title>
+    <title>Medical Debate Arena</title>
+    <meta name="description" content="Engage in medical debates with AI using ElevenLabs ConvAI" />
     <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </head>
 <body>
-    <div class="container">
-        <h1>ElevenLabs Conversational AI Demo</h1>
-        <div class="status-container">
-            <div id="connectionStatus" class="status">Disconnected</div>
-            <div id="speakingStatus" class="speaking-status">Agent Silent</div>
-        </div>
-        <div class="controls">
-            <button id="startButton" class="button">Start Conversation</button>
-            <button id="endButton" class="button" disabled>End Conversation</button>
+    <div class="debate-container">
+        <div id="connectionStatus" class="hidden">Disconnected</div>
+        <div id="speakingStatus" class="hidden">Agent Silent</div>
+        
+        <!-- Main Debate Interface -->
+        <div class="debate-interface">
+            <!-- Left Panel: Controls -->
+            <div class="control-card">
+                <div class="card-header">
+                    <div class="header-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                            <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                            <path d="M12 14l-6.16-3.422a12.083 12.083 0 00-.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 006.824-2.998 12.078 12.078 0 00-.665-6.479L12 14z"></path>
+                        </svg>
+                    </div>
+                    <div class="header-text">
+                        <h2>AI Debater</h2>
+                        <p>Engage in a formal debate with AI</p>
+                    </div>
+                </div>
+
+                <div class="form-controls">
+                    <div class="control-group">
+                        <label for="topic">Debate Topic</label>
+                        <select id="topic" class="control-select">
+                            <option value="">Select a topic</option>
+                            <option value="ai-decisions">Allowing AI to override human decisions</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="stance">Your Stance</label>
+                        <select id="stance" class="control-select">
+                            <option value="">Select stance</option>
+                            <option value="for">For the motion</option>
+                            <option value="against">Against the motion</option>
+                        </select>
+                    </div>
+                </div>                <div class="recording-section">                    <button id="startButton" class="record-button" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m12 8-9.04 4.9a2.78 2.78 0 0 0 0 4.9L12 24l9.04-4.9a2.78 2.78 0 0 0 0-4.9L12 8Z"/>
+                        </svg>
+                        Start Debate
+                    </button>                    <button id="endButton" class="record-button stop-button" disabled style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="m9 9 6 6"/>
+                            <path d="m15 9-6 6"/>
+                        </svg>
+                        Stop Debate
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Panel: Avatar -->
+            <div class="avatar-card">
+                <div id="animatedAvatar" class="avatar-wrapper">
+                    <!-- Avatar SVG will be inserted here by JavaScript -->
+                </div>
+            </div>
         </div>
     </div>
+    
     <script src="/static/bundle.js"></script>
 </body>
 </html>

@@ -1,25 +1,23 @@
-# Conversational AI SDK Javascript example
+# Conversational AI Javascript
 
 ## How to run the code
 
 1. Clone this repo
-2. `cd elevenlabs-examples/examples/conversational-ai/javascript`
-3. Setup the environment variables
-   - `cp .env.example .env`
-   - Fill in the values
-4. Install the dependencies
+2. Setup the environment variables
+   - Fill in the values in .env file
+3. Install the dependencies
 
    ```bash
    npm install # install the dependencies
    ```
 
-5. Run the script
+4. Run the script
 
    ```bash
    npm start
    ```
 
-6. Visit localhost
+5. Visit localhost
 
 ```html
 http://localhost:3000/
