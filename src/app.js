@@ -208,12 +208,17 @@ async function startConversation() {
     const startButton = document.getElementById('startButton');
     const endButton = document.getElementById('endButton');
     
+    // Disable start button immediately to prevent multiple clicks
+    startButton.disabled = true;
+    
     try {
         const hasPermission = await requestMicrophonePermission();
         if (!hasPermission) {
             alert('Microphone permission is required for the conversation.');
+            // Re-enable start button if permission is denied
+            startButton.disabled = false;
             return;
-        }        const signedUrl = await getSignedUrl();
+        }const signedUrl = await getSignedUrl();
         //const agentId = await getAgentId(); // You can switch to agentID for public agents
         
         // Get user stance and calculate opposite AI stance
@@ -231,11 +236,9 @@ async function startConversation() {
                 topic: topicText,
                 user_stance: userStance,
                 ai_stance: aiStance
-            },
-            onConnect: () => {
+            },            onConnect: () => {
                 console.log('Connected');
                 updateStatus(true);
-                startButton.disabled = true;
                 startButton.style.display = 'none';
                 endButton.disabled = false;
                 endButton.style.display = 'flex';
@@ -257,10 +260,11 @@ async function startConversation() {
                 console.log('Mode changed:', mode); // Debug log to see exact mode object
                 updateSpeakingStatus(mode);
             }
-        });
-    } catch (error) {
+        });    } catch (error) {
         console.error('Error starting conversation:', error);
         alert('Failed to start conversation. Please try again.');
+        // Re-enable start button if there's an error
+        startButton.disabled = false;
     }
 }
 

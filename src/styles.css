@@ -9,6 +9,8 @@ body {
     color: #1a202c;
     position: relative;
     overflow: hidden;
+    transform: scale(1.25);
+    transform-origin: center center;
 }
 
 /* Animated background particles */
