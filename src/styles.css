@@ -5,7 +5,7 @@ body {
     padding: 0;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     background-attachment: fixed;
-    height: 100vh;
+    height: 150vh;
     color: #1a202c;
     position: relative;
     overflow: hidden;
