@@ -10,7 +10,8 @@ body {
     position: relative;
     overflow: hidden;
     transform: scale(1.25);
-    transform-origin: center center;
+    transform-origin: center;
+    padding-top: 0vh;
 }
 
 /* Animated background particles */
@@ -41,9 +42,8 @@ body::before {
     z-index: 10;
     height: 100vh;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    padding-top: 20vh;
 }
 
 /* Connection Status */
@@ -193,25 +193,25 @@ body::before {
     appearance: none;
 }
 
-.control-select:hover:not(:disabled) {
+.control-select:disabled {
+    background-color: #f9fafb;
+    color: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.6;
+    border-color: #e5e7eb;
+}
+
+.control-select:hover {
     border-color: #9ca3af;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
 }
 
-.control-select:focus:not(:disabled) {
+.control-select:focus {
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 4px 12px -2px rgba(102, 126, 234, 0.2);
     transform: translateY(-1px);
-}
-
-.control-select:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background-color: #f9fafb;
-    border-color: #d1d5db;
-    color: #6b7280;
 }
 
 /* Recording Section */
@@ -439,8 +439,7 @@ body::before {
 
 .control-group:nth-child(1) { animation-delay: 0.1s; }
 .control-group:nth-child(2) { animation-delay: 0.2s; }
-.control-group:nth-child(3) { animation-delay: 0.3s; }
-.recording-section { animation-delay: 0.4s; }
+.recording-section { animation-delay: 0.3s; }
 
 @keyframes slideInUp {
     from {
@@ -477,4 +476,90 @@ body::before {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Celebrity Avatar Styles */
+.celebrity-avatar-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.celebrity-image {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-speaking .celebrity-image {
+    transform: scale(1.05);
+    border-color: rgba(102, 126, 234, 0.6);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
+}
+
+.speaking-indicator {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    gap: 4px;
+    align-items: flex-end;
+    background: rgba(102, 126, 234, 0.9);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.speaking-wave {
+    width: 4px;
+    height: 12px;
+    background: white;
+    border-radius: 2px;
+    animation: wave 1.5s ease-in-out infinite;
+}
+
+.speaking-wave:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.speaking-wave:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes wave {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1.0);
+    }
+}
+
+.fallback-avatar {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+/* Square Avatar Container */
+.avatar-wrapper {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: radial-gradient(circle at center, rgba(102, 126, 234, 0.05), transparent);
+    min-height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
 }

@@ -17,12 +17,12 @@ module.exports = {
             '/api': 'http://localhost:3000'
         },
         hot: true
-    },
-    plugins: [
+    },    plugins: [
         new CopyPlugin({
             patterns: [
                 { from: 'src/index.html', to: 'index.html' },
-                { from: 'src/styles.css', to: 'styles.css' }
+                { from: 'src/styles.css', to: 'styles.css' },
+                { from: 'src/images', to: 'images', noErrorOnMissing: true }
             ],
         }),
     ]
