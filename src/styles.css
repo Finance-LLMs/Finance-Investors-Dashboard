@@ -41,8 +41,9 @@ body::before {
     z-index: 10;
     height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    padding-top: 20vh;
 }
 
 /* Connection Status */
@@ -192,17 +193,25 @@ body::before {
     appearance: none;
 }
 
-.control-select:hover {
+.control-select:hover:not(:disabled) {
     border-color: #9ca3af;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
 }
 
-.control-select:focus {
+.control-select:focus:not(:disabled) {
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 4px 12px -2px rgba(102, 126, 234, 0.2);
     transform: translateY(-1px);
+}
+
+.control-select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+    color: #6b7280;
 }
 
 /* Recording Section */
@@ -430,7 +439,8 @@ body::before {
 
 .control-group:nth-child(1) { animation-delay: 0.1s; }
 .control-group:nth-child(2) { animation-delay: 0.2s; }
-.recording-section { animation-delay: 0.3s; }
+.control-group:nth-child(3) { animation-delay: 0.3s; }
+.recording-section { animation-delay: 0.4s; }
 
 @keyframes slideInUp {
     from {

@@ -12,8 +12,20 @@ app.use("/static", express.static(path.join(__dirname, "../dist")));
 
 app.get("/api/signed-url", async (req, res) => {
   try {
+    const { opponent } = req.query;
+    let agentId = process.env.AGENT_ID; // Default agent
+    
+    // Map opponent to specific agent ID
+    if (opponent === 'michelle') {
+      agentId = process.env.MICHELLE_AGENT_ID;
+    } else if (opponent === 'nelson') {
+      agentId = process.env.NELSON_AGENT_ID;
+    } else if (opponent === 'taylor') {
+      agentId = process.env.TAYLOR_AGENT_ID;
+    }
+    
     const response = await fetch(
-      `https://api.elevenlabs.io/v1/convai/conversation/get_signed_url?agent_id=${process.env.AGENT_ID}`,
+      `https://api.elevenlabs.io/v1/convai/conversation/get_signed_url?agent_id=${agentId}`,
       {
         method: "GET",
         headers: {
