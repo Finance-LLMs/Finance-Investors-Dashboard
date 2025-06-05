@@ -126,11 +126,11 @@ body::before {
     .debate-container {
         height: 100vh;
         min-height: 100vh;
-        padding: 1.5rem 1rem;
+        padding: 1rem 1rem;
         align-items: center;
         justify-content: center;
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
         transform: translateX(calc(-3% - 15px)); /* Shift to the left for tablets */
     }
 }
@@ -140,11 +140,11 @@ body::before {
     .debate-container {
         height: 100vh;
         min-height: 100vh;
-        padding: 1rem 0.75rem;
+        padding: 0.75rem 0.75rem;
         align-items: center;
         justify-content: center;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
         transform: translateX(calc(-5% - 15px)); /* Shift more to the left */
     }
 }
@@ -154,11 +154,11 @@ body::before {
     .debate-container {
         height: 100vh;
         min-height: 100vh;
-        padding: 0.75rem 0.5rem;
+        padding: 0.5rem 0.5rem;
         align-items: center;
         justify-content: center;
-        padding-top: 0.75rem;
-        padding-bottom: 0.75rem;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
         transform: translateX(calc(-6% - 15px)); /* Shift even more to the left */
     }
 }
@@ -773,8 +773,8 @@ body::before {
 /* Extra small mobile devices */
 @media (max-width: 480px) {
     .debate-container {
-        padding: 0.75rem 0.5rem;
-        padding-top: 1.5rem;
+        padding: 0.5rem 0.5rem;
+        padding-top: 0.5rem;
     }
     
     .debate-interface {
@@ -828,11 +828,11 @@ body::before {
     .debate-container {
         height: 100vh;
         min-height: 100vh;
-        padding: 1rem;
+        padding: 0.5rem;
         align-items: center;
         justify-content: center;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
     }
     
     .debate-interface {
