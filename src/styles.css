@@ -14,10 +14,40 @@ body {
     padding-top: 0vh;
 }
 
-/* Mobile-first approach - reset transform on mobile */
-@media (max-width: 768px) {
+/* Responsive scaling for different screen sizes */
+/* Large tablets and small laptops */
+@media (max-width: 1024px) and (min-width: 769px) {
     body {
-        transform: none;
+        transform: scale(1.1);
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) and (min-width: 481px) {
+    body {
+        transform: scale(0.95);
+        height: 100vh;
+        padding-top: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+    body {
+        transform: scale(0.85);
+        height: 100vh;
+        padding-top: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
+
+/* Very small mobile phones */
+@media (max-width: 360px) {
+    body {
+        transform: scale(0.8);
         height: 100vh;
         padding-top: 0;
         overflow-x: hidden;
@@ -57,15 +87,45 @@ body::before {
     justify-content: center;
 }
 
-/* Mobile optimization for debate container */
-@media (max-width: 768px) {
+/* Enhanced responsive design for debate container */
+/* Large tablets */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .debate-container {
+        padding: 1.5rem 1rem;
+        max-width: 900px;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) and (min-width: 481px) {
+    .debate-container {
+        height: auto;
+        min-height: 100vh;
+        padding: 1.5rem 1rem;
+        align-items: flex-start;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
     .debate-container {
         height: auto;
         min-height: 100vh;
         padding: 1rem 0.75rem;
         align-items: flex-start;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+}
+
+/* Very small mobile phones */
+@media (max-width: 360px) {
+    .debate-container {
+        padding: 0.75rem 0.5rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
     }
 }
 
@@ -86,21 +146,61 @@ body::before {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Mobile optimization for status indicators */
-@media (max-width: 768px) {
+/* Enhanced responsive design for status indicators */
+/* Large tablets */
+@media (max-width: 1024px) and (min-width: 769px) {
+    #connectionStatus, #speakingStatus {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.875rem;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) and (min-width: 481px) {
+    #connectionStatus, #speakingStatus {
+        position: fixed;
+        top: 0.75rem;
+        right: 0.75rem;
+        left: auto;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+        text-align: center;
+        border-radius: 0.375rem;
+        min-width: 120px;
+    }
+    
+    #speakingStatus {
+        top: 3rem;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
     #connectionStatus, #speakingStatus {
         position: fixed;
         top: 0.5rem;
         right: 0.5rem;
         left: 0.5rem;
-        padding: 0.5rem;
-        font-size: 0.75rem;
+        padding: 0.375rem;
+        font-size: 0.7rem;
         text-align: center;
         border-radius: 0.375rem;
     }
     
     #speakingStatus {
-        top: 3rem;
+        top: 2.75rem;
+    }
+}
+
+/* Very small mobile phones */
+@media (max-width: 360px) {
+    #connectionStatus, #speakingStatus {
+        font-size: 0.65rem;
+        padding: 0.25rem;
+    }
+    
+    #speakingStatus {
+        top: 2.5rem;
     }
 }
 
@@ -137,14 +237,42 @@ body::before {
     height: 400px;
 }
 
-/* Mobile optimization for debate interface */
-@media (max-width: 768px) {
+/* Enhanced responsive design for debate interface */
+/* Large tablets */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .debate-interface {
+        max-width: 750px;
+        gap: 1.25rem;
+        height: 380px;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) and (min-width: 481px) {
     .debate-interface {
         grid-template-columns: 1fr;
         gap: 1.5rem;
         height: auto;
         max-width: 100%;
         width: 100%;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+    .debate-interface {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        height: auto;
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+/* Very small mobile phones */
+@media (max-width: 360px) {
+    .debate-interface {
+        gap: 1rem;
     }
 }
 
@@ -245,13 +373,40 @@ body::before {
     appearance: none;
 }
 
-/* Mobile optimization for form controls */
-@media (max-width: 768px) {
+/* Enhanced responsive design for form controls */
+/* Large tablets */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .control-select {
+        font-size: 0.95rem;
+        padding: 0.875rem 2.25rem 0.875rem 0.875rem;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) and (min-width: 481px) {
+    .control-select {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 1rem 2.5rem 1rem 1rem;
+        min-height: 50px; /* Touch-friendly minimum */
+        border-radius: 0.75rem;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
     .control-select {
         font-size: 16px; /* Prevents zoom on iOS */
         padding: 1rem 2.5rem 1rem 1rem;
         min-height: 48px; /* Touch-friendly minimum */
         border-radius: 0.75rem;
+    }
+}
+
+/* Very small mobile phones */
+@media (max-width: 360px) {
+    .control-select {
+        padding: 0.875rem 2.25rem 0.875rem 0.875rem;
+        min-height: 44px;
     }
 }
 
@@ -308,14 +463,44 @@ body::before {
     will-change: transform, box-shadow;
 }
 
-/* Mobile optimization for buttons */
-@media (max-width: 768px) {
+/* Enhanced responsive design for buttons */
+/* Large tablets */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .record-button {
+        font-size: 0.95rem;
+        padding: 1.125rem 1.375rem;
+        min-height: 52px;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) and (min-width: 481px) {
     .record-button {
         font-size: 1rem;
         padding: 1.25rem 1.5rem;
         min-height: 56px; /* Touch-friendly minimum */
         border-radius: 1rem;
         font-weight: 600;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+    .record-button {
+        font-size: 1rem;
+        padding: 1.25rem 1.5rem;
+        min-height: 56px; /* Touch-friendly minimum */
+        border-radius: 1rem;
+        font-weight: 600;
+    }
+}
+
+/* Very small mobile phones */
+@media (max-width: 360px) {
+    .record-button {
+        font-size: 0.9rem;
+        padding: 1.125rem 1.25rem;
+        min-height: 52px;
     }
 }
 
@@ -600,8 +785,12 @@ body::before {
     }
 }
 
-/* Landscape orientation on mobile */
+/* Landscape orientation on mobile and tablets */
 @media (max-width: 768px) and (orientation: landscape) {
+    body {
+        transform: scale(0.9);
+    }
+    
     .debate-container {
         height: auto;
         min-height: 100vh;
@@ -627,6 +816,28 @@ body::before {
     .celebrity-image {
         width: 180px;
         height: 180px;
+    }
+}
+
+/* Ultra-wide screens */
+@media (min-width: 1400px) {
+    body {
+        transform: scale(1.3);
+    }
+    
+    .debate-container {
+        max-width: 1000px;
+    }
+}
+
+/* 4K and larger screens */
+@media (min-width: 2560px) {
+    body {
+        transform: scale(1.5);
+    }
+    
+    .debate-container {
+        max-width: 1200px;
     }
 }
     
