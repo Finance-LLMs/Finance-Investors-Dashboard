@@ -25,7 +25,7 @@ body {
 /* Tablets */
 @media (max-width: 768px) and (min-width: 481px) {
     body {
-        transform: scale(0.95);
+        transform: scale(0.8);
         height: 100vh;
         padding-top: 0;
         overflow-x: hidden;
@@ -36,7 +36,7 @@ body {
 /* Mobile phones */
 @media (max-width: 480px) {
     body {
-        transform: scale(0.85);
+        transform: scale(0.6);
         height: 100vh;
         padding-top: 0;
         overflow-x: hidden;
@@ -47,7 +47,7 @@ body {
 /* Very small mobile phones */
 @media (max-width: 360px) {
     body {
-        transform: scale(0.8);
+        transform: scale(0.6);
         height: 100vh;
         padding-top: 0;
         overflow-x: hidden;
@@ -99,33 +99,39 @@ body::before {
 /* Tablets */
 @media (max-width: 768px) and (min-width: 481px) {
     .debate-container {
-        height: auto;
+        height: 100vh;
         min-height: 100vh;
         padding: 1.5rem 1rem;
-        align-items: flex-start;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
+        align-items: center;
+        justify-content: center;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
     }
 }
 
 /* Mobile phones */
 @media (max-width: 480px) {
     .debate-container {
-        height: auto;
+        height: 100vh;
         min-height: 100vh;
         padding: 1rem 0.75rem;
-        align-items: flex-start;
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem;
+        align-items: center;
+        justify-content: center;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
     }
 }
 
 /* Very small mobile phones */
 @media (max-width: 360px) {
     .debate-container {
+        height: 100vh;
+        min-height: 100vh;
         padding: 0.75rem 0.5rem;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        align-items: center;
+        justify-content: center;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
     }
 }
 
@@ -262,7 +268,7 @@ body::before {
 @media (max-width: 480px) {
     .debate-interface {
         grid-template-columns: 1fr;
-        gap: 1.25rem;
+        gap: 1rem;
         height: auto;
         max-width: 100%;
         width: 100%;
@@ -272,7 +278,7 @@ body::before {
 /* Very small mobile phones */
 @media (max-width: 360px) {
     .debate-interface {
-        gap: 1rem;
+        gap: 0.75rem;
     }
 }
 
@@ -788,12 +794,15 @@ body::before {
 /* Landscape orientation on mobile and tablets */
 @media (max-width: 768px) and (orientation: landscape) {
     body {
-        transform: scale(0.9);
+        transform: scale(0.8);
     }
     
     .debate-container {
-        height: auto;
+        height: 100vh;
         min-height: 100vh;
+        padding: 1rem;
+        align-items: center;
+        justify-content: center;
         padding-top: 1rem;
         padding-bottom: 1rem;
     }
