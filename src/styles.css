@@ -85,6 +85,7 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: center;
+    transform: translateX(-10px); /* Shift all content 10px to the left */
 }
 
 /* Mobile centering adjustments */
@@ -94,19 +95,19 @@ body::before {
         margin-right: calc(50% - 50vw);
         padding-left: 1rem;
         padding-right: 1rem;
-        transform: translateX(-2%);
+        transform: translateX(calc(-2% - 20px));
     }
 }
 
 @media (max-width: 480px) {
     .debate-container {
-        transform: translateX(-3%);
+        transform: translateX(calc(-3% - 20px));
     }
 }
 
 @media (max-width: 360px) {
     .debate-container {
-        transform: translateX(-4%);
+        transform: translateX(calc(-4% - 20px));
     }
 }
 
@@ -116,6 +117,7 @@ body::before {
     .debate-container {
         padding: 1.5rem 1rem;
         max-width: 900px;
+        transform: translateX(-10px); /* Maintain left shift for large tablets */
     }
 }
 
@@ -129,7 +131,7 @@ body::before {
         justify-content: center;
         padding-top: 1.5rem;
         padding-bottom: 1.5rem;
-        transform: translateX(-3%); /* Shift to the left for tablets */
+        transform: translateX(calc(-3% - 10px)); /* Shift to the left for tablets */
     }
 }
 
@@ -143,7 +145,7 @@ body::before {
         justify-content: center;
         padding-top: 1rem;
         padding-bottom: 1rem;
-        transform: translateX(-5%); /* Shift more to the left */
+        transform: translateX(calc(-5% - 10px)); /* Shift more to the left */
     }
 }
 
@@ -157,7 +159,7 @@ body::before {
         justify-content: center;
         padding-top: 0.75rem;
         padding-bottom: 0.75rem;
-        transform: translateX(-6%); /* Shift even more to the left */
+        transform: translateX(calc(-6% - 10px)); /* Shift even more to the left */
     }
 }
 
