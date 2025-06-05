@@ -25,7 +25,7 @@ body {
 /* Tablets */
 @media (max-width: 768px) and (min-width: 481px) {
     body {
-        transform: scale(0.8);
+        transform: scale(0.9);
         height: 100vh;
         padding-top: 0;
         overflow-x: hidden;
@@ -36,7 +36,7 @@ body {
 /* Mobile phones */
 @media (max-width: 480px) {
     body {
-        transform: scale(0.6);
+        transform: scale(0.75);
         height: 100vh;
         padding-top: 0;
         overflow-x: hidden;
@@ -47,7 +47,7 @@ body {
 /* Very small mobile phones */
 @media (max-width: 360px) {
     body {
-        transform: scale(0.6);
+        transform: scale(0.7);
         height: 100vh;
         padding-top: 0;
         overflow-x: hidden;
@@ -87,6 +87,29 @@ body::before {
     justify-content: center;
 }
 
+/* Mobile centering adjustments */
+@media (max-width: 768px) {
+    .debate-container {
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        padding-left: 1rem;
+        padding-right: 1rem;
+        transform: translateX(-2%);
+    }
+}
+
+@media (max-width: 480px) {
+    .debate-container {
+        transform: translateX(-3%);
+    }
+}
+
+@media (max-width: 360px) {
+    .debate-container {
+        transform: translateX(-4%);
+    }
+}
+
 /* Enhanced responsive design for debate container */
 /* Large tablets */
 @media (max-width: 1024px) and (min-width: 769px) {
@@ -106,6 +129,7 @@ body::before {
         justify-content: center;
         padding-top: 1.5rem;
         padding-bottom: 1.5rem;
+        transform: translateX(-3%); /* Shift to the left for tablets */
     }
 }
 
@@ -119,6 +143,7 @@ body::before {
         justify-content: center;
         padding-top: 1rem;
         padding-bottom: 1rem;
+        transform: translateX(-5%); /* Shift more to the left */
     }
 }
 
@@ -132,6 +157,7 @@ body::before {
         justify-content: center;
         padding-top: 0.75rem;
         padding-bottom: 0.75rem;
+        transform: translateX(-6%); /* Shift even more to the left */
     }
 }
 
