@@ -592,10 +592,39 @@ body::before {
 .summary-button {
     background: linear-gradient(135deg, #4f46e5, #3730a3) !important;
     margin-top: 0.75rem;
+    position: relative;
 }
 
 .summary-button:hover:not(:disabled) {
     background: linear-gradient(135deg, #3730a3, #312e81) !important;
+}
+
+.summary-button.loading {
+    background: linear-gradient(135deg, #4f46e5, #3730a3) !important;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.summary-button.loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    right: 10px;
+    margin-top: -8px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    animation: summary-loading 0.8s linear infinite;
+}
+
+@keyframes summary-loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Avatar Card */

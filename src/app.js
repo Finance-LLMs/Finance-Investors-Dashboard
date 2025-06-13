@@ -257,13 +257,49 @@ function updateSpeakingStatus(mode) {
         }
     } else {
         stopMouthAnimation();
-        // Enable summary button when agent is done speaking
-        if (summaryButton && summaryButton.style.display !== 'none') {
+        
+        // Only enable summary button when:
+        // 1. Agent is done speaking
+        // 2. Button should be visible
+        // 3. We're not in the middle of a summary request
+        if (summaryButton && summaryButton.style.display !== 'none' && !summarizeRequested) {
             summaryButton.disabled = false;
+        }
+        
+        // If the agent just finished speaking and we requested a summary,
+        // this is likely the end of the summary response
+        if (summarizeRequested) {
+            console.log('Agent finished speaking after summary request');
+            // Reset the summary request state after a brief delay
+            // to ensure any follow-up API calls have completed
+            setTimeout(() => {
+                summarizeRequested = false;
+                
+                // Reset the button if it still exists and should be visible
+                if (summaryButton && summaryButton.style.display !== 'none') {
+                    // Reset button appearance
+                    summaryButton.disabled = false;
+                    summaryButton.classList.remove('loading');
+                    
+                    // Reset button text
+                    summaryButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                        Summarize Debate
+                    `;
+                    console.log('Summary completed, button reset and re-enabled');
+                }
+            }, 1000); // Wait 1 second before resetting to ensure API operations completed
         }
     }
     
-    console.log('Speaking status updated:', { mode, isSpeaking }); // Debug log
+    console.log('Speaking status updated:', { mode, isSpeaking, summarizeRequested }); // Debug log
 }
 
 // Function to disable/enable form controls
@@ -369,35 +405,70 @@ async function endConversation() {
     }
 }
 
+// Track if the summary button was clicked to request a summary
+let summarizeRequested = false;
+
 // Function to request a summary of the conversation
 async function summarizeConversation() {
-    if (conversation) {
+    if (conversation && !summarizeRequested) {
         try {
-            // Disable the summary button to prevent multiple clicks
+            // Set flag to indicate we're expecting a summary
+            summarizeRequested = true;
+            
+            // Disable the summary button and add loading indicator
             const summaryButton = document.getElementById('summaryButton');
-            summaryButton.disabled = true;
+            if (summaryButton) {
+                summaryButton.disabled = true;
+                summaryButton.classList.add('loading');
+                
+                // Change button text to indicate processing
+                const originalText = summaryButton.innerHTML;
+                summaryButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                    Creating Summary...
+                `;
+            }
+            
+            // Log the request time for debugging
+            console.log(`Summary requested at ${new Date().toISOString()}`);
             
             // Send a message to the AI asking for a summary
             // Try different methods in case the API has changed
             try {
+                // Prepare the summary message with clear instructions
+                const summaryPrompt = "Please summarize our entire debate so far with key points from both sides.";
+                
                 // Method 1: Using sendTextMessage (original method)
                 if (typeof conversation.sendTextMessage === 'function') {
-                    await conversation.sendTextMessage("Please summarize our entire debate so far.");
+                    await conversation.sendTextMessage(summaryPrompt);
+                    console.log('Summary requested using sendTextMessage');
                 } 
-                // Method 2: Using sendUserMessage (as you were trying)
+                // Method 2: Using sendUserMessage 
                 else if (typeof conversation.sendUserMessage === 'function') {
-                    await conversation.sendUserMessage("Please summarize our entire debate so far.");
+                    await conversation.sendUserMessage(summaryPrompt);
+                    console.log('Summary requested using sendUserMessage');
                 }
-                // Method 3: Using prompt (another common method name)
+                // Method 3: Using prompt
                 else if (typeof conversation.prompt === 'function') {
-                    await conversation.prompt("Please summarize our entire debate so far.");
-                }                // Method 4: Using write (another possible method)
+                    await conversation.prompt(summaryPrompt);
+                    console.log('Summary requested using prompt');
+                }                
+                // Method 4: Using write
                 else if (typeof conversation.write === 'function') {
-                    await conversation.write("Please summarize our entire debate so far.");
+                    await conversation.write(summaryPrompt);
+                    console.log('Summary requested using write');
                 }
-                // Method 5: Using ask (another possible method)
+                // Method 5: Using ask
                 else if (typeof conversation.ask === 'function') {
-                    await conversation.ask("Please summarize our entire debate so far.");
+                    await conversation.ask(summaryPrompt);
+                    console.log('Summary requested using ask');
                 }
                 // Method 6: If none of the above works, log the available methods and information
                 else {
@@ -413,19 +484,49 @@ async function summarizeConversation() {
                 throw innerError;
             }
             
-            // Re-enable the button after a short delay
+            console.log('Summary requested, button will remain disabled until summary is complete');
+            
+            // Safety fallback: If after 60 seconds the flag is still set (agent didn't complete speaking),
+            // reset the flag and re-enable the button
             setTimeout(() => {
-                summaryButton.disabled = false;
-            }, 2000);
+                if (summarizeRequested) {
+                    console.log(`Fallback: Summary request timed out after 60 seconds at ${new Date().toISOString()}`);
+                    summarizeRequested = false;
+                    
+                    // Reset the button if it's still on the page and disabled
+                    const summaryButtonCheck = document.getElementById('summaryButton');
+                    if (summaryButtonCheck) {
+                        if (summaryButtonCheck.disabled && summaryButtonCheck.style.display !== 'none') {
+                            // Reset button to original state
+                            summaryButtonCheck.disabled = false;
+                            summaryButtonCheck.classList.remove('loading');
+                            summaryButtonCheck.innerHTML = `
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                                </svg>
+                                Summarize Debate
+                            `;
+                            console.log('Summary button reset by timeout fallback');
+                        }
+                    }
+                }
+            }, 60000);
         } catch (error) {
             console.error('Error requesting summary:', error);
             alert('Failed to request summary. Please try again.');
             
-            // Re-enable the button on error
-            const summaryButton = document.getElementById('summaryButton');
-            if (summaryButton) {
-                summaryButton.disabled = false;
-            }
+            // Re-enable the button on error after a short delay
+            setTimeout(() => {
+                const summaryButton = document.getElementById('summaryButton');
+                if (summaryButton) {
+                    summaryButton.disabled = false;
+                }
+            }, 1000);
         }
     }
 }
