@@ -589,6 +589,15 @@ body::before {
     background: linear-gradient(135deg, #b91c1c, #991b1b) !important;
 }
 
+.summary-button {
+    background: linear-gradient(135deg, #4f46e5, #3730a3) !important;
+    margin-top: 0.75rem;
+}
+
+.summary-button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #3730a3, #312e81) !important;
+}
+
 /* Avatar Card */
 .avatar-card {
     background: rgba(255, 255, 255, 0.95);

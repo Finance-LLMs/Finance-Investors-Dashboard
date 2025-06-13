@@ -1,5 +1,5 @@
 // --- src/app.js ---
-import { Conversation } from '@11labs/client';
+import { Conversation } from '@elevenlabs/client';
 
 let conversation = null;
 let mouthAnimationInterval = null;
@@ -241,6 +241,8 @@ function updateStatus(isConnected) {
 
 function updateSpeakingStatus(mode) {
     const statusElement = document.getElementById('speakingStatus');
+    const summaryButton = document.getElementById('summaryButton');
+    
     // Update based on the exact mode string we receive
     const isSpeaking = mode.mode === 'speaking';
     statusElement.textContent = isSpeaking ? 'Agent Speaking' : 'Agent Silent';
@@ -249,8 +251,16 @@ function updateSpeakingStatus(mode) {
     // Animate avatar based on speaking state
     if (isSpeaking) {
         startMouthAnimation();
+        // Disable summary button when agent is speaking
+        if (summaryButton) {
+            summaryButton.disabled = true;
+        }
     } else {
         stopMouthAnimation();
+        // Enable summary button when agent is done speaking
+        if (summaryButton && summaryButton.style.display !== 'none') {
+            summaryButton.disabled = false;
+        }
     }
     
     console.log('Speaking status updated:', { mode, isSpeaking }); // Debug log
@@ -270,6 +280,7 @@ function setFormControlsState(disabled) {
 async function startConversation() {
     const startButton = document.getElementById('startButton');
     const endButton = document.getElementById('endButton');
+    const summaryButton = document.getElementById('summaryButton');
     
     try {
         // Disable start button immediately to prevent multiple clicks
@@ -311,6 +322,8 @@ async function startConversation() {
                 startButton.style.display = 'none';
                 endButton.disabled = false;
                 endButton.style.display = 'flex';
+                summaryButton.disabled = false;
+                summaryButton.style.display = 'flex';
             },            
             onDisconnect: () => {
                 console.log('Disconnected');
@@ -320,6 +333,8 @@ async function startConversation() {
                 startButton.style.display = 'flex';
                 endButton.disabled = true;
                 endButton.style.display = 'none';
+                summaryButton.disabled = true;
+                summaryButton.style.display = 'none';
                 updateSpeakingStatus({ mode: 'listening' }); // Reset to listening mode on disconnect
                 stopMouthAnimation(); // Ensure avatar animation stops
             },
@@ -330,6 +345,8 @@ async function startConversation() {
                 startButton.style.display = 'flex';
                 endButton.disabled = true;
                 endButton.style.display = 'none';
+                summaryButton.disabled = true;
+                summaryButton.style.display = 'none';
                 alert('An error occurred during the conversation.');
             },
             onModeChange: (mode) => {
@@ -352,8 +369,70 @@ async function endConversation() {
     }
 }
 
+// Function to request a summary of the conversation
+async function summarizeConversation() {
+    if (conversation) {
+        try {
+            // Disable the summary button to prevent multiple clicks
+            const summaryButton = document.getElementById('summaryButton');
+            summaryButton.disabled = true;
+            
+            // Send a message to the AI asking for a summary
+            // Try different methods in case the API has changed
+            try {
+                // Method 1: Using sendTextMessage (original method)
+                if (typeof conversation.sendTextMessage === 'function') {
+                    await conversation.sendTextMessage("Please summarize our entire debate so far.");
+                } 
+                // Method 2: Using sendUserMessage (as you were trying)
+                else if (typeof conversation.sendUserMessage === 'function') {
+                    await conversation.sendUserMessage("Please summarize our entire debate so far.");
+                }
+                // Method 3: Using prompt (another common method name)
+                else if (typeof conversation.prompt === 'function') {
+                    await conversation.prompt("Please summarize our entire debate so far.");
+                }                // Method 4: Using write (another possible method)
+                else if (typeof conversation.write === 'function') {
+                    await conversation.write("Please summarize our entire debate so far.");
+                }
+                // Method 5: Using ask (another possible method)
+                else if (typeof conversation.ask === 'function') {
+                    await conversation.ask("Please summarize our entire debate so far.");
+                }
+                // Method 6: If none of the above works, log the available methods and information
+                else {
+                    console.error('No suitable message sending method found on conversation object');
+                    console.log('Available methods:', 
+                        Object.getOwnPropertyNames(Object.getPrototypeOf(conversation)));
+                    console.log('Conversation object keys:', Object.keys(conversation));
+                    console.log('Conversation object:', conversation);
+                    throw new Error('No suitable method to send message to AI');
+                }
+            } catch (innerError) {
+                console.error('Error sending message:', innerError);
+                throw innerError;
+            }
+            
+            // Re-enable the button after a short delay
+            setTimeout(() => {
+                summaryButton.disabled = false;
+            }, 2000);
+        } catch (error) {
+            console.error('Error requesting summary:', error);
+            alert('Failed to request summary. Please try again.');
+            
+            // Re-enable the button on error
+            const summaryButton = document.getElementById('summaryButton');
+            if (summaryButton) {
+                summaryButton.disabled = false;
+            }
+        }
+    }
+}
+
 document.getElementById('startButton').addEventListener('click', startConversation);
 document.getElementById('endButton').addEventListener('click', endConversation);
+document.getElementById('summaryButton').addEventListener('click', summarizeConversation);
 
 // Initialize avatar when page loads
 document.addEventListener('DOMContentLoaded', () => {
@@ -365,9 +444,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const opponentSelect = document.getElementById('opponent');
     const startButton = document.getElementById('startButton');
     const endButton = document.getElementById('endButton');
+    const summaryButton = document.getElementById('summaryButton');
     
     // Ensure initial button states
     endButton.style.display = 'none';
+    summaryButton.style.display = 'none';
     
     function checkFormValidity() {
         const topicSelected = topicSelect.value !== '';
