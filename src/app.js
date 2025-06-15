@@ -305,12 +305,11 @@ function updateSpeakingStatus(mode) {
 // Function to disable/enable form controls
 function setFormControlsState(disabled) {
     const topicSelect = document.getElementById('topic');
-    const stanceSelect = document.getElementById('stance');
     const opponentSelect = document.getElementById('opponent');
     
     topicSelect.disabled = disabled;
-    stanceSelect.disabled = disabled;
     opponentSelect.disabled = disabled;
+    // Removed stanceSelect reference since it no longer exists
 }
 
 async function startConversation() {
@@ -335,9 +334,9 @@ async function startConversation() {
         const signedUrl = await getSignedUrl(selectedOpponent);
         //const agentId = await getAgentId(); // You can switch to agentID for public agents
         
-        // Get user stance and calculate opposite AI stance
-        const userStance = document.getElementById('stance').value;
-        const aiStance = userStance === 'for' ? 'against' : 'for';
+        // Set user stance to "for" and AI stance to "against" by default
+        const userStance = "against";
+        const aiStance = "for";
         
         // Get the actual topic text instead of the value
         const topicSelect = document.getElementById('topic');
@@ -539,9 +538,8 @@ document.getElementById('summaryButton').addEventListener('click', summarizeConv
 document.addEventListener('DOMContentLoaded', () => {
     initializeAvatar();
     
-    // Enable start button when all three fields are selected
+    // Enable start button when topic and opponent are selected
     const topicSelect = document.getElementById('topic');
-    const stanceSelect = document.getElementById('stance');
     const opponentSelect = document.getElementById('opponent');
     const startButton = document.getElementById('startButton');
     const endButton = document.getElementById('endButton');
@@ -553,14 +551,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function checkFormValidity() {
         const topicSelected = topicSelect.value !== '';
-        const stanceSelected = stanceSelect.value !== '';
         const opponentSelected = opponentSelect.value !== '';
-        startButton.disabled = !(topicSelected && stanceSelected && opponentSelected);
+        startButton.disabled = !(topicSelected && opponentSelected);
     }
     
     // Add event listeners for all form controls
     topicSelect.addEventListener('change', checkFormValidity);
-    stanceSelect.addEventListener('change', checkFormValidity);
     opponentSelect.addEventListener('change', () => {
         checkFormValidity();
         initializeAvatar(); // Update avatar when opponent changes
