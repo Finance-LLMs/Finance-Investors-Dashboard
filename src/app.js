@@ -335,8 +335,8 @@ async function startConversation() {
         //const agentId = await getAgentId(); // You can switch to agentID for public agents
         
         // Set user stance to "for" and AI stance to "against" by default
-        const userStance = "against";
-        const aiStance = "for";
+        const userStance = "for";
+        const aiStance = "against";
         
         // Get the actual topic text instead of the value
         const topicSelect = document.getElementById('topic');
