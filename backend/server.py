@@ -23,8 +23,20 @@ app.add_middleware(
 
 # API routes should be defined before static file handling
 @app.get("/api/signed-url")
-async def get_signed_url():
+async def get_signed_url(opponent: str = None):
+    # Default agent ID
     agent_id = os.getenv("AGENT_ID")
+    
+    # Map opponent to specific agent ID
+    if opponent == 'michelle':
+        agent_id = os.getenv("MICHELLE_AGENT_ID")
+    elif opponent == 'nelson':
+        agent_id = os.getenv("NELSON_AGENT_ID")
+    elif opponent == 'taylor':
+        agent_id = os.getenv("TAYLOR_AGENT_ID")
+    elif opponent == 'singapore_uncle':
+        agent_id = os.getenv("SINGAPORE_UNCLE_AGENT_ID")
+    
     xi_api_key = os.getenv("XI_API_KEY")
     
     if not agent_id or not xi_api_key:

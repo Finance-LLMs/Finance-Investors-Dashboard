@@ -100,7 +100,8 @@ function createCelebrityAvatar(opponent) {
     const imageMap = {
         'michelle': 'michelle.jpg',
         'nelson': 'nelson.jpg', 
-        'taylor': 'taylor.jpg'
+        'taylor': 'taylor.jpg',
+        'singapore_uncle': 'singapore_uncle.jpg'
     };
     
     const imageSrc = imageMap[opponent];
