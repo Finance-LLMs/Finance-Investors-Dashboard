@@ -1061,3 +1061,89 @@ body::before {
     border-radius: 12px;
     overflow: hidden;
 }
+
+/* Opponent Button Styles */
+.opponent-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.opponent-button {
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+
+.opponent-button:hover {
+    border-color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px -5px rgba(102, 126, 234, 0.3);
+}
+
+.opponent-button.selected {
+    border-color: #667eea;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.opponent-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.opponent-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.opponent-name {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 0.95rem;
+}
+
+.opponent-desc {
+    font-size: 0.8rem;
+    color: #6b7280;
+    line-height: 1.2;
+}
+
+/* Mobile responsiveness for opponent buttons */
+@media (max-width: 768px) {
+    .opponent-buttons {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .opponent-button {
+        padding: 0.75rem;
+    }
+    
+    .opponent-name {
+        font-size: 0.9rem;
+    }
+    
+    .opponent-desc {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .opponent-buttons {
+        gap: 0.4rem;
+    }
+    
+    .opponent-button {
+        padding: 0.6rem;
+    }
+}

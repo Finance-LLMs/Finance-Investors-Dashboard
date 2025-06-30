@@ -130,17 +130,39 @@ function createCelebrityAvatar(opponent) {
 // Initialize avatar
 function initializeAvatar() {
     const avatarWrapper = document.getElementById('animatedAvatar');
-    const opponentSelect = document.getElementById('opponent');
+    const selectedOpponent = getSelectedOpponent();
     
     if (avatarWrapper) {
-        const selectedOpponent = opponentSelect ? opponentSelect.value : '';
-        
         if (selectedOpponent) {
             avatarWrapper.innerHTML = createCelebrityAvatar(selectedOpponent);
         } else {
             avatarWrapper.innerHTML = createAvatarSVG();
         }
     }
+}
+
+// Get the currently selected opponent from buttons
+function getSelectedOpponent() {
+    const selectedButton = document.querySelector('.opponent-button.selected');
+    return selectedButton ? selectedButton.getAttribute('data-opponent') : '';
+}
+
+// Handle opponent button selection
+function selectOpponent(opponentValue) {
+    // Remove selection from all buttons
+    document.querySelectorAll('.opponent-button').forEach(button => {
+        button.classList.remove('selected');
+    });
+    
+    // Add selection to clicked button
+    const selectedButton = document.querySelector(`[data-opponent="${opponentValue}"]`);
+    if (selectedButton) {
+        selectedButton.classList.add('selected');
+    }
+    
+    // Update avatar and form validity
+    initializeAvatar();
+    checkFormValidity();
 }
 
 // Animate mouth when speaking
@@ -306,11 +328,10 @@ function updateSpeakingStatus(mode) {
 // Function to disable/enable form controls
 function setFormControlsState(disabled) {
     const topicSelect = document.getElementById('topic');
-    const opponentSelect = document.getElementById('opponent');
+    const opponentButtons = document.querySelectorAll('.opponent-button');
     
     topicSelect.disabled = disabled;
-    opponentSelect.disabled = disabled;
-    // Removed stanceSelect reference since it no longer exists
+    opponentButtons.forEach(button => button.disabled = disabled);
 }
 
 async function startConversation() {
@@ -330,7 +351,7 @@ async function startConversation() {
         }
         
         // Get selected opponent
-        const selectedOpponent = document.getElementById('opponent').value;
+        const selectedOpponent = getSelectedOpponent();
         
         const signedUrl = await getSignedUrl(selectedOpponent);
         //const agentId = await getAgentId(); // You can switch to agentID for public agents
@@ -541,7 +562,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Enable start button when topic and opponent are selected
     const topicSelect = document.getElementById('topic');
-    const opponentSelect = document.getElementById('opponent');
     const startButton = document.getElementById('startButton');
     const endButton = document.getElementById('endButton');
     const summaryButton = document.getElementById('summaryButton');
@@ -552,15 +572,22 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function checkFormValidity() {
         const topicSelected = topicSelect.value !== '';
-        const opponentSelected = opponentSelect.value !== '';
+        const opponentSelected = getSelectedOpponent() !== '';
         startButton.disabled = !(topicSelected && opponentSelected);
     }
     
+    // Make checkFormValidity globally accessible
+    window.checkFormValidity = checkFormValidity;
+    
     // Add event listeners for all form controls
     topicSelect.addEventListener('change', checkFormValidity);
-    opponentSelect.addEventListener('change', () => {
-        checkFormValidity();
-        initializeAvatar(); // Update avatar when opponent changes
+    
+    // Add event listeners for opponent buttons
+    document.querySelectorAll('.opponent-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const opponentValue = e.currentTarget.getAttribute('data-opponent');
+            selectOpponent(opponentValue);
+        });
     });
     
     // Initial check

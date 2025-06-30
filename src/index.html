@@ -42,13 +42,33 @@
                         </select>
                     </div>
                     <div class="control-group">
-                        <label for="opponent">Choose Your Opponent</label>                        <select id="opponent" class="control-select">
-                            <option value="">Select opponent</option>
-                            <option value="michelle">Michelle Chong</option>
-                            <option value="nelson">Nelson Mandela</option>
-                            <option value="taylor">Taylor Swift</option>
-                            <option value="singapore_uncle">Kopitiam Uncle</option>
-                        </select>
+                        <label>Choose Your Opponent</label>
+                        <div class="opponent-buttons">
+                            <button type="button" class="opponent-button" data-opponent="michelle">
+                                <div class="opponent-info">
+                                    <div class="opponent-name">Barbarella</div>
+                                    <div class="opponent-desc">Singaporean Model</div>
+                                </div>
+                            </button>
+                            <button type="button" class="opponent-button" data-opponent="nelson">
+                                <div class="opponent-info">
+                                    <div class="opponent-name">Nelson Mandela</div>
+                                    <div class="opponent-desc">Anti-Apartheid Leader</div>
+                                </div>
+                            </button>
+                            <button type="button" class="opponent-button" data-opponent="taylor">
+                                <div class="opponent-info">
+                                    <div class="opponent-name">Taylor Swift</div>
+                                    <div class="opponent-desc">Pop Icon</div>
+                                </div>
+                            </button>
+                            <button type="button" class="opponent-button" data-opponent="singapore_uncle">
+                                <div class="opponent-info">
+                                    <div class="opponent-name">Kopitiam Uncle</div>
+                                    <div class="opponent-desc">Local Coffee Shop Owner</div>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>                <div class="recording-section">                    <button id="startButton" class="record-button" disabled>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
