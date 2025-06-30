@@ -1147,3 +1147,9 @@ body::before {
         padding: 0.6rem;
     }
 }
+
+/* AI text styling */
+.ai-text {
+    color: #e53e3e;
+    font-weight: 600;
+}
