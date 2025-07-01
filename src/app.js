@@ -237,12 +237,20 @@ async function requestMicrophonePermission() {
     }
 }
 
-async function getSignedUrl(opponent) {
+async function getSignedUrl(opponent, mode = null) {
     try {
-        const url = opponent ? `/api/signed-url?opponent=${opponent}` : '/api/signed-url';
+        let url = opponent ? `/api/signed-url?opponent=${opponent}` : '/api/signed-url';
+        if (mode) {
+            url += `&mode=${mode}`;
+        }
+        console.log('Requesting signed URL for:', opponent, 'mode:', mode, 'URL:', url);
         const response = await fetch(url);
-        if (!response.ok) throw new Error('Failed to get signed URL');
+        if (!response.ok) {
+            console.error('Failed to get signed URL, status:', response.status);
+            throw new Error('Failed to get signed URL');
+        }
         const data = await response.json();
+        console.log('Received signed URL response:', data);
         return data.signedUrl;
     } catch (error) {
         console.error('Error getting signed URL:', error);
@@ -392,6 +400,7 @@ async function startConversation() {
                 endButton.style.display = 'none';
                 summaryButton.disabled = true;
                 summaryButton.style.display = 'none';
+                document.getElementById('qnaButton').style.display = 'block';
                 updateSpeakingStatus({ mode: 'listening' }); // Reset to listening mode on disconnect
                 stopMouthAnimation(); // Ensure avatar animation stops
             },
@@ -404,6 +413,7 @@ async function startConversation() {
                 endButton.style.display = 'none';
                 summaryButton.disabled = true;
                 summaryButton.style.display = 'none';
+                document.getElementById('qnaButton').style.display = 'block';
                 alert('An error occurred during the conversation.');
             },
             onModeChange: (mode) => {
@@ -420,9 +430,18 @@ async function startConversation() {
 }
 
 async function endConversation() {
+    console.log('Ending conversation...');
     if (conversation) {
-        await conversation.endSession();
-        conversation = null;
+        try {
+            await conversation.endSession();
+            console.log('Conversation ended successfully');
+        } catch (error) {
+            console.error('Error ending conversation:', error);
+        } finally {
+            conversation = null;
+        }
+    } else {
+        console.log('No active conversation to end');
     }
 }
 
@@ -552,9 +571,123 @@ async function summarizeConversation() {
     }
 }
 
+// Q&A with Nelson Mandela
+async function startQnA() {
+    try {
+        console.log('Starting Q&A with Nelson Mandela...');
+        
+        // End any existing conversation first
+        if (conversation) {
+            console.log('Ending existing conversation before starting Q&A...');
+            await endConversation();
+            // Wait a moment to ensure cleanup is complete
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+        
+        // Request microphone permission first
+        const hasPermission = await requestMicrophonePermission();
+        if (!hasPermission) {
+            alert('Microphone permission is required for the Q&A session.');
+            return;
+        }
+        
+        // Set form controls state
+        setFormControlsState(true);
+        
+        // Force select Nelson Mandela
+        selectOpponent('nelson');
+        
+        // Get signed URL for Nelson Mandela Q&A mode
+        const signedUrl = await getSignedUrl('nelson', 'qna');
+        
+        console.log('Creating Q&A conversation with signed URL...');
+        console.log('Signed URL details:', signedUrl);
+        
+        // Create new conversation with the same structure as the debate but simpler parameters
+        conversation = await Conversation.startSession({
+            signedUrl: signedUrl,
+            // Add simple dynamic variables to make it a Q&A session
+            dynamicVariables: {
+                topic: "Allowing AI to override human decisions in healthcare",
+                user_stance: "curious",
+                ai_stance: "against"
+            },
+            onConnect: () => {
+                console.log('Q&A session connected successfully');
+                updateStatus(true);
+                updateSpeakingStatus({ mode: 'listening' });
+                
+                // Send an initial greeting to keep the connection active
+                setTimeout(() => {
+                    console.log('Q&A session ready for user input');
+                }, 1000);
+                
+                // Hide Q&A button and show end button
+                document.getElementById('qnaButton').style.display = 'none';
+                document.getElementById('endButton').style.display = 'flex';
+                document.getElementById('startButton').style.display = 'none';
+                document.getElementById('summaryButton').style.display = 'none';
+            },
+            onDisconnect: () => {
+                console.log('Q&A session disconnected');
+                updateStatus(false);
+                updateSpeakingStatus({ mode: 'agent_silent' });
+                stopMouthAnimation();
+                setFormControlsState(false);
+                
+                // Reset button visibility
+                document.getElementById('qnaButton').style.display = 'block';
+                document.getElementById('endButton').style.display = 'none';
+                document.getElementById('startButton').style.display = 'flex';
+                document.getElementById('summaryButton').style.display = 'none';
+            },
+            onError: (error) => {
+                console.error('Q&A session error:', error);
+                updateStatus(false);
+                updateSpeakingStatus({ mode: 'agent_silent' });
+                stopMouthAnimation();
+                setFormControlsState(false);
+                
+                // Reset button visibility
+                document.getElementById('qnaButton').style.display = 'block';
+                document.getElementById('endButton').style.display = 'none';
+                document.getElementById('startButton').style.display = 'flex';
+                document.getElementById('summaryButton').style.display = 'none';
+                
+                alert('An error occurred during the Q&A session.');
+            },
+            onModeChange: (mode) => {
+                console.log('Q&A mode changed:', mode);
+                updateSpeakingStatus(mode);
+                
+                if (mode.mode === 'speaking') {
+                    startMouthAnimation();
+                } else {
+                    stopMouthAnimation();
+                }
+            }
+        });
+
+        console.log('Q&A conversation session created successfully');
+
+    } catch (error) {
+        console.error('Error starting Q&A:', error);
+        setFormControlsState(false);
+        
+        // Reset button visibility on error
+        document.getElementById('qnaButton').style.display = 'block';
+        document.getElementById('endButton').style.display = 'none';
+        document.getElementById('startButton').style.display = 'flex';
+        document.getElementById('summaryButton').style.display = 'none';
+        
+        alert('Failed to start Q&A session. Please check your internet connection and try again.');
+    }
+}
+
 document.getElementById('startButton').addEventListener('click', startConversation);
 document.getElementById('endButton').addEventListener('click', endConversation);
 document.getElementById('summaryButton').addEventListener('click', summarizeConversation);
+document.getElementById('qnaButton').addEventListener('click', startQnA);
 
 // Initialize avatar when page loads
 document.addEventListener('DOMContentLoaded', () => {

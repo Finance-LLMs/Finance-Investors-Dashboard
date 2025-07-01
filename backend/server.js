@@ -12,19 +12,28 @@ app.use("/static", express.static(path.join(__dirname, "../dist")));
 
 app.get("/api/signed-url", async (req, res) => {
   try {
-    const { opponent } = req.query;
+    const { opponent, mode } = req.query;
     let agentId = process.env.AGENT_ID; // Default agent ID
       
+    console.log(`Getting signed URL for opponent: ${opponent}, mode: ${mode}`);
+    
     // Map opponent to specific agent ID
     if (opponent === 'michelle') {
       agentId = process.env.MICHELLE_AGENT_ID;
     } else if (opponent === 'nelson') {
-      agentId = process.env.NELSON_AGENT_ID;
+      // Use different agent ID for Q&A mode vs debate mode
+      if (mode === 'qna') {
+        agentId = process.env.NELSON_QA_AGENT_ID;
+      } else {
+        agentId = process.env.NELSON_AGENT_ID;
+      }
     } else if (opponent === 'taylor') {
       agentId = process.env.TAYLOR_AGENT_ID;
     } else if (opponent === 'singapore_uncle') {
       agentId = process.env.SINGAPORE_UNCLE_AGENT_ID;
     }
+    
+    console.log(`Using agent ID: ${agentId}`);
     
     const response = await fetch(
       `https://api.elevenlabs.io/v1/convai/conversation/get_signed_url?agent_id=${agentId}`,
@@ -36,11 +45,16 @@ app.get("/api/signed-url", async (req, res) => {
       }
     );
 
+    console.log(`ElevenLabs API response status: ${response.status}`);
+
     if (!response.ok) {
-      throw new Error("Failed to get signed URL");
+      const errorText = await response.text();
+      console.error(`ElevenLabs API error: ${errorText}`);
+      throw new Error(`Failed to get signed URL: ${response.status} ${errorText}`);
     }
 
     const data = await response.json();
+    console.log(`Signed URL generated successfully for agent ${agentId}`);
     res.json({ signedUrl: data.signed_url });
   } catch (error) {
     console.error("Error:", error);
