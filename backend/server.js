@@ -70,6 +70,15 @@ app.get("/api/getAgentId", (req, res) => {
   });
 });
 
+// Serve specific HTML files
+app.get("/controls.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/controls.html"));
+});
+
+app.get("/avatar.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/avatar.html"));
+});
+
 // Serve index.html for all other routes
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));

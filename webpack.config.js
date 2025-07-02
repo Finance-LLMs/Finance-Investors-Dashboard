@@ -2,9 +2,13 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: './src/app.js',
+    entry: {
+        app: './src/app.js',
+        controls: './src/controls.js',
+        avatar: './src/avatar.js'
+    },
     output: {
-        filename: 'bundle.js',
+        filename: '[name]-bundle.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/'
     },
@@ -17,11 +21,16 @@ module.exports = {
             '/api': 'http://localhost:3000'
         },
         hot: true
-    },    plugins: [
+    },
+    plugins: [
         new CopyPlugin({
             patterns: [
                 { from: 'src/index.html', to: 'index.html' },
+                { from: 'src/controls.html', to: 'controls.html' },
+                { from: 'src/avatar.html', to: 'avatar.html' },
                 { from: 'src/styles.css', to: 'styles.css' },
+                { from: 'src/controls.css', to: 'controls.css' },
+                { from: 'src/avatar.css', to: 'avatar.css' },
                 { from: 'src/images', to: 'images', noErrorOnMissing: true }
             ],
         }),

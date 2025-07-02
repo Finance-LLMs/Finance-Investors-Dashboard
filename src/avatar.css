@@ -1,0 +1,289 @@
+/* Medical Debate Arena Avatar Display Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-attachment: fixed;
+    height: 100vh;
+    color: #1a202c;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated background particles */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    animation: float 20s infinite linear;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-60px); }
+}
+
+/* Avatar Container */
+.avatar-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Avatar Card */
+.avatar-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 1.5rem;
+    box-shadow: 
+        0 25px 50px -12px rgba(118, 75, 162, 0.25), 
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    width: 90vw;
+    height: 90vh;
+    max-width: 600px;
+    max-height: 600px;
+}
+
+.avatar-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.avatar-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: radial-gradient(circle at center, rgba(102, 126, 234, 0.05), transparent);
+    min-height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Avatar Animation Styles */
+.avatar-svg {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+    transition: all 0.3s ease;
+}
+
+.avatar-speaking .avatar-svg {
+    transform: scale(1.05);
+}
+
+/* Doctor Avatar Styles */
+.doctor-avatar {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* Mouth Animation */
+.mouth-closed {
+    animation: mouthClosed 0.5s ease-in-out;
+}
+
+.mouth-open {
+    animation: mouthOpen 0.3s ease-in-out;
+}
+
+@keyframes mouthClosed {
+    0% { transform: scaleY(0.3); }
+    100% { transform: scaleY(1); }
+}
+
+@keyframes mouthOpen {
+    0% { transform: scaleY(1); }
+    100% { transform: scaleY(0.3); }
+}
+
+/* Pulsing animation when speaking */
+.avatar-speaking::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    70% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* Celebrity Avatar Styles */
+.celebrity-avatar-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.celebrity-image {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-speaking .celebrity-image {
+    transform: scale(1.05);
+    border-color: rgba(102, 126, 234, 0.6);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
+}
+
+.speaking-indicator {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    gap: 4px;
+    align-items: flex-end;
+    background: rgba(102, 126, 234, 0.9);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.speaking-wave {
+    width: 4px;
+    height: 12px;
+    background: white;
+    border-radius: 2px;
+    animation: wave 1.5s ease-in-out infinite;
+}
+
+.speaking-wave:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.speaking-wave:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes wave {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1.0);
+    }
+}
+
+.fallback-avatar {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .avatar-card {
+        width: 95vw;
+        height: 95vh;
+        padding: 1rem;
+    }
+    
+    .avatar-svg {
+        max-width: 300px;
+        max-height: 300px;
+    }
+    
+    .celebrity-image {
+        max-width: 300px;
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .avatar-card {
+        width: 98vw;
+        height: 98vh;
+        padding: 0.5rem;
+        border-radius: 1rem;
+    }
+    
+    .avatar-svg {
+        max-width: 250px;
+        max-height: 250px;
+    }
+    
+    .celebrity-image {
+        max-width: 250px;
+        max-height: 250px;
+    }
+}
+
+/* Fullscreen mode */
+.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+}
+
+.fullscreen .avatar-card {
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+    padding: 0;
+}
+
+.fullscreen .avatar-svg {
+    max-width: 80vw;
+    max-height: 80vh;
+}
+
+.fullscreen .celebrity-image {
+    max-width: 80vw;
+    max-height: 80vh;
+}
