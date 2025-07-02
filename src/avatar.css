@@ -3,7 +3,34 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+ /* Update the speaking indicator to work with videos */
+.speaking-indicator {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    height: 20px;
+    width: 80px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 5px;
+    z-index: 10;
+}
+
+/* Ensure video is always on top of images when visible */
+#avatarVideo {
+    z-index: 5;
+}
+
+#avatarFallbackImage {
+    z-index: 4;
+}
+
+/* Fix for any corrupted CSS */
     background-attachment: fixed;
     height: 100vh;
     color: #1a202c;
@@ -62,6 +89,7 @@ body::before {
     height: 90vh;
     max-width: 600px;
     max-height: 600px;
+    box-sizing: border-box; /* Ensure padding is included in dimensions */
 }
 
 .avatar-card:hover {
@@ -80,6 +108,39 @@ body::before {
     min-height: 100%;
     border-radius: 12px;
     overflow: hidden;
+    /* Ensure proper centering */
+    text-align: center;
+}
+
+/* Video wrapper for proper centering */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+/* Special class for videos to maintain aspect ratio */
+.aspect-ratio-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    overflow: visible;
+}
+
+.aspect-ratio-container video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
 }
 
 /* Avatar Animation Styles */
@@ -156,6 +217,9 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: visible; /* Allow content to be fully visible */
+    box-sizing: border-box; /* Include padding in size calculations */
+    padding: 10px; /* Add some padding to prevent edge touching */
 }
 
 .celebrity-image {
@@ -176,18 +240,73 @@ body::before {
     box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
 }
 
+.celebrity-video {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    display: block !important; /* Always visible and override any inline styles */
+    visibility: visible !important; /* Ensure visibility */
+    opacity: 1 !important; /* Ensure opacity */
+    z-index: 10; /* Ensure video is always on top */
+    position: absolute !important; /* Use absolute positioning for centering */
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.avatar-speaking .celebrity-video {
+    transform: scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Ensure both image and video maintain the same dimensions */
+.celebrity-image,
+.celebrity-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 0 auto; /* Add center alignment */
+}
+
+/* Ensure video always takes precedence over image */
+.celebrity-video {
+    z-index: 10;
+    width: auto !important; /* Allow natural width */
+    height: auto !important; /* Allow natural height */
+    max-height: 100% !important;
+    max-width: 100% !important;
+    object-fit: contain !important; /* Keep aspect ratio */
+}
+
+/* Speaking Indicator Styles */
 .speaking-indicator {
     position: absolute;
-    bottom: 20px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
     display: none;
-    gap: 4px;
+    flex-direction: row;
     align-items: flex-end;
-    background: rgba(102, 126, 234, 0.9);
-    padding: 8px 16px;
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
+    justify-content: center;
+    height: 20px;
+    width: 80px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 5px;
+    z-index: 10;
 }
 
 .speaking-wave {
@@ -219,6 +338,97 @@ body::before {
     width: 100%;
     height: 100%;
     display: none;
+}
+
+/* Ensure video plays correctly */
+#avatarVideo {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 10;
+    position: relative !important; 
+}
+
+/* Hide fallback image when video is present */
+#avatarVideo:not([src=""]) + #avatarFallbackImage {
+    display: none !important;
+}
+
+/* Special styles for avatar videos */
+.avatar-container video {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Animation for video when speaking */
+.avatar-speaking #avatarVideo {
+    animation: subtle-pulse 2s infinite alternate;
+}
+
+@keyframes subtle-pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1.0);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.04);
+    }
+}
+
+/* Force video visibility - new rules */
+video#avatarVideo {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 auto !important;
+    z-index: 20 !important;
+}
+
+/* Preserve video aspect ratio class */
+.preserve-aspect-ratio {
+    object-fit: contain !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* Hide all images when videos are present */
+.celebrity-avatar-container video + img {
+    display: none !important;
+}
+
+/* Always show avatar container */
+.avatar-wrapper, .celebrity-avatar-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Ensure perfect video centering */
+.centered-video {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* Responsive Design */

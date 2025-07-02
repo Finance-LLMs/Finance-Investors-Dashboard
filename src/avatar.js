@@ -93,8 +93,17 @@ function createAvatarSVG() {
     `;
 }
 
-// Create celebrity avatar with image
+// Create celebrity avatar with video
 function createCelebrityAvatar(opponent) {
+    // Map for character videos - primary content
+    const videoMap = {
+        'nelson': 'nelson.mp4',
+        'michelle': 'barbarella.mp4',
+        'taylor': 'taylor.mp4',
+        // 'singapore_uncle': 'singapore_uncle.mp4'
+    };
+    
+    // Fallback image map - only used if video fails completely
     const imageMap = {
         'michelle': 'michelle.jpg',
         'nelson': 'nelson.jpg', 
@@ -102,19 +111,27 @@ function createCelebrityAvatar(opponent) {
         'singapore_uncle': 'singapore_uncle.jpg'
     };
     
+    const videoSrc = videoMap[opponent];
     const imageSrc = imageMap[opponent];
-    if (!imageSrc) return createAvatarSVG(); // fallback to doctor avatar
+    
+    if (!videoSrc && !imageSrc) return createAvatarSVG(); // fallback to doctor avatar
     
     return `
         <div class="celebrity-avatar-container">
-            <img 
-                src="/static/images/${imageSrc}" 
-                alt="${opponent} avatar" 
-                class="celebrity-image"
-                onerror="this.style.display='none'; this.nextSibling.style.display='block';"
-            />
-            <div class="fallback-avatar" style="display: none;">
-                ${createAvatarSVG()}
+            <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                ${videoSrc ? 
+                    `<video 
+                        src="/static/videos/${videoSrc}" 
+                        class="celebrity-video centered-video preserve-aspect-ratio"
+                        muted
+                        loop
+                        playsinline
+                        preload="auto"
+                        id="avatarVideo"
+                    ></video>` : ''}
+                <div class="fallback-avatar" style="display: none;">
+                    ${createAvatarSVG()}
+                </div>
             </div>
             <div class="speaking-indicator" id="speakingIndicator">
                 <div class="speaking-wave"></div>
@@ -132,9 +149,137 @@ function initializeAvatar(opponent = null) {
     if (avatarWrapper) {
         if (opponent) {
             avatarWrapper.innerHTML = createCelebrityAvatar(opponent);
+            
+            // Get the video element if it exists
+            const videoElement = document.getElementById('avatarVideo');
+            if (videoElement) {
+                console.log(`Setting up video for ${opponent}`);
+                
+                // Set critical video properties
+                videoElement.muted = true;
+                videoElement.loop = true;
+                videoElement.playsInline = true;
+                videoElement.controls = false;
+                videoElement.autoplay = false; // Don't autoplay on load
+                
+                // Force load and prime the video
+                videoElement.load();
+                videoElement.currentTime = 0;
+                
+                // Apply explicit styles to ensure visibility, centering, and aspect ratio preservation
+                videoElement.style.display = 'block';
+                videoElement.style.visibility = 'visible';
+                videoElement.style.opacity = '1';
+                videoElement.style.zIndex = '10';
+                videoElement.style.position = 'absolute';
+                videoElement.style.top = '50%';
+                videoElement.style.left = '50%';
+                videoElement.style.transform = 'translate(-50%, -50%)';
+                videoElement.style.width = 'auto';
+                videoElement.style.height = 'auto';
+                videoElement.style.maxWidth = '100%';
+                videoElement.style.maxHeight = '100%';
+                videoElement.style.objectFit = 'contain';
+                
+                // Add events for debugging
+                videoElement.addEventListener('loadeddata', () => {
+                    console.log(`Video data loaded for ${opponent}`);
+                });
+                
+                videoElement.addEventListener('error', (e) => {
+                    console.error(`Error with video for ${opponent}:`, e);
+                    
+                    // Show fallback avatar on error
+                    const fallbackAvatar = avatarWrapper.querySelector('.fallback-avatar');
+                    if (fallbackAvatar) {
+                        fallbackAvatar.style.display = 'block';
+                        videoElement.style.display = 'none';
+                    }
+                });
+                
+                // Try to prime the video by playing briefly
+                setTimeout(() => {
+                    videoElement.play().then(() => {
+                        setTimeout(() => {
+                            videoElement.pause();
+                            videoElement.currentTime = 0;
+                        }, 50);
+                    }).catch(e => {
+                        console.log(`Couldn't prime video: ${e} - will try again when speaking`);
+                    });
+                }, 100);
+            }
         } else {
             avatarWrapper.innerHTML = createAvatarSVG();
         }
+    }
+}
+
+// Preload videos for better performance
+function preloadVideos(opponent) {
+    // Map for character videos
+    const videoMap = {
+        'nelson': 'nelson.mp4',
+        'michelle': 'barbarella.mp4',
+        'taylor': 'taylor.mp4'
+    };
+    
+    const videoSrc = videoMap[opponent];
+    if (videoSrc) {
+        // Check if this video is already preloaded
+        const existingPreloader = document.querySelector(`[data-preload-opponent="${opponent}"]`);
+        if (existingPreloader) {
+            console.log(`Video for ${opponent} already preloaded`);
+            return;
+        }
+        
+        console.log(`Preloading video for ${opponent}: ${videoSrc}`);
+        
+        // Create a video element for preloading
+        const preloader = document.createElement('video');
+        
+        // Set all attributes before setting src
+        preloader.style.position = 'absolute';
+        preloader.style.left = '-9999px';
+        preloader.style.top = '-9999px';
+        preloader.style.display = 'block'; // Actually display it but off-screen
+        preloader.muted = true;
+        preloader.playsInline = true;
+        preloader.autoplay = false;
+        preloader.controls = false;
+        preloader.preload = 'auto';
+        preloader.loop = true;
+        
+        // Set data attribute for identification
+        preloader.setAttribute('data-preload-opponent', opponent);
+        
+        // Add to DOM for preloading
+        document.body.appendChild(preloader);
+        
+        // Add event listeners
+        preloader.addEventListener('loadeddata', () => {
+            console.log(`Video data preloaded for ${opponent}`);
+            
+            // Try to play and pause to prime the video
+            preloader.play().then(() => {
+                setTimeout(() => {
+                    preloader.pause();
+                    preloader.currentTime = 0;
+                    console.log(`Video for ${opponent} primed and ready`);
+                }, 100);
+            }).catch(err => {
+                console.log(`Error during preload play: ${err}`);
+                // This is expected in some browsers due to autoplay restrictions
+            });
+        });
+        
+        preloader.addEventListener('error', (error) => {
+            console.error(`Error preloading video for ${opponent}:`, error);
+        });
+        
+        // Set source after all listeners are attached
+        preloader.src = `/static/videos/${videoSrc}`;
+        preloader.load(); // Start loading the video
     }
 }
 
@@ -150,6 +295,74 @@ function startMouthAnimation() {
         const speakingIndicator = document.getElementById('speakingIndicator');
         if (speakingIndicator) {
             speakingIndicator.style.display = 'flex';
+        }
+        
+        // Handle video playback if available
+        const videoElement = document.getElementById('avatarVideo');
+        if (videoElement) {
+            // Ensure the video is visible
+            videoElement.style.display = 'block';
+            videoElement.style.visibility = 'visible';
+            videoElement.style.opacity = '1';
+            videoElement.style.zIndex = '10';
+            
+            console.log('Starting video playback for speaking animation');
+            try {
+                // Reset video to beginning
+                videoElement.currentTime = 0;
+                
+                // Ensure required attributes are set
+                videoElement.muted = true;
+                videoElement.loop = true;
+                videoElement.playsInline = true;
+                
+                // Play with retries
+                let retryCount = 0;
+                const maxRetries = 3;
+                
+                const attemptPlay = () => {
+                    console.log(`Attempt #${retryCount + 1} to play video`);
+                    const playPromise = videoElement.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise
+                            .then(() => {
+                                console.log('Video started playing successfully');
+                                // Double check to make sure video is visible
+                                videoElement.style.display = 'block';
+                            })
+                            .catch(error => {
+                                console.error(`Error playing video (attempt ${retryCount + 1}):`, error);
+                                retryCount++;
+                                
+                                if (retryCount < maxRetries) {
+                                    console.log(`Retrying video play in ${retryCount * 200}ms...`);
+                                    // Try again with increasing delay
+                                    setTimeout(attemptPlay, retryCount * 200);
+                                } else {
+                                    console.error('Max video play retries reached. Showing fallback if available.');
+                                    // If video fails to play after all retries, show fallback
+                                    const fallbackAvatar = avatarWrapper.querySelector('.fallback-avatar');
+                                    if (fallbackAvatar) {
+                                        fallbackAvatar.style.display = 'block';
+                                    }
+                                }
+                            });
+                    } else {
+                        console.log('Play promise was undefined, video may already be playing');
+                    }
+                };
+                
+                // Start first attempt with a slight delay
+                setTimeout(attemptPlay, 100);
+            } catch (error) {
+                console.error('Video playback error:', error);
+                // Show fallback avatar on errors
+                const fallbackAvatar = avatarWrapper.querySelector('.fallback-avatar');
+                if (fallbackAvatar) {
+                    fallbackAvatar.style.display = 'block';
+                }
+            }
         }
     }
     
@@ -188,6 +401,37 @@ function stopMouthAnimation() {
         if (speakingIndicator) {
             speakingIndicator.style.display = 'none';
         }
+        
+        // Handle video pause but keep showing it
+        const videoElement = document.getElementById('avatarVideo');
+        if (videoElement) {
+            console.log('Pausing video and resetting to first frame');
+            
+            try {
+                // Ensure the video is paused
+                videoElement.pause();
+                
+                // Reset to first frame (using a short timeout to ensure pause completes)
+                setTimeout(() => {
+                    videoElement.currentTime = 0;
+                    
+                    // Double-check that the video is at frame 0
+                    setTimeout(() => {
+                        if (videoElement.currentTime > 0.1) {
+                            console.log('Video not at frame 0, forcing reset');
+                            videoElement.currentTime = 0;
+                        }
+                    }, 50);
+                }, 50);
+                
+                // Keep video visible, just paused at first frame
+                videoElement.style.display = 'block';
+                videoElement.style.visibility = 'visible';
+                videoElement.style.opacity = '1';
+            } catch (error) {
+                console.error('Error pausing video:', error);
+            }
+        }
     }
     
     // Reset mouth to closed state
@@ -209,9 +453,16 @@ window.addEventListener('message', (event) => {
     
     const { action, data } = event.data;
     
+    console.log(`Received message: ${action}`, data);
+    
     switch (action) {
         case 'updateAvatar':
             console.log('Updating avatar to:', data.opponent);
+            
+            // Preload video for this opponent if needed
+            preloadVideos(data.opponent);
+            
+            // Initialize avatar with the new opponent
             initializeAvatar(data.opponent);
             break;
             
@@ -224,9 +475,21 @@ window.addEventListener('message', (event) => {
             }
             break;
             
+        case 'startSpeaking':
+            console.log('Starting speaking animation');
+            startMouthAnimation();
+            break;
+            
         case 'stopSpeaking':
             console.log('Stopping speaking animation');
             stopMouthAnimation();
+            break;
+            
+        case 'preloadVideo':
+            if (data && data.opponent) {
+                console.log('Preloading video for:', data.opponent);
+                preloadVideos(data.opponent);
+            }
             break;
             
         default:
@@ -236,6 +499,16 @@ window.addEventListener('message', (event) => {
 
 // Initialize avatar when page loads
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Avatar window loaded, initializing...');
+    
+    // Preload all potential videos in advance
+    preloadVideos('nelson');
+    // Add more as they become available
+    // preloadVideos('michelle');
+    // preloadVideos('taylor');
+    // preloadVideos('singapore_uncle');
+    
+    // Initialize avatar with default
     initializeAvatar();
     
     // Add fullscreen toggle on click
@@ -252,6 +525,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.remove('fullscreen');
         }
     });
+    
+    // Log that we're ready for messages
+    console.log('Avatar initialization complete, ready for messages');
 });
 
 window.addEventListener('error', function(event) {

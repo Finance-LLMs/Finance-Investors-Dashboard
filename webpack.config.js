@@ -31,7 +31,8 @@ module.exports = {
                 { from: 'src/styles.css', to: 'styles.css' },
                 { from: 'src/controls.css', to: 'controls.css' },
                 { from: 'src/avatar.css', to: 'avatar.css' },
-                { from: 'src/images', to: 'images', noErrorOnMissing: true }
+                { from: 'src/images', to: 'images', noErrorOnMissing: true },
+                { from: 'src/videos', to: 'videos', noErrorOnMissing: true }
             ],
         }),
     ]

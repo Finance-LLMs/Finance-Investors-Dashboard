@@ -95,8 +95,16 @@ function createAvatarSVG() {
     `;
 }
 
-// Create celebrity avatar with image
+// Create celebrity avatar with video only
 function createCelebrityAvatar(opponent) {
+    // Map for character videos - this is the primary content
+    const videoMap = {
+        'nelson': 'nelson.mp4',
+        'michelle': 'barbarella.mp4',
+        'taylor': 'taylor.mp4',
+    };
+    
+    // Fallback image map - only used if video fails completely
     const imageMap = {
         'michelle': 'michelle.jpg',
         'nelson': 'nelson.jpg', 
@@ -104,17 +112,25 @@ function createCelebrityAvatar(opponent) {
         'singapore_uncle': 'singapore_uncle.jpg'
     };
     
+    const videoSrc = videoMap[opponent];
     const imageSrc = imageMap[opponent];
-    if (!imageSrc) return createAvatarSVG(); // fallback to doctor avatar
+    
+    // If no video and no image, fallback to SVG avatar
+    if (!videoSrc && !imageSrc) return createAvatarSVG();
     
     return `
         <div class="celebrity-avatar-container">
-            <img 
-                src="/static/images/${imageSrc}" 
-                alt="${opponent} avatar" 
-                class="celebrity-image"
-                onerror="this.style.display='none'; this.nextSibling.style.display='block';"
-            />
+            ${videoSrc ? 
+                `<video 
+                    src="/static/videos/${videoSrc}" 
+                    class="celebrity-video"
+                    muted
+                    loop
+                    playsinline
+                    preload="auto"
+                    id="avatarVideo"
+                    style="display: block; visibility: visible; opacity: 1; z-index: 10; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain;"
+                ></video>` : ''}
             <div class="fallback-avatar" style="display: none;">
                 ${createAvatarSVG()}
             </div>
@@ -134,7 +150,109 @@ function initializeAvatar() {
     
     if (avatarWrapper) {
         if (selectedOpponent) {
+            // Set the avatar content
             avatarWrapper.innerHTML = createCelebrityAvatar(selectedOpponent);
+            
+            // Get the video element if it exists
+            const videoElement = document.getElementById('avatarVideo');
+            if (videoElement) {
+                console.log(`Setting up video for ${selectedOpponent}`);
+                
+                // Set critical video properties
+                videoElement.muted = true;
+                videoElement.loop = true;
+                videoElement.playsInline = true;
+                videoElement.controls = false;
+                videoElement.autoplay = false; // Don't autoplay on load
+                
+                // Force load and prime the video
+                videoElement.load();
+                videoElement.currentTime = 0;
+                
+                // Apply explicit styles to ensure visibility
+                videoElement.style.display = 'block';
+                videoElement.style.visibility = 'visible';
+                videoElement.style.opacity = '1';
+                videoElement.style.width = 'auto';
+                videoElement.style.height = 'auto';
+                videoElement.style.maxWidth = '100%';
+                videoElement.style.maxHeight = '100%';
+                videoElement.style.objectFit = 'contain';
+                videoElement.style.zIndex = '10';
+                videoElement.style.position = 'absolute';
+                videoElement.style.top = '50%';
+                videoElement.style.left = '50%';
+                videoElement.style.transform = 'translate(-50%, -50%)';
+                
+                // Debug video status
+                videoElement.addEventListener('loadedmetadata', () => {
+                    console.log(`Video metadata loaded for ${selectedOpponent}:`, {
+                        duration: videoElement.duration,
+                        readyState: videoElement.readyState,
+                        networkState: videoElement.networkState
+                    });
+                });
+                
+                videoElement.addEventListener('loadeddata', () => {
+                    console.log(`Video data loaded for ${selectedOpponent}`);
+                });
+                
+                videoElement.addEventListener('canplay', () => {
+                    console.log(`Video can play now for ${selectedOpponent}`);
+                });
+                
+                videoElement.addEventListener('canplaythrough', () => {
+                    console.log(`Video can play through completely for ${selectedOpponent}`);
+                });
+                
+                // Handle errors
+                videoElement.addEventListener('error', (e) => {
+                    console.error(`Error with video for ${selectedOpponent}:`, 
+                        videoElement.error ? videoElement.error.code : 'unknown error',
+                        e);
+                    
+                    // Show fallback SVG avatar on error
+                    const fallbackAvatar = avatarWrapper.querySelector('.fallback-avatar');
+                    if (fallbackAvatar) {
+                        fallbackAvatar.style.display = 'block';
+                        videoElement.style.display = 'none';
+                    }
+                });
+                
+                // Add play/pause event listeners for debugging
+                videoElement.addEventListener('play', () => {
+                    console.log(`Video started playing for ${selectedOpponent}`);
+                });
+                
+                videoElement.addEventListener('pause', () => {
+                    console.log(`Video paused for ${selectedOpponent}`);
+                });
+                
+                // Force browser to preload video
+                try {
+                    // Try to briefly play and pause to prime the video buffer
+                    setTimeout(() => {
+                        console.log('Attempting to prime video for playback...');
+                        const primePromise = videoElement.play();
+                        if (primePromise !== undefined) {
+                            primePromise.then(() => {
+                                console.log(`Successfully primed video for ${selectedOpponent}`);
+                                setTimeout(() => {
+                                    videoElement.pause();
+                                    videoElement.currentTime = 0;
+                                    console.log('Video primed and ready at first frame');
+                                }, 50);
+                            }).catch(e => {
+                                console.log(`Couldn't prime video: ${e} - will try again when speaking starts`);
+                                // This is expected in some browsers that block autoplay
+                            });
+                        }
+                    }, 300); // Increased delay for better loading
+                } catch (err) {
+                    console.log('Video priming error:', err);
+                    // Ignore - we'll try again when speaking starts
+                }
+            }
         } else {
             avatarWrapper.innerHTML = createAvatarSVG();
         }
@@ -145,6 +263,101 @@ function initializeAvatar() {
 function getSelectedOpponent() {
     const selectedButton = document.querySelector('.opponent-button.selected');
     return selectedButton ? selectedButton.getAttribute('data-opponent') : '';
+}
+
+// Preload videos for better performance
+function preloadVideos(opponent) {
+    // Map for character videos
+    const videoMap = {
+        'nelson': 'nelson.mp4',
+        'michelle': 'barbarella.mp4',
+        'taylor': 'taylor.mp4',
+    };
+    
+    const videoSrc = videoMap[opponent];
+    if (videoSrc) {
+        // Check if video is already preloaded
+        const existingPreloader = document.querySelector(`[data-preload-opponent="${opponent}"]`);
+        if (existingPreloader) {
+            console.log(`Video for ${opponent} is already preloaded`);
+            return;
+        }
+        
+        // Create a video element for preloading
+        const preloader = document.createElement('video');
+        
+        // Set all attributes before setting src
+        preloader.style.position = 'absolute';
+        preloader.style.left = '-9999px';
+        preloader.style.top = '-9999px';
+        preloader.style.display = 'block'; // Actually display it but off-screen
+        preloader.style.width = '10px';
+        preloader.style.height = '10px';
+        preloader.muted = true;
+        preloader.playsInline = true;
+        preloader.autoplay = false;
+        preloader.controls = false;
+        preloader.preload = 'auto';
+        preloader.loop = true;
+        
+        // Set an ID and data attribute for easy identification
+        const preloadId = `preload-${opponent}-${new Date().getTime()}`;
+        preloader.id = preloadId;
+        preloader.setAttribute('data-preload-opponent', opponent);
+        
+        console.log(`Starting preload for ${opponent} video:`, videoSrc);
+        
+        // Add to DOM for preloading
+        document.body.appendChild(preloader);
+        
+        // Add event listeners
+        preloader.addEventListener('loadedmetadata', () => {
+            console.log(`Video metadata preloaded for ${opponent}:`, {
+                duration: preloader.duration,
+                readyState: preloader.readyState
+            });
+        });
+        
+        preloader.addEventListener('loadeddata', () => {
+            console.log(`Successfully preloaded video data for ${opponent}:`, videoSrc);
+            
+            // Try to play and immediately pause to ensure the video is cached and ready
+            preloader.play().then(() => {
+                // Let it play for a moment to prime the buffer
+                setTimeout(() => {
+                    preloader.pause();
+                    preloader.currentTime = 0;
+                    console.log(`Preload complete for ${opponent} - video cached and primed`);
+                    
+                    // Keep the preloaded video in the DOM for faster access later,
+                    // but make it completely hidden
+                    preloader.style.opacity = '0';
+                    preloader.style.visibility = 'hidden';
+                    
+                    // Create a flag showing this video is ready
+                    const readyFlag = document.createElement('div');
+                    readyFlag.id = `${opponent}-video-ready`;
+                    readyFlag.style.display = 'none';
+                    document.body.appendChild(readyFlag);
+                }, 100);
+            }).catch(err => {
+                console.log(`Error during preload play for ${opponent}:`, err);
+                console.log('This is normal in some browsers that block autoplay');
+                // Still keep the preloaded video data
+            });
+        });
+        
+        preloader.addEventListener('error', (error) => {
+            console.error(`Error preloading video for ${opponent}:`, error);
+            if (document.getElementById(preloadId)) {
+                document.body.removeChild(preloader);
+            }
+        });
+        
+        // Set src after all listeners are attached
+        preloader.src = `/static/videos/${videoSrc}`;
+        preloader.load(); // Start loading the video data
+    }
 }
 
 // Handle opponent button selection
@@ -159,6 +372,15 @@ function selectOpponent(opponentValue) {
     if (selectedButton) {
         selectedButton.classList.add('selected');
     }
+    
+    console.log(`Selected opponent: ${opponentValue}`);
+    
+    // Preload videos for the selected opponent
+    preloadVideos(opponentValue);
+    
+    // Tell the avatar frame to update
+    sendMessageToAvatarFrame('updateAvatar', { opponent: opponentValue });
+    sendMessageToAvatarFrame('preloadVideo', { opponent: opponentValue });
     
     // Update avatar and form validity
     initializeAvatar();
@@ -177,6 +399,86 @@ function startMouthAnimation() {
         const speakingIndicator = document.getElementById('speakingIndicator');
         if (speakingIndicator) {
             speakingIndicator.style.display = 'flex';
+        }
+        
+        // Handle video playback if available
+        const videoElement = document.getElementById('avatarVideo');
+        if (videoElement) {
+            // Ensure the video is visible with proper styles
+            videoElement.style.display = 'block';
+            videoElement.style.visibility = 'visible';
+            videoElement.style.opacity = '1';
+            videoElement.style.zIndex = '10';
+            
+            // Make sure any fallback image is hidden
+            const fallbackImage = document.getElementById('avatarFallbackImage');
+            if (fallbackImage) {
+                fallbackImage.style.display = 'none';
+            }
+            
+            console.log('Starting video playback for speaking animation');
+            try {
+                // Reset video to beginning
+                videoElement.currentTime = 0;
+                
+                // Explicitly set video properties before playing
+                videoElement.muted = true;
+                videoElement.loop = true;
+                videoElement.playsInline = true;
+                
+                // Play with retries
+                let retryCount = 0;
+                const maxRetries = 3;
+                
+                const attemptPlay = () => {
+                    console.log(`Attempt #${retryCount + 1} to play video`);
+                    const playPromise = videoElement.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise
+                            .then(() => {
+                                console.log('Video started playing successfully');
+                                // Double check to make sure video is visible
+                                videoElement.style.display = 'block';
+                                videoElement.style.visibility = 'visible';
+                                videoElement.style.opacity = '1';
+                            })
+                            .catch(error => {
+                                console.error(`Error playing video (attempt ${retryCount + 1}):`, error);
+                                retryCount++;
+                                
+                                if (retryCount < maxRetries) {
+                                    console.log(`Retrying video play in ${retryCount * 200}ms...`);
+                                    // Try again with increasing delay
+                                    setTimeout(attemptPlay, retryCount * 200);
+                                } else {
+                                    console.error('Max video play retries reached. Showing fallback if available.');
+                                    // If video fails to play after all retries, show fallback
+                                    if (fallbackImage) {
+                                        fallbackImage.style.display = 'block';
+                                    }
+                                    
+                                    const fallbackAvatar = avatarWrapper.querySelector('.fallback-avatar');
+                                    if (fallbackAvatar) {
+                                        fallbackAvatar.style.display = 'block';
+                                    }
+                                }
+                            });
+                    } else {
+                        console.log('Play promise was undefined, video may already be playing');
+                    }
+                };
+                
+                // Start first attempt with a slight delay to ensure video is ready
+                setTimeout(attemptPlay, 100);
+            } catch (error) {
+                console.error('Video playback error:', error);
+                // Show fallback avatar in case of errors
+                const fallbackAvatar = avatarWrapper.querySelector('.fallback-avatar');
+                if (fallbackAvatar) {
+                    fallbackAvatar.style.display = 'block';
+                }
+            }
         }
     }
     
@@ -214,6 +516,39 @@ function stopMouthAnimation() {
         const speakingIndicator = document.getElementById('speakingIndicator');
         if (speakingIndicator) {
             speakingIndicator.style.display = 'none';
+        }
+        
+        // Handle video pause but keep showing it
+        const videoElement = document.getElementById('avatarVideo');
+        
+        if (videoElement) {
+            console.log('Pausing video and resetting to first frame');
+            
+            try {
+                // Ensure the video is paused
+                videoElement.pause();
+                
+                // Reset to first frame (using a short timeout to ensure pause completes first)
+                setTimeout(() => {
+                    videoElement.currentTime = 0;
+                    
+                    // Double-check that the video is still at frame 0
+                    setTimeout(() => {
+                        if (videoElement.currentTime > 0.1) {
+                            console.log('Video not at frame 0, forcing reset');
+                            videoElement.currentTime = 0;
+                        }
+                    }, 50);
+                }, 50);
+                
+                // Keep video visible, just paused at first frame
+                videoElement.style.display = 'block';
+                videoElement.style.visibility = 'visible';
+                videoElement.style.opacity = '1';
+                
+            } catch (error) {
+                console.error('Error pausing video:', error);
+            }
         }
     }
     
@@ -281,12 +616,27 @@ function updateSpeakingStatus(mode) {
     
     // Animate avatar based on speaking state
     if (isSpeaking) {
-        startMouthAnimation();
+        console.log('Agent is now speaking, starting video playback');
+        
+        // Tell the avatar frame to start video playback
+        sendMessageToAvatarFrame('startSpeaking', { speaking: true });
+        
+        // Also use local animation control with delay for better sync
+        setTimeout(() => {
+            startMouthAnimation();
+        }, 100);
+        
         // Disable summary button when agent is speaking
         if (summaryButton) {
             summaryButton.disabled = true;
         }
     } else {
+        console.log('Agent is now silent, pausing video');
+        
+        // Tell the avatar frame to stop video playback
+        sendMessageToAvatarFrame('stopSpeaking', { speaking: false });
+        
+        // Also stop local animation
         stopMouthAnimation();
         
         // Only enable summary button when:
@@ -597,6 +947,9 @@ async function startQnA() {
         // Force select Nelson Mandela
         selectOpponent('nelson');
         
+        // Explicitly tell avatar frame to update
+        sendMessageToAvatarFrame('updateAvatar', { opponent: 'nelson' });
+        
         // Get signed URL for Nelson Mandela Q&A mode
         const signedUrl = await getSignedUrl('nelson', 'qna');
         
@@ -660,6 +1013,7 @@ async function startQnA() {
                 console.log('Q&A mode changed:', mode);
                 updateSpeakingStatus(mode);
                 
+                // Use the same mouth/video animation functions for Q&A mode
                 if (mode.mode === 'speaking') {
                     startMouthAnimation();
                 } else {
@@ -684,14 +1038,89 @@ async function startQnA() {
     }
 }
 
-document.getElementById('startButton').addEventListener('click', startConversation);
-document.getElementById('endButton').addEventListener('click', endConversation);
-document.getElementById('summaryButton').addEventListener('click', summarizeConversation);
-document.getElementById('qnaButton').addEventListener('click', startQnA);
+// Function to communicate with the avatar iframe
+function sendMessageToAvatarFrame(action, data = {}) {
+    const avatarFrame = document.querySelector('iframe[src*="avatar.html"]');
+    if (avatarFrame && avatarFrame.contentWindow) {
+        console.log(`Sending message to avatar frame: ${action}`, data);
+        avatarFrame.contentWindow.postMessage({ action, data }, window.location.origin);
+    } else {
+        console.error('Avatar frame not found or not ready');
+    }
+}
+
+// Function to check if all video elements are correctly configured
+function validateVideoElements() {
+    console.log('Validating video elements...');
+    
+    // Check main avatar video
+    const avatarVideo = document.getElementById('avatarVideo');
+    if (avatarVideo) {
+        console.log('Avatar video found:', {
+            src: avatarVideo.src,
+            display: avatarVideo.style.display,
+            visibility: avatarVideo.style.visibility,
+            opacity: avatarVideo.style.opacity,
+            zIndex: avatarVideo.style.zIndex,
+            readyState: avatarVideo.readyState,
+            networkState: avatarVideo.networkState,
+            error: avatarVideo.error
+        });
+        
+        // Make sure it has proper styles
+        avatarVideo.style.display = 'block';
+        avatarVideo.style.visibility = 'visible';
+        avatarVideo.style.opacity = '1';
+        avatarVideo.style.zIndex = '10';
+        
+        // If there's an error or the video isn't ready, attempt to reload it
+        if (avatarVideo.error || avatarVideo.networkState === 3) {
+            console.log('Video has errors, attempting to reload...');
+            const currentSrc = avatarVideo.src;
+            avatarVideo.src = '';
+            setTimeout(() => {
+                avatarVideo.src = currentSrc;
+                avatarVideo.load();
+            }, 100);
+        }
+    } else {
+        console.log('Avatar video element not found');
+    }
+    
+    // Check for any preloaded videos
+    const preloadedVideos = document.querySelectorAll('[data-preload-opponent]');
+    console.log(`Found ${preloadedVideos.length} preloaded video elements`);
+    
+    // Ensure the selected opponent is properly set up
+    const selectedOpponent = getSelectedOpponent();
+    if (selectedOpponent && !document.getElementById(`${selectedOpponent}-video-ready`)) {
+        console.log(`Selected opponent ${selectedOpponent} video not ready, preloading again...`);
+        preloadVideos(selectedOpponent);
+    }
+}
 
 // Initialize avatar when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    initializeAvatar();
+    console.log('Document loaded, starting initialization...');
+    
+    // Preload all available videos at startup
+    console.log('Preloading videos...');
+    preloadVideos('nelson');
+    
+    // Tell avatar frame to preload videos too (once it's loaded)
+    setTimeout(() => {
+        sendMessageToAvatarFrame('preloadVideo', { opponent: 'nelson' });
+    }, 1000);
+    
+    // Wait a bit to ensure video preloading has started
+    setTimeout(() => {
+        console.log('Initializing avatar...');
+        // Initialize avatar
+        initializeAvatar();
+        
+        // Run a check to make sure video elements are ready
+        setTimeout(validateVideoElements, 1000);
+    }, 500);
     
     // Enable start button when topic and opponent are selected
     const topicSelect = document.getElementById('topic');
