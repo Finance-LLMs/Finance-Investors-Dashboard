@@ -1180,3 +1180,30 @@ body::before {
     transform: translateY(0);
     box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
 }
+
+/* Scripted AI Button styling */
+.scripted-ai-button {
+    width: 100%;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+    margin-top: 8px;
+}
+
+.scripted-ai-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(240, 147, 251, 0.4);
+    background: linear-gradient(135deg, #e879f9 0%, #ec4899 100%);
+}
+
+.scripted-ai-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(240, 147, 251, 0.3);
+}

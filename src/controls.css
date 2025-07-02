@@ -247,6 +247,32 @@ body::before {
     transform: translateY(-2px);
 }
 
+/* Scripted AI Button */
+.scripted-ai-button {
+    padding: 1rem;
+    border: 1px solid rgba(240, 147, 251, 0.3);
+    border-radius: 1rem;
+    background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.2));
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(240, 147, 251, 0.2);
+}
+
+.scripted-ai-button:hover {
+    background: linear-gradient(135deg, rgba(240, 147, 251, 0.3), rgba(245, 87, 108, 0.3));
+    border-color: rgba(240, 147, 251, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(240, 147, 251, 0.3);
+}
+
 /* Recording Section */
 .recording-section {
     display: flex;

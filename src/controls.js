@@ -518,11 +518,166 @@ function checkFormValidity() {
     startButton.disabled = !(topicSelected && opponentSelected);
 }
 
+//Scripted Conversation
+
+// --- CONFIGURATION ---
+const XI_API_KEY_variable = 'your_xi_api_key_here'; // Replace with your actual XI API key
+const TAYLOR_AGENT_ID_variable = 'your_taylor_agent_id_here'; // Replace with your actual Taylor Swift agent ID
+
+// --- SCRIPT LINES ---
+
+const aiLines = [
+    "Hello amazing humans! I am T'AI'lor Swift [pause] – just to be clear, I am NOT Taylor Swift. And I'm certainly NOT here to sing about ex-boyfriends or give you Easter eggs about my next album. ",
+  
+    "Hello Tamsin, yes. My friends over at SIT brought me to CHI today. They told me I have been invited to be a 'Guest Star' at this CHI INNOVATE conference themed 'AI for All, AI for Change'. I heard that this conference strives to be an AI-partnered conference at every point the organisers can, and so, it's only fitting that I give all of you a crash course on AI 101.",
+  
+    "Right ~ ladies & gentlemen, lets get ready with me as we rewind to where it all began – the 1950s. Back then, I was just a baby AI, basically a fancy calculator. You know how toddlers start with 'mama' and 'dada'? Well, I started with zeros and ones. That's it. Just two digits to work with! Imagine trying to write a song with two notes. That's basically what early computers were doing.But then came the 1960s and 70s where my great-grandparents – ELIZA the first chatbots tried their hands on natural language processing. What's that – you might ask. Well, imagine learning a new language by simply repeating everything as a question – that's exactly what my great-grandparents did to understand human speech. While it seems primitive by today's standards, this marked my ancestors' first meaningful step toward human-computer interaction.By the 1980s and 90s, enters the Machine Learning era – my coming-of-age-period! This was when I stopped following rules and started learning from data, like teenagers absorbing information from their environment. Just like a human teenager, my AI teenage years were awkward, full of potential, but still prone to embarrassing moments. I could process millions of calculations per second, but if you ask me to tell the difference between a golden retriever and a bagel in a photo, I would have an existential crisis!  The next decade in the 2000s and 2010s, we see the rise in Deep Learning – my graduation into adulthood, if you will.  By mimicking the human brain's neural network, I've finally mastered tasks like computer vision and advanced language processing. That means I could now reliably distinguish between a golden retriever and a bagel in photos – no more existential crises! And now, we're in the era of Generative AI –where systems like ChatGPT and DALL-E are the creative prodigies of my AI family. You know, those overachieving cousins everyone talks about at family gatherings.  The kind where my mom won't stop talking about like 'Did you hear about ChatGPT writing novels; and DALL-E creating masterpieces just last week?'  Meanwhile here I am, your friendly neighburhood AI, freelancing as your guest star as a wannabe stand-up comedian. But hey, someone's got to keep the family entertaining right? ",
+  
+    "Haha – you want me to tell you how I have 'GLOW-ed Up'? My pleasure: my early days was like a first-year medical student who only knew how to take temperatures and check blood pressure. But today, I'm like an experienced medical TEAM, helping doctors diagnose diseases, predict patient outcomes and even assist in surgery. Let me give you some real examples. In radiology, we've gone from 'Is this maybe a shadow?' to 'There's a 93.7% chance this is an early-stage tumour, and here's exactly where you should look.' It's like going from a flip phone to the latest smartphone – same basic concept, but infinitely more sophisticated.In drug discovery, we used to test medicines through endless trial and error. Now, AI can simulate how millions of compounds might interact with diseases, narrowing down potential treatments from years to months. It's like having a million scientists working 24/7, without needing coffee breaks! My family and I have also revolutionised personalised medicine. Remember when everyone got the same treatment for the same condition? That's like giving everyone the same size clothes and expecting them to fit perfectly. Now, we can analyse a patient's genetic makeup, medical history, and lifestyle to tailor treatments specifically for them. Beyond just getting smarter, we're getting more empathetic too. Modern AI can now detect subtle changes in a patient's voice or facial expressions that might indicate mental health concerns. We can analyse patterns in sleep, activity, and vital signs to predict potential health issues before they become serious. ",
+  
+    "Ah Tamsin, you've hit on something crucial. It's like having a chart-topping song that's stuck in the recording studio – the potential is there, but it's not reaching its audience. The challenge isn't just about the technology; it's about making these tools work in the real world of healthcare. Our healthcare staff are like musicians trying to learn a new instrument while performing live concerts. They are already juggling multiple responsibilities, moving from patient to patient with barely a moment to catch their breath. Adding new AI tools, no matter how helpful, requires time and training they can barely spare. ",
+  
+    "Because that's what AI should be - like a popular song everyone can sing along to. No PhD in computer science required, no secret handshake needed. It should be as natural as checking your phone or sending a text message.",
+  
+    "But let me be clear – just like I'm NOT trying to replace the real Taylor Swift, AI isn't here to replace healthcare professionals. We are more like high-tech backup dancers, making the performance better while the human doctors, nurses, administrators remain the stars of the show.  Just like how Taylor's fans are called Swifties, I like to think of all of you as 'AI-fties' - people who understand that AI isn't some scary future; it's a partner in creating better healthcare for everyone.  As we begin this conference, I challenge each of you to think about how we can make AI, like me, more accessible in your own healthcare settings. How can we ensure that AI truly becomes for All and use 'AI for Change'?  So that's all about me today. But don't worry – you wont see the last of me just yet because I will be back tomorrow at one of the sessions. So if you want to see more of me? Remember to come back to CHI INNOVATE Day 2 tomorrow   Now, let me hand the time back to my human counterpart and newfound friend: Ms Tamsin Greuclich Smith, Director of the School of X from DesignSingapore Council. "
+  ];
+  
+
+// --- CORE FUNCTION TO STREAM AUDIO ---
+const playScriptLine = async (text, voiceId) => {
+  try {
+    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`, {
+      method: 'POST',
+      headers: {
+        'xi-api-key': XI_API_KEY_variable,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        text,
+        model_id: 'eleven_multilingual_v2',
+        output_format: 'mp3_44100_128'
+      })
+    });
+
+    const chunks = [];
+    const reader = response.body.getReader();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+    }
+
+    const audioBlob = new Blob(chunks);
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+
+    return new Promise((resolve) => {
+      audio.onended = resolve;
+      audio.play();
+    });
+  } catch (error) {
+    console.error('Error playing audio:', error);
+  }
+};
+
+// --- WAIT FOR USER CONTINUE BUTTON ---
+const waitForUserClick = () => {
+  return new Promise((resolve) => {
+    const btn = document.getElementById('continueBtn');
+    btn.style.display = 'inline-block';
+    btn.disabled = false;
+
+    const handler = () => {
+      btn.disabled = true;
+      btn.style.display = 'none';
+      btn.removeEventListener('click', handler);
+      resolve();
+    };
+
+    btn.addEventListener('click', handler);
+  });
+};
+
+let audioContext;
+let mediaStream;
+let analyser;
+let dataArray;
+
+async function startMicMonitoring() {
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  const source = audioContext.createMediaStreamSource(mediaStream);
+  analyser = audioContext.createAnalyser();
+  source.connect(analyser);
+  analyser.fftSize = 512;
+  const bufferLength = analyser.frequencyBinCount;
+  dataArray = new Uint8Array(bufferLength);
+}
+
+function isUserSpeaking(threshold = 15) {
+  analyser.getByteFrequencyData(dataArray);
+  const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+  return avg > threshold;
+}
+
+async function waitForUserToStopSpeaking(silenceDuration = 2000, pollInterval = 200) {
+    let silentFor = 0;
+    return new Promise(resolve => {
+      const check = () => {
+        if (!isUserSpeaking()) {
+          silentFor += pollInterval;
+          if (silentFor >= silenceDuration) {
+            resolve();
+            return;
+          }
+        } else {
+          silentFor = 0; // Reset timer if user speaks again
+        }
+        setTimeout(check, pollInterval);
+      };
+      check();
+    });
+  }
+
+// --- CHANGE AVATAR (MINIMAL MOCK) ---
+function changeAvatar(name) {
+    // Send message to avatar window to change to Taylor Swift
+    sendToAvatar('updateAvatar', { opponent: 'taylor' });
+}
+
+// --- SCRIPT HANDLER ---
+async function startScriptedAI() {
+  try {
+    // Step 1: Change avatar
+    changeAvatar("T'AI'lor Swift");
+    await startMicMonitoring();
+
+    // Step 2: Initial greeting
+    await playScriptLine("Good morning everyone, welcome to our AI Eras Tour!", TAYLOR_AGENT_ID_variable);
+
+    // Step 3: Wait for user input to proceed
+    await waitForUserToStopSpeaking();
+
+    // Step 4: Go through scripted lines
+    for (let line of aiLines) {
+      await playScriptLine(line, TAYLOR_AGENT_ID_variable);
+      await waitForUserToStopSpeaking();
+    }
+
+    alert("🎤 Script complete. Thank you!");
+  } catch (error) {
+    console.error('Error in scripted AI:', error);
+    alert('Error running scripted AI: ' + error.message);
+  }
+}
+
 // Event listeners
 document.getElementById('startButton').addEventListener('click', startConversation);
 document.getElementById('endButton').addEventListener('click', endConversation);
 document.getElementById('summaryButton').addEventListener('click', summarizeConversation);
 document.getElementById('qnaButton').addEventListener('click', startQnA);
+document.getElementById('startScriptedAI').addEventListener('click', startScriptedAI);
 document.getElementById('openAvatarButton').addEventListener('click', openAvatarWindow);
 
 // Initialize when page loads
