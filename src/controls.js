@@ -642,24 +642,43 @@ async function waitForUserToStopSpeaking(silenceDuration = 2000, pollInterval = 
 
 // --- CHANGE AVATAR (MINIMAL MOCK) ---
 function changeAvatar(name) {
+    console.log(`Changing avatar to: ${name}`);
+    
     // Send message to avatar window to change to Taylor Swift
     sendToAvatar('updateAvatar', { opponent: 'taylor' });
+    
+    // Also ensure Taylor Swift is selected in the main window
+    selectOpponent('taylor');
+    
+    // Give a moment for the message to be processed
+    setTimeout(() => {
+        console.log('Avatar change message sent');
+    }, 100);
 }
 
 // --- SCRIPT HANDLER ---
 async function startScriptedAI() {
   try {
-    // Step 1: Change avatar
+    // Step 1: Open avatar window if not already open
+    if (!avatarWindow || avatarWindow.closed) {
+      openAvatarWindow();
+      // Wait for the window to load
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+    
+    // Step 2: Change avatar to Taylor Swift
     changeAvatar("T'AI'lor Swift");
+    
+    // Step 3: Start microphone monitoring
     await startMicMonitoring();
 
-    // Step 2: Initial greeting
+    // Step 4: Initial greeting
     await playScriptLine("Good morning everyone, welcome to our AI Eras Tour!", TAYLOR_AGENT_ID_variable);
 
-    // Step 3: Wait for user input to proceed
+    // Step 5: Wait for user input to proceed
     await waitForUserToStopSpeaking();
 
-    // Step 4: Go through scripted lines
+    // Step 6: Go through scripted lines
     for (let line of aiLines) {
       await playScriptLine(line, TAYLOR_AGENT_ID_variable);
       await waitForUserToStopSpeaking();

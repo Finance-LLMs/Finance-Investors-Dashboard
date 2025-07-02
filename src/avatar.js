@@ -503,9 +503,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Preload all potential videos in advance
     preloadVideos('nelson');
-    // Add more as they become available
-    // preloadVideos('michelle');
-    // preloadVideos('taylor');
+    preloadVideos('michelle');
+    preloadVideos('taylor');
     // preloadVideos('singapore_uncle');
     
     // Initialize avatar with default
