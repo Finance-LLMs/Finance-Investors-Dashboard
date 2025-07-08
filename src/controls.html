@@ -64,15 +64,46 @@
                     </div>
                 </div>
                 
-                <div class="control-group">
-                    <button type="button" id="qnaButton" class="qna-button">
-                        Q&A with Nelson M<span class="ai-text">AI</span>ndela
+                <!-- Start/Stop Debate Buttons Section (moved above) -->
+                <div class="recording-section">
+                    <button id="startButton" class="record-button" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m12 8-9.04 4.9a2.78 2.78 0 0 0 0 4.9L12 24l9.04-4.9a2.78 2.78 0 0 0 0-4.9L12 8Z"/>
+                        </svg>
+                        Start Debate
+                    </button>
+                    <button id="endButton" class="record-button stop-button" disabled style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="m9 9 6 6"/>
+                            <path d="m15 9-6 6"/>
+                        </svg>
+                        Stop Debate
+                    </button>
+                    <button id="summaryButton" class="record-button summary-button" disabled style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                        Summarize Debate
+                    </button>
+                    <button id="stopQnaButton" class="record-button stop-button" disabled style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="m9 9 6 6"/>
+                            <path d="m15 9-6 6"/>
+                        </svg>
+                        Stop Q&A
                     </button>
                 </div>
 
                 <div class="control-group">
-                    <button type="button" id="startScriptedAI" class="scripted-ai-button">
-                        <span class="ai-text">AI</span>-101 by T<span class="ai-text">AI</span>lor Swift
+                    <button type="button" id="qnaButton" class="qna-button">
+                        Q&A with Nelson M<span class="ai-text">AI</span>ndela
                     </button>
                 </div>
 
@@ -86,42 +117,13 @@
                         Open Avatar Window
                     </button>
                 </div>
-            </div>
 
-            <div class="recording-section">
-                <button id="startButton" class="record-button" disabled>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m12 8-9.04 4.9a2.78 2.78 0 0 0 0 4.9L12 24l9.04-4.9a2.78 2.78 0 0 0 0-4.9L12 8Z"/>
-                    </svg>
-                    Start Debate
-                </button>
-                <button id="endButton" class="record-button stop-button" disabled style="display: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="m9 9 6 6"/>
-                        <path d="m15 9-6 6"/>
-                    </svg>
-                    Stop Debate
-                </button>
-                <button id="summaryButton" class="record-button summary-button" disabled style="display: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="8" y1="6" x2="21" y2="6"></line>
-                        <line x1="8" y1="12" x2="21" y2="12"></line>
-                        <line x1="8" y1="18" x2="21" y2="18"></line>
-                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
-                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
-                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
-                    </svg>
-                    Summarize Debate
-                </button>
-                <button id="stopQnaButton" class="record-button stop-button" disabled style="display: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="m9 9 6 6"/>
-                        <path d="m15 9-6 6"/>
-                    </svg>
-                    Stop Q&A
-                </button>
+                <!-- AI-101 Button moved to bottom -->
+                <div class="control-group">
+                    <button type="button" id="startScriptedAI" class="scripted-ai-button">
+                        <span class="ai-text">AI</span>-101 by T<span class="ai-text">AI</span>lor Swift
+                    </button>
+                </div>
             </div>
         </div>
     </div>
