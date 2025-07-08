@@ -452,9 +452,11 @@ async function startQnA() {
                     console.log('Q&A session ready for user input');
                 }, 1000);
                 
-                // Hide Q&A button and show end button
+                // Hide Q&A button and show stop Q&A button
                 document.getElementById('qnaButton').style.display = 'none';
-                document.getElementById('endButton').style.display = 'flex';
+                document.getElementById('stopQnaButton').style.display = 'flex';
+                document.getElementById('stopQnaButton').disabled = false;
+                document.getElementById('endButton').style.display = 'none';
                 document.getElementById('startButton').style.display = 'none';
                 document.getElementById('summaryButton').style.display = 'none';
             },
@@ -467,6 +469,8 @@ async function startQnA() {
                 
                 // Reset button visibility
                 document.getElementById('qnaButton').style.display = 'block';
+                document.getElementById('stopQnaButton').style.display = 'none';
+                document.getElementById('stopQnaButton').disabled = true;
                 document.getElementById('endButton').style.display = 'none';
                 document.getElementById('startButton').style.display = 'flex';
                 document.getElementById('summaryButton').style.display = 'none';
@@ -480,6 +484,8 @@ async function startQnA() {
                 
                 // Reset button visibility
                 document.getElementById('qnaButton').style.display = 'block';
+                document.getElementById('stopQnaButton').style.display = 'none';
+                document.getElementById('stopQnaButton').disabled = true;
                 document.getElementById('endButton').style.display = 'none';
                 document.getElementById('startButton').style.display = 'flex';
                 document.getElementById('summaryButton').style.display = 'none';
@@ -500,6 +506,8 @@ async function startQnA() {
         
         // Reset button visibility on error
         document.getElementById('qnaButton').style.display = 'block';
+        document.getElementById('stopQnaButton').style.display = 'none';
+        document.getElementById('stopQnaButton').disabled = true;
         document.getElementById('endButton').style.display = 'none';
         document.getElementById('startButton').style.display = 'flex';
         document.getElementById('summaryButton').style.display = 'none';
@@ -696,6 +704,7 @@ document.getElementById('startButton').addEventListener('click', startConversati
 document.getElementById('endButton').addEventListener('click', endConversation);
 document.getElementById('summaryButton').addEventListener('click', summarizeConversation);
 document.getElementById('qnaButton').addEventListener('click', startQnA);
+document.getElementById('stopQnaButton').addEventListener('click', endConversation);
 document.getElementById('startScriptedAI').addEventListener('click', startScriptedAI);
 document.getElementById('openAvatarButton').addEventListener('click', openAvatarWindow);
 
@@ -706,10 +715,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.getElementById('startButton');
     const endButton = document.getElementById('endButton');
     const summaryButton = document.getElementById('summaryButton');
+    const stopQnaButton = document.getElementById('stopQnaButton');
     
     // Ensure initial button states
     endButton.style.display = 'none';
     summaryButton.style.display = 'none';
+    stopQnaButton.style.display = 'none';
+    stopQnaButton.disabled = true;
     
     // Make checkFormValidity globally accessible
     window.checkFormValidity = checkFormValidity;
