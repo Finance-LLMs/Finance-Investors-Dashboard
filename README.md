@@ -1,5 +1,7 @@
 # Conversational AI Debator
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Finance-LLMs/AI-debate-bot)
+
 ## How to run the code
 
 1. Clone this repo
