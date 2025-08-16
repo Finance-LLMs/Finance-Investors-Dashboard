@@ -1,10 +1,31 @@
-/* Medical Debate Arena Styles */
+/* Modern AI Discussion Interface Styles */
+
+/* CSS Custom Properties for consistent theming */
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    --secondary-gradient: linear-gradient(135deg, #a855f7 0%, #8b5cf6 50%, #7c3aed 100%);
+    --glass-bg: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-hover: rgba(255, 255, 255, 0.18);
+    --text-primary: rgba(255, 255, 255, 0.95);
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --shadow-glow: 0 25px 50px -12px rgba(102, 126, 234, 0.4);
+    --shadow-hover: 0 40px 80px -12px rgba(102, 126, 234, 0.6);
+    --border-radius-sm: 0.75rem;
+    --border-radius-md: 1.25rem;
+    --border-radius-lg: 2rem;
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 60%, #a855f7 90%);
+    background-size: 400% 400%;
     background-attachment: fixed;
+    animation: gradientShift 15s ease infinite;
     height: 150vh;
     color: #1a202c;
     position: relative;
@@ -12,6 +33,12 @@ body {
     transform: scale(1.25);
     transform-origin: center;
     padding-top: 0vh;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* Responsive scaling for different screen sizes */
@@ -63,15 +90,39 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    animation: float 20s infinite linear;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    animation: float 25s infinite linear;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Add floating orbs for extra visual appeal */
+body::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+    animation: rotate 30s infinite linear;
     pointer-events: none;
     z-index: 1;
 }
 
 @keyframes float {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(-60px); }
+    0% { transform: translateY(0px) translateX(0px); }
+    25% { transform: translateY(-20px) translateX(10px); }
+    50% { transform: translateY(-40px) translateX(-5px); }
+    75% { transform: translateY(-20px) translateX(-10px); }
+    100% { transform: translateY(-60px) translateX(0px); }
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Debate Container */
@@ -180,16 +231,19 @@ body::before {
     position: fixed;
     top: 1rem;
     right: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 2rem;
     font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 0.025em;
+    font-weight: 700;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     z-index: 50;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 8px 25px -5px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* Enhanced responsive design for status indicators */
@@ -251,22 +305,31 @@ body::before {
 }
 
 #connectionStatus {
-    background-color: #dc2626;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
     color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 #connectionStatus.connected {
-    background-color: #059669;
+    background: linear-gradient(135deg, #059669, #047857);
 }
 
 #speakingStatus {
-    top: 3.5rem;
-    background-color: #6b7280;
+    top: 4rem;
+    background: linear-gradient(135deg, #6b7280, #4b5563);
     color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 #speakingStatus.speaking {
-    background-color: #667eea;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
 .hidden {
@@ -324,63 +387,111 @@ body::before {
 
 /* Control Card */
 .control-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 1.5rem;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(30px);
+    border-radius: 2rem;
     box-shadow: 
-        0 25px 50px -12px rgba(102, 126, 234, 0.25), 
-        0 0 0 1px rgba(255, 255, 255, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    padding: 1.5rem;
+        0 25px 50px -12px rgba(102, 126, 234, 0.4), 
+        0 0 0 1px rgba(255, 255, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.control-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transition: all 0.6s;
+}
+
+.control-card:hover::before {
+    left: 100%;
 }
 
 .control-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.3);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 
+        0 40px 80px -12px rgba(102, 126, 234, 0.6), 
+        0 0 0 1px rgba(255, 255, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.18);
 }
 
 .card-header {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid #f3f4f6;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .header-icon {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     color: white;
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: 1rem;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 1rem;
-    box-shadow: 0 8px 25px -5px rgba(102, 126, 234, 0.4);
-    transition: all 0.3s ease;
+    margin-right: 1.5rem;
+    box-shadow: 
+        0 12px 30px -5px rgba(102, 126, 234, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    border-radius: inherit;
 }
 
 .header-icon:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 35px -5px rgba(102, 126, 234, 0.6);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 
+        0 20px 40px -5px rgba(102, 126, 234, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .header-text h2 {
     margin: 0;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #1f2937;
+    font-size: 1.75rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header-text p {
-    margin: 0.25rem 0 0 0;
-    font-size: 1rem;
-    color: #6b7280;
+    margin: 0.5rem 0 0 0;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
 }
 
 /* Form Controls */
@@ -398,9 +509,11 @@ body::before {
 }
 
 .control-group label {
-    font-weight: 600;
-    color: #374151;
-    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.5rem;
 }
 
 .control-select {
@@ -489,24 +602,34 @@ body::before {
 
 .record-button {
     width: 100%;
-    padding: 1.25rem 1.5rem;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-size: 200% 200%;
     color: white;
     border: none;
-    border-radius: 0.75rem;
-    font-weight: 600;
-    font-size: 1rem;
+    border-radius: 1rem;
+    font-weight: 700;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    box-shadow: 0 8px 25px -5px rgba(102, 126, 234, 0.4);
+    gap: 0.75rem;
+    box-shadow: 
+        0 15px 35px -5px rgba(102, 126, 234, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     position: relative;
     overflow: hidden;
     transform: translateY(0);
     will-change: transform, box-shadow;
+    animation: gradientAnimation 3s ease infinite;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* Enhanced responsive design for buttons */
@@ -557,8 +680,8 @@ body::before {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
 }
 
 .record-button:hover::before {
@@ -566,27 +689,35 @@ body::before {
 }
 
 .record-button:hover:not(:disabled) {
-    background: linear-gradient(135deg, #4a5568, #2d3748);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 25px 50px -12px rgba(102, 126, 234, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    animation-duration: 2s;
 }
 
 .record-button:active {
-    transform: translateY(0) scale(0.98);
+    transform: translateY(-1px) scale(0.98);
 }
 
 .record-button:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
     transform: none;
+    animation: none;
+    background: linear-gradient(135deg, #9ca3af, #6b7280);
 }
 
 .stop-button {
-    background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%) !important;
+    background-size: 200% 200% !important;
 }
 
 .stop-button:hover:not(:disabled) {
-    background: linear-gradient(135deg, #b91c1c, #991b1b) !important;
+    background: linear-gradient(135deg, #b91c1c 0%, #991b1b 50%, #7f1d1d 100%) !important;
+    box-shadow: 
+        0 25px 50px -12px rgba(220, 38, 38, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
 .summary-button {
@@ -629,26 +760,50 @@ body::before {
 
 /* Avatar Card */
 .avatar-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 1.5rem;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(30px);
+    border-radius: 2rem;
     box-shadow: 
-        0 25px 50px -12px rgba(118, 75, 162, 0.25), 
-        0 0 0 1px rgba(255, 255, 255, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    padding: 1.5rem;
+        0 25px 50px -12px rgba(118, 75, 162, 0.4), 
+        0 0 0 1px rgba(255, 255, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    padding: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.avatar-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transition: all 0.6s;
+}
+
+.avatar-card:hover::before {
+    left: 100%;
 }
 
 .avatar-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.3);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 
+        0 40px 80px -12px rgba(118, 75, 162, 0.6), 
+        0 0 0 1px rgba(255, 255, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.18);
 }
 
 .avatar-wrapper {
@@ -1066,36 +1221,58 @@ body::before {
 .opponent-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
+    gap: 1rem;
+    margin-top: 1rem;
 }
 
 .opponent-button {
-    padding: 1rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 0.75rem;
-    background-color: white;
+    padding: 1.25rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: left;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.opponent-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.opponent-button:hover::before {
+    opacity: 1;
 }
 
 .opponent-button:hover {
-    border-color: #667eea;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px -5px rgba(102, 126, 234, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 35px -5px rgba(102, 126, 234, 0.4);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .opponent-button.selected {
-    border-color: #667eea;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    border-color: rgba(255, 255, 255, 0.8);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+    box-shadow: 
+        0 0 0 3px rgba(255, 255, 255, 0.3),
+        0 15px 35px -5px rgba(102, 126, 234, 0.5);
+    transform: translateY(-2px);
 }
 
 .opponent-button:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
     transform: none;
 }
@@ -1103,19 +1280,30 @@ body::before {
 .opponent-info {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
 }
 
 .opponent-name {
-    font-weight: 600;
-    color: #1f2937;
-    font-size: 0.95rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .opponent-desc {
-    font-size: 0.8rem;
-    color: #6b7280;
-    line-height: 1.2;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.3;
+    font-weight: 500;
+}
+
+/* AI text styling for opponent names */
+.ai-text {
+    color: #f093fb;
+    font-weight: 800;
+    text-shadow: 0 0 10px rgba(240, 147, 251, 0.3);
 }
 
 /* Mobile responsiveness for opponent buttons */
