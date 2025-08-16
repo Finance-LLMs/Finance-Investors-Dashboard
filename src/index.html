@@ -3,135 +3,653 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Debater - Choose Your Interface</title>
-    <meta name="description" content="Engage in medical debates with AI using ElevenLabs ConvAI" />
+    <title>AI-Discussion</title>
+    <meta name="description" content="Engage in discussions with AI chatbots" />
     <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/avatar.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .landing-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            position: relative;
-            z-index: 10;
-            height: 100vh;
+        body {
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 25%, #45B7D1 50%, #96CEB4 75%, #FFEAA7 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .debate-container {
+            min-height: 100vh;
+            padding: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .landing-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 2rem;
-            padding: 3rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            text-align: center;
-            color: white;
-        }
-        .landing-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #ffffff, #f0f9ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .landing-description {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        .interface-buttons {
+
+        .debate-interface {
             display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 2rem;
+            height: auto;
+            max-height: 600px;
+            gap: 8px;
+            align-items: stretch;
         }
-        .interface-button {
-            padding: 1.5rem 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            font-size: 1.1rem;
-            font-weight: 600;
+
+        .control-card {
+            flex: 0 0 280px;
+            max-width: 280px;
+            min-width: 260px;
+            height: 500px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.25), rgba(78, 205, 196, 0.25));
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2), inset 0 2px 8px rgba(255, 255, 255, 0.3);
+            overflow-y: auto;
+        }
+
+        .avatar-card {
+            flex: 1;
+            height: 500px;
+            background: linear-gradient(135deg, rgba(69, 183, 209, 0.25), rgba(150, 206, 180, 0.25));
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(69, 183, 209, 0.2), inset 0 2px 8px rgba(255, 255, 255, 0.3);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
-            min-width: 200px;
+            justify-content: center;
         }
-        .interface-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, rgba(255, 107, 107, 0.3), rgba(255, 230, 109, 0.3));
+            border-radius: 8px;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        .interface-icon {
-            width: 48px;
-            height: 48px;
+
+        .header-icon {
+            background: linear-gradient(135deg, rgba(255, 230, 109, 0.4), rgba(255, 107, 107, 0.4));
+            padding: 4px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
+
+        .header-icon svg {
+            color: #FFE66D;
+            width: 20px;
+            height: 20px;
+            filter: drop-shadow(0 2px 4px rgba(255, 230, 109, 0.5));
+        }
+
+        .header-text h2 {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 2px 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-text p {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+            font-size: 0.7rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-controls {
+            margin-bottom: 12px;
+        }
+
+        .control-group {
+            margin-bottom: 10px;
+        }
+
+        .control-group label {
+            display: block;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 0.8rem;
+        }
+
+        .control-select {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(255, 230, 109, 0.2), rgba(78, 205, 196, 0.2));
+            color: white;
+            font-size: 0.8rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.1);
+        }
+
+        .control-select option {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+        }
+
+        .control-select:focus {
+            outline: none;
+            border-color: rgba(255, 230, 109, 0.8);
+            background: linear-gradient(135deg, rgba(255, 230, 109, 0.3), rgba(78, 205, 196, 0.3));
+            box-shadow: 0 0 15px rgba(255, 230, 109, 0.4);
+        }
+
+        .opponent-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .opponent-button {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(78, 205, 196, 0.3));
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+        }
+
+        .opponent-button:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.5), rgba(78, 205, 196, 0.5));
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .opponent-button.selected {
+            background: linear-gradient(135deg, rgba(150, 206, 180, 0.6), rgba(69, 183, 209, 0.6));
+            border-color: rgba(78, 205, 196, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .opponent-name {
+            color: white;
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-bottom: 2px;
+            text-align: center;
+        }
+
+        .opponent-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.65rem;
+            text-align: center;
+        }
+
+        .ai-text {
+            color: #FF6B6B;
+            font-weight: 800;
+        }
+
+        .button-row, .recording-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .record-button, .qna-button, #startScriptedAI {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        #startScriptedAI, .qna-button {
+            background: linear-gradient(135deg, #4ECDC4, #44A08D);
+            box-shadow: 0 10px 20px rgba(78, 205, 196, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        #startScriptedAI:hover, .qna-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(78, 205, 196, 0.6);
+            background: linear-gradient(135deg, #5FDDD6, #55B09E);
+        }
+
+        .record-button {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .record-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.6);
+            background: linear-gradient(135deg, #FF7B7B, #FF9E63);
+        }
+
+        .stop-button {
+            background: linear-gradient(135deg, #FF4757, #FF3742) !important;
+            box-shadow: 0 10px 20px rgba(255, 71, 87, 0.4) !important;
+        }
+
+        .summary-button {
+            background: linear-gradient(135deg, #9C88FF, #6C5CE7) !important;
+            box-shadow: 0 10px 20px rgba(156, 136, 255, 0.4) !important;
+        }
+
+        .record-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .avatar-wrapper {
+            width: 100%;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .no-agent-message {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .celebrity-avatar-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .celebrity-video {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 107, 107, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .speaking-indicator {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 4px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(255, 230, 109, 0.9));
+            padding: 8px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .speaking-wave {
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(to top, #FFE66D, #FF6B6B);
+            border-radius: 2px;
+            animation: wave 1.4s ease-in-out infinite;
+            box-shadow: 0 0 8px rgba(255, 230, 109, 0.6);
+        }
+
+        .speaking-wave:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .speaking-wave:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1.5); }
+        }
+
+        #connectionStatus, #speakingStatus {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        #speakingStatus {
+            top: 60px;
+        }
+
+        #connectionStatus.connected {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(16, 185, 129, 0.9));
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        #speakingStatus.speaking {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), rgba(220, 38, 127, 0.9));
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
         @media (max-width: 768px) {
-            .interface-buttons {
+            .debate-container {
+                padding: 6px;
+            }
+            
+            .debate-interface {
                 flex-direction: column;
-                align-items: center;
+                gap: 6px;
             }
-            .landing-title {
-                font-size: 2rem;
+            
+            .control-card, .avatar-card {
+                max-width: 100%;
+                min-width: auto;
+                padding: 10px;
             }
-            .landing-card {
-                padding: 2rem;
+            
+            .opponent-buttons {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+
+            .header-text h2 {
+                font-size: 1rem;
+            }
+
+            .header-text p {
+                font-size: 0.65rem;
+            }
+
+            .opponent-button {
+                padding: 6px;
+            }
+
+            .opponent-name {
+                font-size: 0.7rem;
+            }
+
+            .opponent-desc {
+                font-size: 0.6rem;
+            }
+
+            .record-button, .qna-button, #startScriptedAI {
+                padding: 8px 12px;
+                font-size: 0.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="landing-container">
-        <div class="landing-card">
-            <h1 class="landing-title">Medical Debater</h1>
-            <p class="landing-description">
-                Engage in intelligent medical discussions with AI personalities. 
-                Choose your interface below to get started.
-            </p>
-            
-            <div class="interface-buttons">
-                <a href="/controls.html" class="interface-button">
-                    <svg class="interface-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                        <path d="M9 9h6"/>
-                        <path d="M9 12h6"/>
-                        <path d="M9 15h6"/>
-                    </svg>
-                    Control Panel
-                    <span style="font-size: 0.9rem; opacity: 0.8;">Setup and manage debates</span>
-                </a>
-                
-                <a href="/avatar.html" class="interface-button">
-                    <svg class="interface-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                        <circle cx="12" cy="7" r="4"/>
-                    </svg>
-                    Avatar Display
-                    <span style="font-size: 0.9rem; opacity: 0.8;">View AI personalities</span>
-                </a>
+    <div class="debate-container">
+        <div id="connectionStatus" class="hidden">Disconnected</div>
+        <div id="speakingStatus" class="hidden">Agent Silent</div>
+        
+        <!-- Main Debate Interface -->
+        <div class="debate-interface">
+            <!-- Left Panel: Controls -->
+            <div class="control-card">
+                <div class="card-header">
+                    <div class="header-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                            <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                            <path d="M12 14l-6.16-3.422a12.083 12.083 0 00-.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 006.824-2.998 12.078 12.078 0 00-.665-6.479L12 14z"></path>
+                        </svg>
+                    </div>                    <div class="header-text">
+                        <h2>Medical Debater</h2>
+                        <p>Engage in intelligent medical discussions with AI</p>
+                    </div>
+                </div>
+
+                <div class="form-controls">
+                    <div class="control-group">
+                        <label for="topic">Debate Topic - You will be debating in favor of this topic</label>
+                        <select id="topic" class="control-select">
+                            <option value="">Select a topic</option>
+                            <option value="ai-decisions">Allowing AI to override human decisions in healthcare</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>Choose Your Opponent</label>
+                        <div class="opponent-buttons">
+                            <button type="button" class="opponent-button" data-agent="nelson">
+                                <div class="opponent-info">
+                                    <div class="opponent-name">Nelson M<span class="ai-text">AI</span>ndela</div>
+                                    <div class="opponent-desc">Anti-Apartheid Leader</div>
+                                </div>
+                            </button>
+                            <button type="button" class="opponent-button" data-agent="michelle">
+                                <div class="opponent-info">
+                                    <div class="opponent-name">Barb<span class="ai-text">AI</span>rella</div>
+                                    <div class="opponent-desc">Singaporean Model</div>
+                                </div>
+                            </button>
+                            <button type="button" class="opponent-button" data-agent="taylor">
+                                <div class="opponent-info">
+                                    <div class="opponent-name">T<span class="ai-text">AI</span>lor Swift</div>
+                                    <div class="opponent-desc">Pop Icon</div>
+                                </div>
+                            </button>
+                            <!-- <button type="button" class="opponent-button" data-opponent="singapore_uncle">
+                                <div class="opponent-info">
+                                    <div class="opponent-name">Kopit<span class="ai-text">AI</span>m Uncle</div>
+                                    <div class="opponent-desc">Local Coffee Shop Owner</div>
+                                </div>
+                            </button> -->
+                        </div>
+                    </div>
+                    
+                    <div class="button-row">
+                        <button id="startScriptedAI">Start Scripted AI Conversation</button>
+                    </div>
+
+                    <div class="control-group">
+                        <button type="button" id="qnaButton" class="qna-button">
+                            Q&A with Nelson M<span class="ai-text">AI</span>ndela
+                        </button>
+                    </div>
+                </div>                <div class="recording-section">                    <button id="startButton" class="record-button" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m12 8-9.04 4.9a2.78 2.78 0 0 0 0 4.9L12 24l9.04-4.9a2.78 2.78 0 0 0 0-4.9L12 8Z"/>
+                        </svg>
+                        Start Debate
+                    </button>                    <button id="endButton" class="record-button stop-button" disabled style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="m9 9 6 6"/>
+                            <path d="m15 9-6 6"/>
+                        </svg>
+                        Stop Debate
+                    </button>
+                    <button id="summaryButton" class="record-button summary-button" disabled style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                        Summarize Debate
+                    </button>
+                </div>
             </div>
-            
-            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-                <p style="font-size: 0.9rem; opacity: 0.7;">
-                    <strong>Recommended:</strong> Open both windows side by side for the best experience.
-                    <br>
-                    The Control Panel manages the conversation while the Avatar Display shows the AI personality.
-                </p>
+
+            <!-- Right Panel: Avatar -->
+            <div class="avatar-card">
+                <div id="avatarContainer" class="avatar-wrapper">
+                    <div class="no-agent-message">
+                        Select an AI agent to see their avatar
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    
+    <script src="/static/main-app-bundle.js"></script>
+    <script>
+        let selectedAgent = null;
+        let currentTopic = '';
+        
+        // Agent selection functionality
+        document.querySelectorAll('.opponent-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove selection from all buttons
+                document.querySelectorAll('.opponent-button').forEach(b => b.classList.remove('selected'));
+                
+                // Add selection to clicked button
+                this.classList.add('selected');
+                
+                // Store selected agent
+                selectedAgent = this.dataset.agent;
+                
+                // Enable buttons
+                updateButtonStates();
+                
+                // Show avatar
+                showAgentAvatar(selectedAgent);
+            });
+        });
+        
+        // Topic selection functionality
+        document.getElementById('topic').addEventListener('change', function() {
+            currentTopic = this.value;
+            updateButtonStates();
+        });
+        
+        function updateButtonStates() {
+            const startButton = document.getElementById('startButton');
+            const hasAgent = selectedAgent !== null;
+            const hasTopic = currentTopic.length > 0;
+            
+            if (startButton) {
+                startButton.disabled = !hasAgent || !hasTopic;
+            }
+        }
+        
+        function showAgentAvatar(agent) {
+            const container = document.getElementById('avatarContainer');
+            
+            // Create avatar based on agent
+            if (agent === 'nelson') {
+                container.innerHTML = `
+                    <div class="celebrity-avatar-container">
+                        <video 
+                            src="/static/videos/nelson.mp4" 
+                            class="celebrity-video"
+                            muted
+                            loop
+                            playsinline
+                            preload="auto"
+                            id="avatarVideo"
+                            style="display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 15px;"
+                        ></video>
+                        <div class="speaking-indicator" id="speakingIndicator" style="display: none;">
+                            <div class="speaking-wave"></div>
+                            <div class="speaking-wave"></div>
+                            <div class="speaking-wave"></div>
+                        </div>
+                    </div>
+                `;
+            } else if (agent === 'michelle') {
+                container.innerHTML = `
+                    <div class="celebrity-avatar-container">
+                        <video 
+                            src="/static/videos/barbarella.mp4" 
+                            class="celebrity-video"
+                            muted
+                            loop
+                            playsinline
+                            preload="auto"
+                            id="avatarVideo"
+                            style="display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 15px;"
+                        ></video>
+                        <div class="speaking-indicator" id="speakingIndicator" style="display: none;">
+                            <div class="speaking-wave"></div>
+                            <div class="speaking-wave"></div>
+                            <div class="speaking-wave"></div>
+                        </div>
+                    </div>
+                `;
+            } else if (agent === 'taylor') {
+                container.innerHTML = `
+                    <div class="celebrity-avatar-container">
+                        <video 
+                            src="/static/videos/taylor.mp4" 
+                            class="celebrity-video"
+                            muted
+                            loop
+                            playsinline
+                            preload="auto"
+                            id="avatarVideo"
+                            style="display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 15px;"
+                        ></video>
+                        <div class="speaking-indicator" id="speakingIndicator" style="display: none;">
+                            <div class="speaking-wave"></div>
+                            <div class="speaking-wave"></div>
+                            <div class="speaking-wave"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Setup video events
+            const video = document.getElementById('avatarVideo');
+            if (video) {
+                video.addEventListener('loadeddata', () => {
+                    console.log('Avatar video loaded successfully');
+                });
+                
+                video.addEventListener('error', (e) => {
+                    console.error('Avatar video error:', e);
+                });
+            }
+        }
+        
+        // Make functions available globally for the main app bundle
+        window.selectedAgent = () => selectedAgent;
+        window.currentTopic = () => currentTopic;
+        window.updateButtonStates = updateButtonStates;
+        window.showAgentAvatar = showAgentAvatar;
+    </script>
 </body>
-</html>
+html>

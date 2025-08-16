@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Debate Arena - Advanced Controls</title>
+    <meta name="description" content="Advanced control panel for AI debates" />
+    <link rel="stylesheet" href="/static/controls.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .back-to-main {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .back-to-main:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <a href="/index.html" class="back-to-main">← Back to Main</a>
+    
+    <div class="controls-container">
+        <div id="connectionStatus" class="hidden">Disconnected</div>
+        <div id="speakingStatus" class="hidden">Agent Silent</div>
+        
+        <!-- Control Panel -->
+        <div class="control-card">
+            <div class="card-header">
+                <div class="header-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                        <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                        <path d="M12 14l-6.16-3.422a12.083 12.083 0 00-.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 006.824-2.998 12.078 12.078 0 00-.665-6.479L12 14z"></path>
+                    </svg>
+                </div>
+                <div class="header-text">
+                    <h2>AI Debate Arena</h2>
+                    <p>Advanced Control Panel - Professional debate management</p>
+                </div>
+            </div>
+
+            <div class="form-controls">
+                <div class="control-group">
+                    <label for="topic">Debate Topic - You will be debating in favor of this topic</label>
+                    <select id="topic" class="control-select">
+                        <option value="">Select a topic</option>
+                        <option value="ai-decisions">Allowing AI to override human decisions in healthcare</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Choose Your Opponent</label>
+                    <div class="opponent-buttons">
+                        <button type="button" class="opponent-button" data-opponent="nelson">
+                            <div class="opponent-info">
+                                <div class="opponent-name">Nelson M<span class="ai-text">AI</span>ndela</div>
+                                <div class="opponent-desc">Anti-Apartheid Leader</div>
+                            </div>
+                        </button>
+                        <button type="button" class="opponent-button" data-opponent="michelle">
+                            <div class="opponent-info">
+                                <div class="opponent-name">Barb<span class="ai-text">AI</span>rella</div>
+                                <div class="opponent-desc">Singaporean Model</div>
+                            </div>
+                        </button>
+                        <button type="button" class="opponent-button" data-opponent="taylor">
+                            <div class="opponent-info">
+                                <div class="opponent-name">T<span class="ai-text">AI</span>lor Swift</div>
+                                <div class="opponent-desc">Pop Icon</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Start/Stop Debate Buttons Section -->
+                <div class="recording-section">
+                    <button id="startButton" class="record-button" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m12 8-9.04 4.9a2.78 2.78 0 0 0 0 4.9L12 24l9.04-4.9a2.78 2.78 0 0 0 0-4.9L12 8Z"/>
+                        </svg>
+                        Start Debate
+                    </button>
+                    <button id="endButton" class="record-button stop-button" disabled style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="m9 9 6 6"/>
+                            <path d="m15 9-6 6"/>
+                        </svg>
+                        Stop Debate
+                    </button>
+                    <button id="summaryButton" class="record-button summary-button" disabled style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                        Summarize Debate
+                    </button>
+                    <button id="stopQnaButton" class="record-button stop-button" disabled style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="m9 9 6 6"/>
+                            <path d="m15 9-6 6"/>
+                        </svg>
+                        Stop Q&A
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <button type="button" id="qnaButton" class="qna-button">
+                        Q&A with Nelson M<span class="ai-text">AI</span>ndela
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <button type="button" id="openAvatarButton" class="open-avatar-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                        </svg>
+                        Open Avatar Window
+                    </button>
+                </div>
+
+                <!-- AI-101 Button moved to bottom -->
+                <div class="control-group">
+                    <button type="button" id="startScriptedAI" class="scripted-ai-button">
+                        <span class="ai-text">AI</span>-101 by T<span class="ai-text">AI</span>lor Swift
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/controls-bundle.js"></script>
+</body>
+</html>
