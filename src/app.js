@@ -1,6 +1,10 @@
 // --- src/app.js ---
 import { Conversation } from '@elevenlabs/client';
 
+// Global variables for Medical Debater interface
+let selectedAgent = '';
+let currentTopic = '';
+
 let conversation = null;
 let mouthAnimationInterval = null;
 let currentMouthState = 'M130,170 Q150,175 170,170'; // closed mouth
@@ -372,6 +376,9 @@ function selectOpponent(opponentValue) {
     if (selectedButton) {
         selectedButton.classList.add('selected');
     }
+    
+    // Update global selectedAgent variable
+    selectedAgent = opponentValue;
     
     console.log(`Selected opponent: ${opponentValue}`);
     
@@ -1296,6 +1303,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkFormValidity() {
         const topicSelected = topicSelect.value !== '';
         const opponentSelected = getSelectedOpponent() !== '';
+        
+        // Update global currentTopic variable
+        currentTopic = topicSelect.value;
+        
         startButton.disabled = !(topicSelected && opponentSelected);
     }
     
@@ -1312,6 +1323,17 @@ document.addEventListener('DOMContentLoaded', () => {
             selectOpponent(opponentValue);
         });
     });
+    
+    // Add event listeners for conversation control buttons
+    startButton.addEventListener('click', startConversation);
+    endButton.addEventListener('click', endConversation);
+    summaryButton.addEventListener('click', summarizeConversation);
+    
+    // Add event listener for Q&A button
+    const qnaButton = document.getElementById('qnaButton');
+    if (qnaButton) {
+        qnaButton.addEventListener('click', startQnA);
+    }
     
     // Add event listener for scripted AI button
     const scriptedAIButton = document.getElementById('startScriptedAI');

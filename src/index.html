@@ -452,19 +452,19 @@
                     <div class="control-group">
                         <label>Choose Your Opponent</label>
                         <div class="opponent-buttons">
-                            <button type="button" class="opponent-button" data-agent="nelson">
+                            <button type="button" class="opponent-button" data-opponent="nelson">
                                 <div class="opponent-info">
                                     <div class="opponent-name">Nelson M<span class="ai-text">AI</span>ndela</div>
                                     <div class="opponent-desc">Anti-Apartheid Leader</div>
                                 </div>
                             </button>
-                            <button type="button" class="opponent-button" data-agent="michelle">
+                            <button type="button" class="opponent-button" data-opponent="michelle">
                                 <div class="opponent-info">
                                     <div class="opponent-name">Barb<span class="ai-text">AI</span>rella</div>
                                     <div class="opponent-desc">Singaporean Model</div>
                                 </div>
                             </button>
-                            <button type="button" class="opponent-button" data-agent="taylor">
+                            <button type="button" class="opponent-button" data-opponent="taylor">
                                 <div class="opponent-info">
                                     <div class="opponent-name">T<span class="ai-text">AI</span>lor Swift</div>
                                     <div class="opponent-desc">Pop Icon</div>
@@ -517,7 +517,7 @@
 
             <!-- Right Panel: Avatar -->
             <div class="avatar-card">
-                <div id="avatarContainer" class="avatar-wrapper">
+                <div id="animatedAvatar" class="avatar-wrapper">
                     <div class="no-agent-message">
                         Select an AI agent to see their avatar
                     </div>
@@ -526,7 +526,7 @@
         </div>
     </div>
     
-    <script src="/static/main-app-bundle.js"></script>
+            <script src="/static/app-bundle.js"></script>
     <script>
         let selectedAgent = null;
         let currentTopic = '';

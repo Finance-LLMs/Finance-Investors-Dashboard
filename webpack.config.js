@@ -4,7 +4,6 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
     entry: {
         app: './src/app.js',
-        'main-app': './src/main-app.js',
         controls: './src/controls.js',
         avatar: './src/avatar.js'
     },
