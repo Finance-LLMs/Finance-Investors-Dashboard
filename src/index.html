@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 25%, #45B7D1 50%, #96CEB4 75%, #FFEAA7 100%);
+            background: linear-gradient(135deg, #E53E3E 0%, #000000 25%, #C53030 50%, #1A1A1A 75%, #E53E3E 100%);
             background-size: 400% 400%;
             animation: gradientShift 10s ease infinite;
             min-height: 100vh;
@@ -49,24 +49,24 @@
             max-width: 280px;
             min-width: 260px;
             height: 500px;
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.25), rgba(78, 205, 196, 0.25));
+            background: linear-gradient(135deg, rgba(229, 62, 62, 0.25), rgba(0, 0, 0, 0.4));
             backdrop-filter: blur(20px);
             border-radius: 12px;
             padding: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2), inset 0 2px 8px rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(229, 62, 62, 0.6);
+            box-shadow: 0 20px 40px rgba(229, 62, 62, 0.3), inset 0 2px 8px rgba(255, 255, 255, 0.1);
             overflow-y: auto;
         }
 
         .avatar-card {
             flex: 1;
             height: 500px;
-            background: linear-gradient(135deg, rgba(69, 183, 209, 0.25), rgba(150, 206, 180, 0.25));
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(229, 62, 62, 0.25));
             backdrop-filter: blur(20px);
             border-radius: 12px;
             padding: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 20px 40px rgba(69, 183, 209, 0.2), inset 0 2px 8px rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(229, 62, 62, 0.6);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 2px 8px rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -78,25 +78,25 @@
             align-items: center;
             gap: 8px;
             margin-bottom: 12px;
-            background: linear-gradient(90deg, rgba(255, 107, 107, 0.3), rgba(255, 230, 109, 0.3));
+            background: linear-gradient(90deg, rgba(229, 62, 62, 0.4), rgba(0, 0, 0, 0.4));
             border-radius: 8px;
             padding: 8px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(229, 62, 62, 0.5);
         }
 
         .header-icon {
-            background: linear-gradient(135deg, rgba(255, 230, 109, 0.4), rgba(255, 107, 107, 0.4));
+            background: linear-gradient(135deg, rgba(229, 62, 62, 0.6), rgba(0, 0, 0, 0.6));
             padding: 4px;
             border-radius: 8px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(229, 62, 62, 0.5);
         }
 
         .header-icon svg {
-            color: #FFE66D;
+            color: #FFFFFF;
             width: 20px;
             height: 20px;
-            filter: drop-shadow(0 2px 4px rgba(255, 230, 109, 0.5));
+            filter: drop-shadow(0 2px 4px rgba(229, 62, 62, 0.7));
         }
 
         .header-text h2 {
@@ -133,14 +133,14 @@
         .control-select {
             width: 100%;
             padding: 8px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(229, 62, 62, 0.6);
             border-radius: 8px;
-            background: linear-gradient(135deg, rgba(255, 230, 109, 0.2), rgba(78, 205, 196, 0.2));
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(229, 62, 62, 0.2));
             color: white;
             font-size: 0.8rem;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
-            box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .control-select option {
@@ -150,9 +150,9 @@
 
         .control-select:focus {
             outline: none;
-            border-color: rgba(255, 230, 109, 0.8);
-            background: linear-gradient(135deg, rgba(255, 230, 109, 0.3), rgba(78, 205, 196, 0.3));
-            box-shadow: 0 0 15px rgba(255, 230, 109, 0.4);
+            border-color: rgba(229, 62, 62, 0.9);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(229, 62, 62, 0.3));
+            box-shadow: 0 0 15px rgba(229, 62, 62, 0.5);
         }
 
         .opponent-buttons {
@@ -162,27 +162,28 @@
         }
 
         .opponent-button {
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(78, 205, 196, 0.3));
-            border: 2px solid rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, rgba(229, 62, 62, 0.3), rgba(0, 0, 0, 0.4));
+            border: 2px solid rgba(229, 62, 62, 0.5);
             border-radius: 10px;
             padding: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.3);
         }
 
         .opponent-button:hover {
             transform: translateY(-5px);
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.5), rgba(78, 205, 196, 0.5));
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.3);
+            background: linear-gradient(135deg, rgba(229, 62, 62, 0.5), rgba(0, 0, 0, 0.6));
+            border-color: rgba(229, 62, 62, 0.8);
+            box-shadow: 0 15px 30px rgba(229, 62, 62, 0.4);
         }
 
         .opponent-button.selected {
-            background: linear-gradient(135deg, rgba(150, 206, 180, 0.6), rgba(69, 183, 209, 0.6));
-            border-color: rgba(78, 205, 196, 0.8);
+            background: linear-gradient(135deg, rgba(229, 62, 62, 0.7), rgba(0, 0, 0, 0.7));
+            border-color: rgba(229, 62, 62, 1);
             transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(229, 62, 62, 0.5);
         }
 
         .opponent-name {
@@ -200,7 +201,7 @@
         }
 
         .ai-text {
-            color: #FF6B6B;
+            color: #E53E3E;
             font-weight: 800;
         }
 
@@ -227,37 +228,37 @@
         }
 
         #startScriptedAI, .qna-button {
-            background: linear-gradient(135deg, #4ECDC4, #44A08D);
-            box-shadow: 0 10px 20px rgba(78, 205, 196, 0.4);
+            background: linear-gradient(135deg, #E53E3E, #C53030);
+            box-shadow: 0 10px 20px rgba(229, 62, 62, 0.4);
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         #startScriptedAI:hover, .qna-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(78, 205, 196, 0.6);
-            background: linear-gradient(135deg, #5FDDD6, #55B09E);
+            box-shadow: 0 15px 30px rgba(229, 62, 62, 0.6);
+            background: linear-gradient(135deg, #F56565, #E53E3E);
         }
 
         .record-button {
-            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
-            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #E53E3E, #000000);
+            box-shadow: 0 10px 20px rgba(229, 62, 62, 0.4);
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .record-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.6);
-            background: linear-gradient(135deg, #FF7B7B, #FF9E63);
+            box-shadow: 0 15px 30px rgba(229, 62, 62, 0.6);
+            background: linear-gradient(135deg, #F56565, #1A1A1A);
         }
 
         .stop-button {
-            background: linear-gradient(135deg, #FF4757, #FF3742) !important;
-            box-shadow: 0 10px 20px rgba(255, 71, 87, 0.4) !important;
+            background: linear-gradient(135deg, #000000, #E53E3E) !important;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6) !important;
         }
 
         .summary-button {
-            background: linear-gradient(135deg, #9C88FF, #6C5CE7) !important;
-            box-shadow: 0 10px 20px rgba(156, 136, 255, 0.4) !important;
+            background: linear-gradient(135deg, #E53E3E, #000000) !important;
+            box-shadow: 0 10px 20px rgba(229, 62, 62, 0.4) !important;
         }
 
         .record-button:disabled {
@@ -296,8 +297,8 @@
 
         .celebrity-video {
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 107, 107, 0.2);
-            border: 3px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(229, 62, 62, 0.3);
+            border: 3px solid rgba(229, 62, 62, 0.6);
         }
 
         .speaking-indicator {
@@ -307,21 +308,21 @@
             transform: translateX(-50%);
             display: flex;
             gap: 4px;
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(255, 230, 109, 0.9));
+            background: linear-gradient(135deg, rgba(229, 62, 62, 0.9), rgba(0, 0, 0, 0.9));
             padding: 8px 12px;
             border-radius: 20px;
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            border: 2px solid rgba(229, 62, 62, 0.5);
+            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.5);
         }
 
         .speaking-wave {
             width: 4px;
             height: 20px;
-            background: linear-gradient(to top, #FFE66D, #FF6B6B);
+            background: linear-gradient(to top, #FFFFFF, #E53E3E);
             border-radius: 2px;
             animation: wave 1.4s ease-in-out infinite;
-            box-shadow: 0 0 8px rgba(255, 230, 109, 0.6);
+            box-shadow: 0 0 8px rgba(229, 62, 62, 0.7);
         }
 
         .speaking-wave:nth-child(2) {
@@ -355,15 +356,15 @@
         }
 
         #connectionStatus.connected {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(16, 185, 129, 0.9));
-            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+            background: linear-gradient(135deg, rgba(229, 62, 62, 0.9), rgba(0, 0, 0, 0.9));
+            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.5);
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         #speakingStatus.speaking {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), rgba(220, 38, 127, 0.9));
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(229, 62, 62, 0.9));
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(229, 62, 62, 0.5);
         }
 
         .hidden {
