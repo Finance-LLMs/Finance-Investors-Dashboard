@@ -614,7 +614,6 @@ function updateStatus(isConnected) {
 
 function updateSpeakingStatus(mode) {
     const statusElement = document.getElementById('speakingStatus');
-    const summaryButton = document.getElementById('summaryButton');
     
     // Update based on the exact mode string we receive
     const isSpeaking = mode.mode === 'speaking';
@@ -632,11 +631,6 @@ function updateSpeakingStatus(mode) {
         setTimeout(() => {
             startMouthAnimation();
         }, 100);
-        
-        // Disable summary button when agent is speaking
-        if (summaryButton) {
-            summaryButton.disabled = true;
-        }
     } else {
         console.log('Agent is now silent, pausing video');
         
@@ -645,64 +639,21 @@ function updateSpeakingStatus(mode) {
         
         // Also stop local animation
         stopMouthAnimation();
-        
-        // Only enable summary button when:
-        // 1. Agent is done speaking
-        // 2. Button should be visible
-        // 3. We're not in the middle of a summary request
-        if (summaryButton && summaryButton.style.display !== 'none' && !summarizeRequested) {
-            summaryButton.disabled = false;
-        }
-        
-        // If the agent just finished speaking and we requested a summary,
-        // this is likely the end of the summary response
-        if (summarizeRequested) {
-            console.log('Agent finished speaking after summary request');
-            // Reset the summary request state after a brief delay
-            // to ensure any follow-up API calls have completed
-            setTimeout(() => {
-                summarizeRequested = false;
-                
-                // Reset the button if it still exists and should be visible
-                if (summaryButton && summaryButton.style.display !== 'none') {
-                    // Reset button appearance
-                    summaryButton.disabled = false;
-                    summaryButton.classList.remove('loading');
-                    
-                    // Reset button text
-                    summaryButton.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="8" y1="6" x2="21" y2="6"></line>
-                            <line x1="8" y1="12" x2="21" y2="12"></line>
-                            <line x1="8" y1="18" x2="21" y2="18"></line>
-                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
-                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
-                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
-                        </svg>
-                        Summarize Debate
-                    `;
-                    console.log('Summary completed, button reset and re-enabled');
-                }
-            }, 1000); // Wait 1 second before resetting to ensure API operations completed
-        }
     }
     
-    console.log('Speaking status updated:', { mode, isSpeaking, summarizeRequested }); // Debug log
+    console.log('Speaking status updated:', { mode, isSpeaking }); // Debug log
 }
 
 // Function to disable/enable form controls
 function setFormControlsState(disabled) {
-    const topicSelect = document.getElementById('topic');
     const opponentButtons = document.querySelectorAll('.opponent-button');
     
-    topicSelect.disabled = disabled;
     opponentButtons.forEach(button => button.disabled = disabled);
 }
 
 async function startConversation() {
     const startButton = document.getElementById('startButton');
     const endButton = document.getElementById('endButton');
-    const summaryButton = document.getElementById('summaryButton');
     
     try {
         // Disable start button immediately to prevent multiple clicks
@@ -725,9 +676,8 @@ async function startConversation() {
         const userStance = "for";
         const aiStance = "against";
         
-        // Get the actual topic text instead of the value
-        const topicSelect = document.getElementById('topic');
-        const topicText = topicSelect.options[topicSelect.selectedIndex].text;
+        // Use a default topic since we removed topic selection
+        const topicText = "General Discussion";
         
         conversation = await Conversation.startSession({
             signedUrl: signedUrl,
@@ -744,8 +694,6 @@ async function startConversation() {
                 startButton.style.display = 'none';
                 endButton.disabled = false;
                 endButton.style.display = 'flex';
-                summaryButton.disabled = false;
-                summaryButton.style.display = 'flex';
             },            
             onDisconnect: () => {
                 console.log('Disconnected');
@@ -755,9 +703,6 @@ async function startConversation() {
                 startButton.style.display = 'flex';
                 endButton.disabled = true;
                 endButton.style.display = 'none';
-                summaryButton.disabled = true;
-                summaryButton.style.display = 'none';
-                document.getElementById('qnaButton').style.display = 'block';
                 updateSpeakingStatus({ mode: 'listening' }); // Reset to listening mode on disconnect
                 stopMouthAnimation(); // Ensure avatar animation stops
             },
@@ -768,9 +713,6 @@ async function startConversation() {
                 startButton.style.display = 'flex';
                 endButton.disabled = true;
                 endButton.style.display = 'none';
-                summaryButton.disabled = true;
-                summaryButton.style.display = 'none';
-                document.getElementById('qnaButton').style.display = 'block';
                 alert('An error occurred during the conversation.');
             },
             onModeChange: (mode) => {
@@ -1290,31 +1232,24 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(validateVideoElements, 1000);
     }, 500);
     
-    // Enable start button when topic and opponent are selected
-    const topicSelect = document.getElementById('topic');
+    // Enable start button when opponent is selected
     const startButton = document.getElementById('startButton');
     const endButton = document.getElementById('endButton');
-    const summaryButton = document.getElementById('summaryButton');
     
     // Ensure initial button states
     endButton.style.display = 'none';
-    summaryButton.style.display = 'none';
     
     function checkFormValidity() {
-        const topicSelected = topicSelect.value !== '';
         const opponentSelected = getSelectedOpponent() !== '';
         
-        // Update global currentTopic variable
-        currentTopic = topicSelect.value;
+        // Set a default topic since we removed topic selection
+        currentTopic = 'General Discussion';
         
-        startButton.disabled = !(topicSelected && opponentSelected);
+        startButton.disabled = !opponentSelected;
     }
     
     // Make checkFormValidity globally accessible
     window.checkFormValidity = checkFormValidity;
-    
-    // Add event listeners for all form controls
-    topicSelect.addEventListener('change', checkFormValidity);
     
     // Add event listeners for opponent buttons
     document.querySelectorAll('.opponent-button').forEach(button => {
@@ -1327,19 +1262,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add event listeners for conversation control buttons
     startButton.addEventListener('click', startConversation);
     endButton.addEventListener('click', endConversation);
-    summaryButton.addEventListener('click', summarizeConversation);
-    
-    // Add event listener for Q&A button
-    const qnaButton = document.getElementById('qnaButton');
-    if (qnaButton) {
-        qnaButton.addEventListener('click', startQnA);
-    }
-    
-    // Add event listener for scripted AI button
-    const scriptedAIButton = document.getElementById('startScriptedAI');
-    if (scriptedAIButton) {
-        scriptedAIButton.addEventListener('click', startScriptedAI);
-    }
     
     // Initial check
     checkFormValidity();
