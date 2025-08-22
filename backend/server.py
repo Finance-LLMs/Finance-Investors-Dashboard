@@ -28,12 +28,12 @@ async def get_signed_url(opponent: str = None):
     agent_id = os.getenv("AGENT_ID")
     
     # Map opponent to specific agent ID
-    if opponent == 'michelle':
-        agent_id = os.getenv("MICHELLE_AGENT_ID")
-    elif opponent == 'nelson':
-        agent_id = os.getenv("NELSON_AGENT_ID")
-    elif opponent == 'taylor':
-        agent_id = os.getenv("TAYLOR_AGENT_ID")
+    if opponent == 'kedia':
+        agent_id = os.getenv("KEDIA_AGENT_ID")
+    elif opponent == 'rakesh':
+        agent_id = os.getenv("RAKESH_AGENT_ID")
+    elif opponent == 'radhakishan':
+        agent_id = os.getenv("RADHAKISHAN_AGENT_ID")
     elif opponent == 'singapore_uncle':
         agent_id = os.getenv("SINGAPORE_UNCLE_AGENT_ID")
     

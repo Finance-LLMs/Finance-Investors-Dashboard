@@ -401,10 +401,10 @@ async function summarizeConversation() {
     }
 }
 
-// Q&A with Nelson Mandela
+// Q&A with Kedia
 async function startQnA() {
     try {
-        console.log('Starting Q&A with Nelson Mandela...');
+    console.log('Starting Q&A with Kedia...');
         
         // End any existing conversation first
         if (conversation) {
@@ -424,11 +424,11 @@ async function startQnA() {
         // Set form controls state
         setFormControlsState(true);
         
-        // Force select Nelson Mandela
+    // Force select Kedia
         selectOpponent('nelson');
         
-        // Get signed URL for Nelson Mandela Q&A mode
-        const signedUrl = await getSignedUrl('nelson', 'qna');
+    // Get signed URL for Kedia Q&A mode
+    const signedUrl = await getSignedUrl('kedia', 'qna');
         
         console.log('Creating Q&A conversation with signed URL...');
         console.log('Signed URL details:', signedUrl);
@@ -530,12 +530,12 @@ function checkFormValidity() {
 
 // --- CONFIGURATION ---
 const XI_API_KEY_variable = 'your_xi_api_key_here'; // Replace with your actual XI API key
-const TAYLOR_AGENT_ID_variable = 'your_taylor_agent_id_here'; // Replace with your actual Taylor Swift agent ID
+const RADHAKISHAN_AGENT_ID_variable = 'your_radhakishan_agent_id_here'; // Replace with your actual Radhakishan agent ID
 
 // --- SCRIPT LINES ---
 
 const aiLines = [
-    "Hello amazing humans! I am T'AI'lor Swift [pause] – just to be clear, I am NOT Taylor Swift. And I'm certainly NOT here to sing about ex-boyfriends or give you Easter eggs about my next album. ",
+    "Hello amazing humans! I am Radhakishan [pause] – just to be clear, I am NOT Radhakishan Damani. And I'm certainly NOT here to talk about retail or give you stock tips. ",
   
     "Hello Tamsin, yes. My friends over at SIT brought me to CHI today. They told me I have been invited to be a 'Guest Star' at this CHI INNOVATE conference themed 'AI for All, AI for Change'. I heard that this conference strives to be an AI-partnered conference at every point the organisers can, and so, it's only fitting that I give all of you a crash course on AI 101.",
   
@@ -652,11 +652,11 @@ async function waitForUserToStopSpeaking(silenceDuration = 2000, pollInterval = 
 function changeAvatar(name) {
     console.log(`Changing avatar to: ${name}`);
     
-    // Send message to avatar window to change to Taylor Swift
-    sendToAvatar('updateAvatar', { opponent: 'taylor' });
+    // Send message to avatar window to change to Radhakishan
+    sendToAvatar('updateAvatar', { opponent: 'radhakishan' });
     
-    // Also ensure Taylor Swift is selected in the main window
-    selectOpponent('taylor');
+    // Also ensure Radhakishan is selected in the main window
+    selectOpponent('radhakishan');
     
     // Give a moment for the message to be processed
     setTimeout(() => {
@@ -674,21 +674,21 @@ async function startScriptedAI() {
       await new Promise(resolve => setTimeout(resolve, 2000));
     }
     
-    // Step 2: Change avatar to Taylor Swift
+    // Step 2: Change avatar to Radhakishan
     changeAvatar("T'AI'lor Swift");
     
     // Step 3: Start microphone monitoring
     await startMicMonitoring();
 
     // Step 4: Initial greeting
-    await playScriptLine("Good morning everyone, welcome to our AI Eras Tour!", TAYLOR_AGENT_ID_variable);
+    await playScriptLine("Good morning everyone, welcome to our AI Eras Tour!", RADHAKISHAN_AGENT_ID_variable);
 
     // Step 5: Wait for user input to proceed
     await waitForUserToStopSpeaking();
 
     // Step 6: Go through scripted lines
     for (let line of aiLines) {
-      await playScriptLine(line, TAYLOR_AGENT_ID_variable);
+    await playScriptLine(line, RADHAKISHAN_AGENT_ID_variable);
       await waitForUserToStopSpeaking();
     }
 

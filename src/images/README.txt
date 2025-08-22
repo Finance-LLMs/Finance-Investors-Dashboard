@@ -4,8 +4,8 @@ CELEBRITY IMAGES SETUP GUIDE
 Place the following image files in this folder:
 
 1. michelle.jpg - Michelle Chong's photo
-2. nelson.jpg - Nelson Mandela's photo  
-3. taylor.jpg - Taylor Swift's photo
+2. kedia.jpg - Kedia's photo  
+3. radhakishan.jpg - Radhakishan Damani's photo
 4. singapore_uncle.jpg - Singapore Uncle's photo
 
 IMAGE REQUIREMENTS:
@@ -17,9 +17,9 @@ IMAGE REQUIREMENTS:
 EXAMPLE FILE STRUCTURE:
 src/images/
 ├── michelle.jpg
-├── nelson.jpg
+├── kedia.jpg
 ├── singapore_uncle.jpg
-├── taylor.jpg
+├── radhakishan.jpg
 └── README.txt
 
 Once you add the images, they will automatically appear when:

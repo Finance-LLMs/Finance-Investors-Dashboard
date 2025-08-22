@@ -97,17 +97,17 @@ function createAvatarSVG() {
 function createCelebrityAvatar(opponent) {
     // Map for character videos - primary content
     const videoMap = {
-        'nelson': 'nelson.mp4',
-        'michelle': 'barbarella.mp4',
-        'taylor': 'taylor.mp4',
+    'kedia': 'kedia.mp4',
+    'rakesh': 'rakesh.mp4',
+    'radhakishan': 'radhakishan.mp4',
         // 'singapore_uncle': 'singapore_uncle.mp4'
     };
     
     // Fallback image map - only used if video fails completely
     const imageMap = {
-        'michelle': 'michelle.jpg',
-        'nelson': 'nelson.jpg', 
-        'taylor': 'taylor.jpg',
+        'rakesh': 'rakesh.jpg',
+    'kedia': 'kedia.jpg', 
+    'radhakishan': 'radhakishan.jpg',
         'singapore_uncle': 'singapore_uncle.jpg'
     };
     
@@ -219,9 +219,9 @@ function initializeAvatar(opponent = null) {
 function preloadVideos(opponent) {
     // Map for character videos
     const videoMap = {
-        'nelson': 'nelson.mp4',
-        'michelle': 'barbarella.mp4',
-        'taylor': 'taylor.mp4'
+    'kedia': 'kedia.mp4',
+    'rakesh': 'rakesh.mp4',
+    'radhakishan': 'radhakishan.mp4'
     };
     
     const videoSrc = videoMap[opponent];
@@ -505,6 +505,9 @@ document.addEventListener('DOMContentLoaded', () => {
     preloadVideos('nelson');
     preloadVideos('michelle');
     preloadVideos('taylor');
+    preloadVideos('rakesh');
+    preloadVideos('radhakishan');
+    preloadVideos('kedia');
     // preloadVideos('singapore_uncle');
     
     // Initialize avatar with default
