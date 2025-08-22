@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Discussion</title>
-    <meta name="description" content="Engage in discussions with AI chatbots" />
+    <title>Indian Finance Investors Dashboard</title>
+    <meta name="description" content="Engage in discussions with AI Indian finance experts" />
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="/static/avatar.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #E53E3E 0%, #000000 25%, #C53030 50%, #1A1A1A 75%, #E53E3E 100%);
+            background: linear-gradient(135deg, #FF9933 0%, #FFFFFF 25%, #138808 50%, #FFD700 75%, #FF9933 100%);
             background-size: 400% 400%;
             animation: gradientShift 10s ease infinite;
             min-height: 100vh;
@@ -26,6 +26,43 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+        
+        /* Money rain animation */
+        .money-note {
+            position: fixed;
+            top: -50px;
+            z-index: 5; /* Lower z-index to ensure it doesn't overlap critical UI */
+            pointer-events: none;
+            animation: fallAnimation 8s linear forwards; /* Changed to forwards instead of infinite */
+            width: 30px;
+            height: 20px;
+            object-fit: contain;
+            opacity: 0.6;
+        }
+        
+        @keyframes fallAnimation {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            25% {
+                transform: translateY(25vh) rotate(5deg) translateX(5px);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(50vh) rotate(10deg) translateX(-3px);
+                opacity: 0.65;
+            }
+            75% {
+                transform: translateY(75vh) rotate(15deg) translateX(5px);
+                opacity: 0.55;
+            }
+            100% {
+                transform: translateY(100vh) rotate(20deg) translateX(-3px);
+                opacity: 0.3;
+            }
+        }
         }
 
         .debate-container {
@@ -49,24 +86,24 @@
             max-width: 280px;
             min-width: 260px;
             height: 500px;
-            background: linear-gradient(135deg, rgba(229, 62, 62, 0.25), rgba(0, 0, 0, 0.4));
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.25), rgba(255, 215, 0, 0.2));
             backdrop-filter: blur(20px);
             border-radius: 12px;
             padding: 12px;
-            border: 2px solid rgba(229, 62, 62, 0.6);
-            box-shadow: 0 20px 40px rgba(229, 62, 62, 0.3), inset 0 2px 8px rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            box-shadow: 0 20px 40px rgba(255, 153, 51, 0.3), inset 0 2px 8px rgba(255, 255, 255, 0.1);
             overflow-y: auto;
         }
 
         .avatar-card {
             flex: 1;
             height: 500px;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(229, 62, 62, 0.25));
+            background: linear-gradient(135deg, rgba(19, 136, 8, 0.2), rgba(255, 153, 51, 0.25));
             backdrop-filter: blur(20px);
             border-radius: 12px;
             padding: 12px;
-            border: 2px solid rgba(229, 62, 62, 0.6);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 2px 8px rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            box-shadow: 0 20px 40px rgba(19, 136, 8, 0.3), inset 0 2px 8px rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -78,18 +115,18 @@
             align-items: center;
             gap: 8px;
             margin-bottom: 12px;
-            background: linear-gradient(90deg, rgba(229, 62, 62, 0.4), rgba(0, 0, 0, 0.4));
+            background: linear-gradient(90deg, rgba(255, 153, 51, 0.4), rgba(255, 215, 0, 0.4));
             border-radius: 8px;
             padding: 8px 12px;
-            border: 1px solid rgba(229, 62, 62, 0.5);
+            border: 1px solid rgba(255, 215, 0, 0.5);
         }
 
         .header-icon {
-            background: linear-gradient(135deg, rgba(229, 62, 62, 0.6), rgba(0, 0, 0, 0.6));
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.6), rgba(19, 136, 8, 0.6));
             padding: 4px;
             border-radius: 8px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(229, 62, 62, 0.5);
+            border: 1px solid rgba(255, 215, 0, 0.5);
         }
 
         .header-icon svg {
@@ -112,6 +149,24 @@
             margin: 0;
             font-size: 0.7rem;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .finance-header {
+            background: linear-gradient(90deg, rgba(255, 153, 51, 0.7), rgba(255, 215, 0, 0.7));
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 2px solid rgba(255, 215, 0, 0.8);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .finance-header h1 {
+            color: #000;
+            font-size: 1.8rem;
+            margin: 0;
+            font-weight: 700;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.5);
         }
 
         .form-controls {
@@ -162,28 +217,28 @@
         }
 
         .opponent-button {
-            background: linear-gradient(135deg, rgba(229, 62, 62, 0.3), rgba(0, 0, 0, 0.4));
-            border: 2px solid rgba(229, 62, 62, 0.5);
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.3), rgba(255, 215, 0, 0.3));
+            border: 2px solid rgba(255, 215, 0, 0.5);
             border-radius: 10px;
             padding: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
         }
 
         .opponent-button:hover {
             transform: translateY(-5px);
-            background: linear-gradient(135deg, rgba(229, 62, 62, 0.5), rgba(0, 0, 0, 0.6));
-            border-color: rgba(229, 62, 62, 0.8);
-            box-shadow: 0 15px 30px rgba(229, 62, 62, 0.4);
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.5), rgba(255, 215, 0, 0.4));
+            border-color: rgba(255, 215, 0, 0.8);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
         }
 
         .opponent-button.selected {
-            background: linear-gradient(135deg, rgba(229, 62, 62, 0.7), rgba(0, 0, 0, 0.7));
-            border-color: rgba(229, 62, 62, 1);
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.7), rgba(255, 215, 0, 0.7));
+            border-color: rgba(255, 215, 0, 1);
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(229, 62, 62, 0.5);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.5);
         }
 
         .opponent-name {
@@ -201,7 +256,7 @@
         }
 
         .ai-text {
-            color: #E53E3E;
+            color: #FFD700;
             font-weight: 800;
         }
 
@@ -228,37 +283,37 @@
         }
 
         #startScriptedAI, .qna-button {
-            background: linear-gradient(135deg, #E53E3E, #C53030);
-            box-shadow: 0 10px 20px rgba(229, 62, 62, 0.4);
+            background: linear-gradient(135deg, #FF9933, #FFD700);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4);
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         #startScriptedAI:hover, .qna-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(229, 62, 62, 0.6);
-            background: linear-gradient(135deg, #F56565, #E53E3E);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.6);
+            background: linear-gradient(135deg, #FFD700, #FF9933);
         }
 
         .record-button {
-            background: linear-gradient(135deg, #E53E3E, #000000);
-            box-shadow: 0 10px 20px rgba(229, 62, 62, 0.4);
+            background: linear-gradient(135deg, #FF9933, #138808);
+            box-shadow: 0 10px 20px rgba(255, 153, 51, 0.4);
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .record-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(229, 62, 62, 0.6);
-            background: linear-gradient(135deg, #F56565, #1A1A1A);
+            box-shadow: 0 15px 30px rgba(255, 153, 51, 0.6);
+            background: linear-gradient(135deg, #FF9933, #FFD700);
         }
 
         .stop-button {
-            background: linear-gradient(135deg, #000000, #E53E3E) !important;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6) !important;
+            background: linear-gradient(135deg, #138808, #FF9933) !important;
+            box-shadow: 0 10px 20px rgba(19, 136, 8, 0.6) !important;
         }
 
         .summary-button {
-            background: linear-gradient(135deg, #E53E3E, #000000) !important;
-            box-shadow: 0 10px 20px rgba(229, 62, 62, 0.4) !important;
+            background: linear-gradient(135deg, #FF9933, #138808) !important;
+            box-shadow: 0 10px 20px rgba(255, 153, 51, 0.4) !important;
         }
 
         .record-button:disabled {
@@ -297,8 +352,8 @@
 
         .celebrity-video {
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(229, 62, 62, 0.3);
-            border: 3px solid rgba(229, 62, 62, 0.6);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.3);
+            border: 3px solid rgba(255, 215, 0, 0.6);
         }
 
         .speaking-indicator {
@@ -308,21 +363,21 @@
             transform: translateX(-50%);
             display: flex;
             gap: 4px;
-            background: linear-gradient(135deg, rgba(229, 62, 62, 0.9), rgba(0, 0, 0, 0.9));
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.9), rgba(255, 215, 0, 0.9));
             padding: 8px 12px;
             border-radius: 20px;
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(229, 62, 62, 0.5);
-            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.5);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
         }
 
         .speaking-wave {
             width: 4px;
             height: 20px;
-            background: linear-gradient(to top, #FFFFFF, #E53E3E);
+            background: linear-gradient(to top, #FFFFFF, #FF9933);
             border-radius: 2px;
             animation: wave 1.4s ease-in-out infinite;
-            box-shadow: 0 0 8px rgba(229, 62, 62, 0.7);
+            box-shadow: 0 0 8px rgba(255, 153, 51, 0.7);
         }
 
         .speaking-wave:nth-child(2) {
@@ -356,15 +411,15 @@
         }
 
         #connectionStatus.connected {
-            background: linear-gradient(135deg, rgba(229, 62, 62, 0.9), rgba(0, 0, 0, 0.9));
-            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.5);
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.9), rgba(19, 136, 8, 0.9));
+            box-shadow: 0 4px 15px rgba(255, 153, 51, 0.5);
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         #speakingStatus.speaking {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(229, 62, 62, 0.9));
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            border: 2px solid rgba(229, 62, 62, 0.5);
+            background: linear-gradient(135deg, rgba(19, 136, 8, 0.9), rgba(255, 153, 51, 0.9));
+            box-shadow: 0 4px 15px rgba(19, 136, 8, 0.5);
+            border: 2px solid rgba(255, 215, 0, 0.5);
         }
 
         .hidden {
@@ -421,6 +476,9 @@
 </head>
 <body>
     <div class="debate-container">
+        <div class="finance-header">
+            <h1>Indian Finance Investors Dashboard</h1>
+        </div>
         <div id="connectionStatus" class="hidden">Disconnected</div>
         <div id="speakingStatus" class="hidden">Agent Silent</div>
         
@@ -436,31 +494,31 @@
                             <path d="M12 14l-6.16-3.422a12.083 12.083 0 00-.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 006.824-2.998 12.078 12.078 0 00-.665-6.479L12 14z"></path>
                         </svg>
                     </div>                    <div class="header-text">
-                        <h2>AI Discussion</h2>
-                        <p>Have conversations with AI personalities</p>
+                        <h2>Finance Advisors</h2>
+                        <p>Have conversations with AI finance experts</p>
                     </div>
                 </div>
 
                 <div class="form-controls">
                     <div class="control-group">
-                        <label>Choose Your AI Discussion Partner</label>
+                        <label>Choose Your Finance Advisor</label>
                         <div class="opponent-buttons">
                             <button type="button" class="opponent-button" data-opponent="kedia">
                                 <div class="opponent-info">
                                     <div class="opponent-name">K<span class="ai-text">AI</span>dia</div>
-                                    <div class="opponent-desc">Anti-Apartheid Leader</div>
+                                    <div class="opponent-desc">Stock Market Guru</div>
                                 </div>
                             </button>
                             <button type="button" class="opponent-button" data-opponent="rakesh">
                                 <div class="opponent-info">
                                     <div class="opponent-name">R<span class="ai-text">AI</span>kesh</div>
-                                    <div class="opponent-desc">Singaporean Model</div>
+                                    <div class="opponent-desc">Investment Advisor</div>
                                 </div>
                             </button>
                             <button type="button" class="opponent-button" data-opponent="radhakishan">
                                 <div class="opponent-info">
                                     <div class="opponent-name">R<span class="ai-text">AI</span>dhakishan</div>
-                                    <div class="opponent-desc">Pop Icon</div>
+                                    <div class="opponent-desc">Business Tycoon</div>
                                 </div>
                             </button>
                             <!-- <button type="button" class="opponent-button" data-opponent="singapore_uncle">
@@ -475,14 +533,14 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="m12 8-9.04 4.9a2.78 2.78 0 0 0 0 4.9L12 24l9.04-4.9a2.78 2.78 0 0 0 0-4.9L12 8Z"/>
                         </svg>
-                        Start Discussion
+                        Start Financial Consultation
                     </button>                    <button id="endButton" class="record-button stop-button" disabled style="display: none;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"/>
                             <path d="m9 9 6 6"/>
                             <path d="m15 9-6 6"/>
                         </svg>
-                        End Discussion
+                        End Consultation
                     </button>
                 </div>
             </div>
@@ -491,7 +549,7 @@
             <div class="avatar-card">
                 <div id="animatedAvatar" class="avatar-wrapper">
                     <div class="no-agent-message">
-                        Select an AI agent to see their avatar
+                        Select a financial advisor to begin
                     </div>
                 </div>
             </div>
@@ -624,5 +682,89 @@
         window.updateButtonStates = updateButtonStates;
         window.showAgentAvatar = showAgentAvatar;
     </script>
+    
+    <!-- Indian Money Rain Animation -->
+    <script>
+        // Create raining money notes
+        function createMoneyNotes() {
+            const notesCount = 24; // Doubled initial count
+            const notes = [
+                '/static/images/finance/money.png'
+            ];
+            
+            for (let i = 0; i < notesCount; i++) {
+                const note = document.createElement('img');
+                note.className = 'money-note';
+                note.src = notes[Math.floor(Math.random() * notes.length)];
+                
+                // Position only on the sides (0-20% or 80-100% of screen width)
+                let leftPosition;
+                if (Math.random() > 0.5) {
+                    leftPosition = Math.random() * 20; // Left side: 0-20%
+                } else {
+                    leftPosition = Math.random() * 20 + 80; // Right side: 80-100%
+                }
+                note.style.left = leftPosition + 'vw';
+                
+                // Distribute money notes vertically at start
+                note.style.top = (Math.random() * -150 - 50) + 'px';
+                
+                note.style.width = (Math.random() * 15 + 25) + 'px';
+                note.style.height = 'auto';
+                
+                // Vary animation speed for more natural effect
+                const speeds = [4, 5, 6, 7, 8];
+                const randomSpeed = speeds[Math.floor(Math.random() * speeds.length)];
+                note.style.animationDuration = randomSpeed + 's';
+                
+                // Use shorter animation delays for quicker start
+                note.style.animationDelay = (Math.random() * 3) + 's';
+                note.style.filter = 'drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.3))';
+                document.body.appendChild(note);
+            }
+        }
+        
+        // Create money notes on load and add more periodically
+        window.addEventListener('load', () => {
+            createMoneyNotes();
+            
+            // Add new money notes periodically to keep the effect going
+            setInterval(() => {
+                // Create 3 notes at once for increased frequency
+                for (let i = 0; i < 3; i++) {
+                    const note = document.createElement('img');
+                    note.className = 'money-note';
+                    note.src = '/static/images/finance/money.png';
+                    
+                    // Position only on the sides (0-20% or 80-100% of screen width)
+                    let leftPosition;
+                    if (Math.random() > 0.5) {
+                        leftPosition = Math.random() * 20; // Left side: 0-20%
+                    } else {
+                        leftPosition = Math.random() * 20 + 80; // Right side: 80-100%
+                    }
+                    note.style.left = leftPosition + 'vw';
+                    
+                    note.style.width = (Math.random() * 15 + 25) + 'px';
+                    note.style.height = 'auto';
+                    
+                    // Vary animation speed for more natural effect
+                    const speeds = [4, 5, 6, 7, 8];
+                    const randomSpeed = speeds[Math.floor(Math.random() * speeds.length)];
+                    note.style.animationDuration = randomSpeed + 's';
+                    
+                    note.style.filter = 'drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.3))';
+                    document.body.appendChild(note);
+                    
+                    // Remove note after animation completes to avoid memory issues
+                    setTimeout(() => {
+                        if (note && note.parentNode) {
+                            note.parentNode.removeChild(note);
+                        }
+                    }, 10000);
+                }
+            }, 1000); // Reduced interval from 3000ms to 1000ms
+        });
+    </script>
 </body>
-html>
+</html>
