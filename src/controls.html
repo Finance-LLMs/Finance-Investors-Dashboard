@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Debater - Controls</title>
-    <meta name="description" content="Engage in medical debates with AI using ElevenLabs ConvAI - Control Panel" />
+    <title>Indian Finance Investors - Controls</title>
+    <meta name="description" content="Engage in financial discussions with AI Indian finance experts - Control Panel" />
     <link rel="stylesheet" href="/static/controls.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,38 +27,48 @@
                     </svg>
                 </div>
                 <div class="header-text">
-                    <h2>Medical Debater</h2>
-                    <p>Control Panel - Engage in intelligent medical discussions with AI</p>
+                    <h2>Indian Finance Investors Dashboard</h2>
+                    <p>Control Panel - Engage in financial discussions with AI experts</p>
                 </div>
             </div>
 
             <div class="form-controls">
                 <div class="control-group">
-                    <label for="topic">Debate Topic - You will be debating in favor of this topic</label>
+                    <label for="topic">Finance Topic - Select your area of interest</label>
                     <select id="topic" class="control-select">
                         <option value="">Select a topic</option>
-                        <option value="ai-decisions">Allowing AI to override human decisions in healthcare</option>
+                        <option value="stock-investing">Stock market investing strategies</option>
+                        <option value="value-investing">Value investing principles</option>
+                        <option value="mutual-funds">Mutual funds vs direct equity</option>
+                        <option value="retirement">Retirement planning</option>
+                        <option value="real-estate">Real estate investment</option>
                     </select>
                 </div>
                 <div class="control-group">
                     <label>Choose Your Opponent</label>
                     <div class="opponent-buttons">
-                        <button type="button" class="opponent-button" data-opponent="kedia">
+                        <button type="button" class="opponent-button" data-opponent="saurabh">
                             <div class="opponent-info">
-                                <div class="opponent-name">Kedia M<span class="ai-text"></span></div>
-                                <div class="opponent-desc">Anti-Apartheid Leader</div>
+                                <div class="opponent-name">S<span class="ai-text">AI</span>urabh M</div>
+                                <div class="opponent-desc">Value Investor</div>
                             </div>
                         </button>
-                        <button type="button" class="opponent-button" data-opponent="michelle">
+                        <button type="button" class="opponent-button" data-opponent="parag">
                             <div class="opponent-info">
-                                <div class="opponent-name">Rakesh<span class="ai-text"></span></div>
-                                <div class="opponent-desc">Singaporean Model</div>
+                                <div class="opponent-name">P<span class="ai-text">AI</span>rag P</div>
+                                <div class="opponent-desc">Wealth Manager</div>
                             </div>
                         </button>
-                        <button type="button" class="opponent-button" data-opponent="radhakishan">
+                        <button type="button" class="opponent-button" data-opponent="mohnish">
                             <div class="opponent-info">
-                                <div class="opponent-name">Radhakishan<span class="ai-text"></span>lor Swift</div>
-                                <div class="opponent-desc">Pop Icon</div>
+                                <div class="opponent-name">Mohn<span class="ai-text">AI</span>sh P</div>
+                                <div class="opponent-desc">Investment Guru</div>
+                            </div>
+                        </button>
+                        <button type="button" class="opponent-button" data-opponent="aswath">
+                            <div class="opponent-info">
+                                <div class="opponent-name"><span class="ai-text">AI</span>swath D</div>
+                                <div class="opponent-desc">Valuation Expert</div>
                             </div>
                         </button>
                     </div>
@@ -70,7 +80,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="m12 8-9.04 4.9a2.78 2.78 0 0 0 0 4.9L12 24l9.04-4.9a2.78 2.78 0 0 0 0-4.9L12 8Z"/>
                         </svg>
-                        Start Debate
+                        Start Consultation
                     </button>
                     <button id="endButton" class="record-button stop-button" disabled style="display: none;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -78,7 +88,7 @@
                             <path d="m9 9 6 6"/>
                             <path d="m15 9-6 6"/>
                         </svg>
-                        Stop Debate
+                        End Consultation
                     </button>
                     <button id="summaryButton" class="record-button summary-button" disabled style="display: none;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -89,7 +99,7 @@
                             <line x1="3" y1="12" x2="3.01" y2="12"></line>
                             <line x1="3" y1="18" x2="3.01" y2="18"></line>
                         </svg>
-                        Summarize Debate
+                        Summarize Consultation
                     </button>
                     <button id="stopQnaButton" class="record-button stop-button" disabled style="display: none;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

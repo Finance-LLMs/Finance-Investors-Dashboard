@@ -18,19 +18,19 @@ app.get("/api/signed-url", async (req, res) => {
     console.log(`Getting signed URL for opponent: ${opponent}, mode: ${mode}`);
     
     // Map opponent to specific agent ID
-    if (opponent === 'kedia') {
-      agentId = process.env.KEDIA_AGENT_ID;
-    } else if (opponent === 'rakesh') {
+    if (opponent === 'saurabh') {
+      agentId = process.env.SAURABH_AGENT_ID;
+    } else if (opponent === 'parag') {
       // Use different agent ID for Q&A mode vs debate mode
       if (mode === 'qna') {
-        agentId = process.env.RAKESH_QA_AGENT_ID;
+        agentId = process.env.PARAG_QA_AGENT_ID;
       } else {
-        agentId = process.env.RAKESH_AGENT_ID;
+        agentId = process.env.PARAG_AGENT_ID;
       }
-    } else if (opponent === 'radhakishan') {
-      agentId = process.env.RADHAKISHAN_AGENT_ID;
-    } else if (opponent === 'rakesh') {
-      agentId = process.env.RAKESH_AGENT_ID;
+    } else if (opponent === 'mohnish') {
+      agentId = process.env.MOHNISH_AGENT_ID;
+    } else if (opponent === 'aswath') {
+      agentId = process.env.ASWATH_AGENT_ID;
     } else if (opponent === 'singapore_uncle') {
       agentId = process.env.SINGAPORE_UNCLE_AGENT_ID;
     }

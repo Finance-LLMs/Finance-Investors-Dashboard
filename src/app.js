@@ -106,9 +106,10 @@ function createCelebrityAvatar(opponent) {
         'nelson': 'nelson.mp4',
         'michelle': 'barbarella.mp4',
         'taylor': 'taylor.mp4',
-        'rakesh': 'rakesh.mp4',
-        'radhakishan': 'radhakishan.mp4',
-        'kedia': 'kedia.mp4'
+        'parag': 'parag.mp4',
+        'mohnish': 'mohnish.mp4',
+        'saurabh': 'saurabh.mp4',
+        'aswath': 'aswath.mp4'
     };
     
     // Fallback image map - only used if video fails completely
@@ -117,9 +118,10 @@ function createCelebrityAvatar(opponent) {
         'nelson': 'nelson.jpg', 
         'taylor': 'taylor.jpg',
         'singapore_uncle': 'singapore_uncle.jpg',
-        'kedia': 'kedia.jpg',
-        'rakesh': 'rakesh.jpg',
-        'radhakishan': 'radhakishan.jpg'
+        'saurabh': 'saurabh.jpg',
+        'parag': 'parag.jpg',
+        'mohnish': 'mohnish.jpg',
+        'aswath': 'aswath.jpg'
     };
     
     const videoSrc = videoMap[opponent];

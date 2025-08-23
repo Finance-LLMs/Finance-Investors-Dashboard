@@ -63,7 +63,7 @@
                 opacity: 0.3;
             }
         }
-        }
+        
 
         .debate-container {
             min-height: 100vh;
@@ -503,30 +503,30 @@
                     <div class="control-group">
                         <label>Choose Your Finance Advisor</label>
                         <div class="opponent-buttons">
-                            <button type="button" class="opponent-button" data-opponent="kedia">
+                            <button type="button" class="opponent-button" data-opponent="saurabh">
                                 <div class="opponent-info">
-                                    <div class="opponent-name">K<span class="ai-text">AI</span>dia</div>
-                                    <div class="opponent-desc">Stock Market Guru</div>
+                                    <div class="opponent-name">S<span class="ai-text">AI</span>urabh</div>
+                                    <div class="opponent-desc">Value Investor</div>
                                 </div>
                             </button>
-                            <button type="button" class="opponent-button" data-opponent="rakesh">
+                            <button type="button" class="opponent-button" data-opponent="parag">
                                 <div class="opponent-info">
-                                    <div class="opponent-name">R<span class="ai-text">AI</span>kesh</div>
-                                    <div class="opponent-desc">Investment Advisor</div>
+                                    <div class="opponent-name">P<span class="ai-text">AI</span>rag</div>
+                                    <div class="opponent-desc">Wealth Manager</div>
                                 </div>
                             </button>
-                            <button type="button" class="opponent-button" data-opponent="radhakishan">
+                            <button type="button" class="opponent-button" data-opponent="mohnish">
                                 <div class="opponent-info">
-                                    <div class="opponent-name">R<span class="ai-text">AI</span>dhakishan</div>
-                                    <div class="opponent-desc">Business Tycoon</div>
+                                    <div class="opponent-name">Mohn<span class="ai-text">AI</span>sh</div>
+                                    <div class="opponent-desc">Investment Guru</div>
                                 </div>
                             </button>
-                            <!-- <button type="button" class="opponent-button" data-opponent="singapore_uncle">
+                            <button type="button" class="opponent-button" data-opponent="aswath">
                                 <div class="opponent-info">
-                                    <div class="opponent-name">Kopit<span class="ai-text">AI</span>m Uncle</div>
-                                    <div class="opponent-desc">Local Coffee Shop Owner</div>
+                                    <div class="opponent-name"><span class="ai-text">AI</span>swath</div>
+                                    <div class="opponent-desc">Valuation Expert</div>
                                 </div>
-                            </button> -->
+                            </button>
                         </div>
                     </div>
                 </div>                <div class="recording-section">                    <button id="startButton" class="record-button" disabled>
@@ -601,11 +601,11 @@
             const container = document.getElementById('avatarContainer');
             
             // Create avatar based on agent
-            if (agent === 'kedia') {
+            if (agent === 'saurabh') {
                 container.innerHTML = `
                     <div class="celebrity-avatar-container">
                         <video 
-                            src="/static/videos/kedia.mp4" 
+                            src="/static/videos/saurabh.mp4" 
                             class="celebrity-video"
                             muted
                             loop
@@ -621,11 +621,11 @@
                         </div>
                     </div>
                 `;
-            } else if (agent === 'rakesh') {
+            } else if (agent === 'parag') {
                 container.innerHTML = `
                     <div class="celebrity-avatar-container">
                         <video 
-                            src="/static/videos/rakesh.mp4" 
+                            src="/static/videos/parag.mp4" 
                             class="celebrity-video"
                             muted
                             loop
@@ -641,11 +641,31 @@
                         </div>
                     </div>
                 `;
-            } else if (agent === 'radhakishan') {
+            } else if (agent === 'mohnish') {
                 container.innerHTML = `
                     <div class="celebrity-avatar-container">
                         <video 
-                            src="/static/videos/radhakishan.mp4" 
+                            src="/static/videos/mohnish.mp4" 
+                            class="celebrity-video"
+                            muted
+                            loop
+                            playsinline
+                            preload="auto"
+                            id="avatarVideo"
+                            style="display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 15px;"
+                        ></video>
+                        <div class="speaking-indicator" id="speakingIndicator" style="display: none;">
+                            <div class="speaking-wave"></div>
+                            <div class="speaking-wave"></div>
+                            <div class="speaking-wave"></div>
+                        </div>
+                    </div>
+                `;
+            } else if (agent === 'aswath') {
+                container.innerHTML = `
+                    <div class="celebrity-avatar-container">
+                        <video 
+                            src="/static/videos/aswath.mp4" 
                             class="celebrity-video"
                             muted
                             loop
