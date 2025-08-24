@@ -1,28 +1,33 @@
-# AI Debate Bot 🤖💬
+# Finance Investors Dashboard �📈
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Finance-LLMs/AI-debate-bot)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Finance-LLMs/Finance-Investors-Dashboard)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 
-An interactive conversational AI platform that enables users to engage in intelligent debates and Q&A sessions with various AI personas. Built with ElevenLabs Conversational AI SDK, this application features multiple AI debaters with distinct personalities and expertise areas.
+An interactive conversational AI platform that enables users to engage in financial consultations with AI Indian finance experts and investors. Built with ElevenLabs Conversational AI SDK, this application features multiple AI financial advisors with distinct investment philosophies and expertise areas.
 
 ## ✨ Features
 
-- **Multiple AI Personas**: Choose from different AI debaters, each with unique personalities and expertise
-- **Dual Interface Modes**: 
-  - **Avatar Mode**: Visual interface with animated avatars
-  - **Controls Mode**: Clean, text-based interface for focused conversations
-- **Debate & Q&A Modes**: Switch between structured debates and casual question-answer sessions
+- **Indian Finance Experts**: Engage with AI versions of renowned Indian finance personalities and investment gurus
+- **Single Interface Mode**: Clean, professional dashboard interface for financial consultations  
+- **Financial Consultation**: Get personalized investment advice and financial insights
 - **Real-time Voice Conversation**: Powered by ElevenLabs' advanced voice AI technology
-- **Responsive Design**: Modern, glassmorphic UI that works across devices
-- **Professional Grade**: Built for educational, research, and professional use cases
+- **Video Avatars**: High-quality video representations of each finance expert
+- **Animated Money Rain**: Immersive visual experience with Indian-themed money animations
+- **Indian Tricolor Theme**: Glassmorphic UI with Indian flag-inspired gradient backgrounds
+- **Speaking Indicators**: Visual feedback showing when AI experts are responding
+- **Responsive Design**: Works seamlessly across desktop and mobile devices
+- **Professional Grade**: Built for investors, financial advisors, and finance enthusiasts
 
-## 🎭 Available AI Personas
+## 💼 Available Finance Experts
 
-- **Michelle (Barbarella)**: Singaporean model character
-- **Nelson Mandela**: Anti-apartheid leader persona with separate Q&A and debate modes
-- **Taylor Swift**: Pop icon personality
+- **SAIurabh**: Value Investor - AI version focused on value investing principles and long-term wealth creation
+- **PAIrag**: Wealth Manager - Specialized in wealth management, portfolio strategies, and financial planning
+- **MohnAIsh**: Investment Guru - AI representation of disciplined investment philosophy and market insights  
+- **AIswath**: Valuation Expert - Expert in company valuation, financial analysis, and market fundamentals
+
+*Each expert has unique conversation flows and can provide specialized advice in their area of expertise*
 
 ## 🚀 Technology Stack
 
@@ -51,8 +56,8 @@ Before running this application, ensure you have:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/Finance-LLMs/AI-debate-bot.git
-cd AI-debate-bot
+git clone https://github.com/Finance-LLMs/Finance-Investors-Dashboard.git
+cd Finance-Investors-Dashboard
 ```
 
 ### 2. Environment Configuration
@@ -69,11 +74,10 @@ vim .env
 Add the following environment variables:
 ```env
 XI_API_KEY=your_elevenlabs_api_key_here
-AGENT_ID=your_default_agent_id
-MICHELLE_AGENT_ID=michelle_agent_id
-NELSON_AGENT_ID=nelson_debate_agent_id
-NELSON_QA_AGENT_ID=nelson_qa_agent_id
-TAYLOR_AGENT_ID=taylor_agent_id
+SAURABH_AGENT_ID=saurabh_agent_id
+PARAG_AGENT_ID=parag_agent_id
+MOHNISH_AGENT_ID=mohnish_agent_id
+ASWATH_AGENT_ID=aswath_agent_id
 ```
 
 ### 3. Install Dependencies
@@ -113,31 +117,36 @@ http://localhost:3000
 
 ## 🎯 Usage Guide
 
-1. **Choose Your Interface**: Select between Avatar mode (visual) or Controls mode (text-based)
-2. **Select AI Persona**: Pick from available AI debaters based on your topic
-3. **Choose Mode**: Select either Debate mode for structured arguments or Q&A for casual conversation
-4. **Start Conversing**: Click to begin your voice conversation with the AI
+1. **Access the Dashboard**: Open the application to see the Indian Finance Investors Dashboard
+2. **Select Finance Expert**: Choose from available AI financial advisors (Saurabh, Parag, Mohnish, or Aswath)
+3. **Start Consultation**: Click "Start Financial Consultation" to begin your voice conversation
+4. **Financial Discussion**: Ask questions about investments, market analysis, portfolio strategies, or seek financial advice
+5. **End Session**: Click "End Consultation" when finished
 
 ## 🏗️ Project Structure
 
 ```
-AI-debate-bot/
+Finance-Investors-Dashboard/
 ├── backend/
-│   ├── server.js          # Express.js server
+│   ├── server.js          # Express.js server with finance expert routing
 │   └── server.py          # FastAPI alternative server
 ├── src/
-│   ├── index.html         # Main landing page
-│   ├── avatar.html        # Avatar interface
-│   ├── controls.html      # Controls interface
+│   ├── index.html         # Main dashboard interface
 │   ├── app.js            # Core application logic
-│   ├── avatar.js         # Avatar mode functionality
-│   ├── controls.js       # Controls mode functionality
-│   ├── styles.css        # Global styles
-│   ├── avatar.css        # Avatar mode styles
-│   ├── controls.css      # Controls mode styles
-│   └── images/           # Avatar images and assets
+│   ├── styles.css        # Global styles with Indian theme
+│   ├── images/           # Finance expert avatars and assets
+│   │   ├── saurabh.png   # SAIurabh avatar
+│   │   ├── parag.png     # PAIrag avatar  
+│   │   ├── mohnish.png   # MohnAIsh avatar
+│   │   ├── aswath.png    # AIswath avatar
+│   │   └── finance/      # Financial themed assets
+│   └── videos/           # Expert video avatars
+│       ├── saurabh.mp4   # SAIurabh video
+│       ├── parag.mp4     # PAIrag video
+│       ├── mohnish.mp4   # MohnAIsh video
+│       └── aswath.mp4    # AIswath video
 ├── package.json          # Node.js dependencies
-├── requirements.txt      # Python dependencies
+├── requirements.txt      # Python dependencies  
 ├── webpack.config.js     # Webpack configuration
 └── README.md            # This file
 ```
@@ -177,16 +186,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](https://github.com/Finance-LLMs/AI-debate-bot/issues) page
+1. Check the [Issues](https://github.com/Finance-LLMs/Finance-Investors-Dashboard/issues) page
 2. Create a new issue with detailed information
 3. Contact the development team
 
-## 🙏 Acknowledgments
-
-- **ElevenLabs** for providing the Conversational AI SDK
-- **Finance-LLMs** organization for project maintenance
-- All contributors who have helped improve this project
-
 ---
 
-**Built with ❤️ by the Finance-LLMs team**
+**Built with ❤️ by the Finance-LLMs team for the Indian Finance Community**

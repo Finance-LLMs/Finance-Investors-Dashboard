@@ -1,7 +1,7 @@
 {
-  "name": "elevenlabs-conversational-ai-demo",
+  "name": "finance-investors-dashboard",
   "version": "1.0.0",
-  "description": "Simple demo of ElevenLabs Conversational AI SDK",
+  "description": "Interactive AI platform for financial consultations with Indian finance experts",
   "scripts": {
     "start:backend": "node backend/server.js",
     "build": "webpack --mode production",
