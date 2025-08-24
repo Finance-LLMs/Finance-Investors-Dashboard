@@ -21,18 +21,11 @@ app.get("/api/signed-url", async (req, res) => {
     if (opponent === 'saurabh') {
       agentId = process.env.SAURABH_AGENT_ID;
     } else if (opponent === 'parag') {
-      // Use different agent ID for Q&A mode vs debate mode
-      if (mode === 'qna') {
-        agentId = process.env.PARAG_QA_AGENT_ID;
-      } else {
-        agentId = process.env.PARAG_AGENT_ID;
-      }
+      agentId = process.env.PARAG_AGENT_ID;
     } else if (opponent === 'mohnish') {
       agentId = process.env.MOHNISH_AGENT_ID;
     } else if (opponent === 'aswath') {
       agentId = process.env.ASWATH_AGENT_ID;
-    } else if (opponent === 'singapore_uncle') {
-      agentId = process.env.SINGAPORE_UNCLE_AGENT_ID;
     }
     
     console.log(`Using agent ID: ${agentId}`);

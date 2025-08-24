@@ -36,8 +36,6 @@ async def get_signed_url(opponent: str = None):
         agent_id = os.getenv("MOHNISH_AGENT_ID")
     elif opponent == 'aswath':
         agent_id = os.getenv("ASWATH_AGENT_ID")
-    elif opponent == 'singapore_uncle':
-        agent_id = os.getenv("SINGAPORE_UNCLE_AGENT_ID")
     
     xi_api_key = os.getenv("XI_API_KEY")
     
