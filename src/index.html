@@ -13,55 +13,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #FF9933 0%, #FFFFFF 25%, #138808 50%, #FFD700 75%, #FF9933 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 10s ease infinite;
+            background: #1a4d3a;
             min-height: 100vh;
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-        }
-        
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* Money rain animation */
-        .money-note {
-            position: fixed;
-            top: -50px;
-            z-index: 5; /* Lower z-index to ensure it doesn't overlap critical UI */
-            pointer-events: none;
-            animation: fallAnimation 8s linear forwards; /* Changed to forwards instead of infinite */
-            width: 30px;
-            height: 20px;
-            object-fit: contain;
-            opacity: 0.6;
-        }
-        
-        @keyframes fallAnimation {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0.7;
-            }
-            25% {
-                transform: translateY(25vh) rotate(5deg) translateX(5px);
-                opacity: 0.7;
-            }
-            50% {
-                transform: translateY(50vh) rotate(10deg) translateX(-3px);
-                opacity: 0.65;
-            }
-            75% {
-                transform: translateY(75vh) rotate(15deg) translateX(5px);
-                opacity: 0.55;
-            }
-            100% {
-                transform: translateY(100vh) rotate(20deg) translateX(-3px);
-                opacity: 0.3;
-            }
         }
         
 
@@ -832,90 +788,6 @@
         window.currentTopic = () => currentTopic;
         window.updateButtonStates = updateButtonStates;
         window.showAgentAvatar = showAgentAvatar;
-    </script>
-    
-    <!-- Indian Money Rain Animation -->
-    <script>
-        // Create raining money notes
-        function createMoneyNotes() {
-            const notesCount = 24; // Doubled initial count
-            const notes = [
-                '/static/images/finance/money.png'
-            ];
-            
-            for (let i = 0; i < notesCount; i++) {
-                const note = document.createElement('img');
-                note.className = 'money-note';
-                note.src = notes[Math.floor(Math.random() * notes.length)];
-                
-                // Position only on the sides (0-20% or 80-100% of screen width)
-                let leftPosition;
-                if (Math.random() > 0.5) {
-                    leftPosition = Math.random() * 20; // Left side: 0-20%
-                } else {
-                    leftPosition = Math.random() * 20 + 80; // Right side: 80-100%
-                }
-                note.style.left = leftPosition + 'vw';
-                
-                // Distribute money notes vertically at start
-                note.style.top = (Math.random() * -150 - 50) + 'px';
-                
-                note.style.width = (Math.random() * 15 + 25) + 'px';
-                note.style.height = 'auto';
-                
-                // Vary animation speed for more natural effect
-                const speeds = [4, 5, 6, 7, 8];
-                const randomSpeed = speeds[Math.floor(Math.random() * speeds.length)];
-                note.style.animationDuration = randomSpeed + 's';
-                
-                // Use shorter animation delays for quicker start
-                note.style.animationDelay = (Math.random() * 3) + 's';
-                note.style.filter = 'drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.3))';
-                document.body.appendChild(note);
-            }
-        }
-        
-        // Create money notes on load and add more periodically
-        window.addEventListener('load', () => {
-            createMoneyNotes();
-            
-            // Add new money notes periodically to keep the effect going
-            setInterval(() => {
-                // Create 3 notes at once for increased frequency
-                for (let i = 0; i < 3; i++) {
-                    const note = document.createElement('img');
-                    note.className = 'money-note';
-                    note.src = '/static/images/finance/money.png';
-                    
-                    // Position only on the sides (0-20% or 80-100% of screen width)
-                    let leftPosition;
-                    if (Math.random() > 0.5) {
-                        leftPosition = Math.random() * 20; // Left side: 0-20%
-                    } else {
-                        leftPosition = Math.random() * 20 + 80; // Right side: 80-100%
-                    }
-                    note.style.left = leftPosition + 'vw';
-                    
-                    note.style.width = (Math.random() * 15 + 25) + 'px';
-                    note.style.height = 'auto';
-                    
-                    // Vary animation speed for more natural effect
-                    const speeds = [4, 5, 6, 7, 8];
-                    const randomSpeed = speeds[Math.floor(Math.random() * speeds.length)];
-                    note.style.animationDuration = randomSpeed + 's';
-                    
-                    note.style.filter = 'drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.3))';
-                    document.body.appendChild(note);
-                    
-                    // Remove note after animation completes to avoid memory issues
-                    setTimeout(() => {
-                        if (note && note.parentNode) {
-                            note.parentNode.removeChild(note);
-                        }
-                    }, 10000);
-                }
-            }, 1000); // Reduced interval from 3000ms to 1000ms
-        });
     </script>
 </body>
 </html>
