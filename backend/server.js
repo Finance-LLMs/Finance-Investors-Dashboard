@@ -12,20 +12,44 @@ app.use("/static", express.static(path.join(__dirname, "../dist")));
 
 app.get("/api/signed-url", async (req, res) => {
   try {
-    const { opponent, mode } = req.query;
+    const { opponent, mode, language } = req.query;
     let agentId = process.env.AGENT_ID; // Default agent ID
       
-    console.log(`Getting signed URL for opponent: ${opponent}, mode: ${mode}`);
+    console.log(`Getting signed URL for opponent: ${opponent}, mode: ${mode}, language: ${language}`);
     
-    // Map opponent to specific agent ID
+    // Map opponent to specific agent ID based on language
     if (opponent === 'saurabh') {
-      agentId = process.env.SAURABH_AGENT_ID;
+      if (language === 'hindi') {
+        agentId = process.env.SAURABH_HINDI_AGENT_ID;
+      } else if (language === 'tamil') {
+        agentId = process.env.SAURABH_TAMIL_AGENT_ID;
+      } else {
+        agentId = process.env.SAURABH_AGENT_ID; // Default to English
+      }
     } else if (opponent === 'parag') {
-      agentId = process.env.PARAG_AGENT_ID;
+      if (language === 'hindi') {
+        agentId = process.env.PARAG_HINDI_AGENT_ID;
+      } else if (language === 'tamil') {
+        agentId = process.env.PARAG_TAMIL_AGENT_ID;
+      } else {
+        agentId = process.env.PARAG_AGENT_ID; // Default to English
+      }
     } else if (opponent === 'mohnish') {
-      agentId = process.env.MOHNISH_AGENT_ID;
+      if (language === 'hindi') {
+        agentId = process.env.MOHNISH_HINDI_AGENT_ID;
+      } else if (language === 'tamil') {
+        agentId = process.env.MOHNISH_TAMIL_AGENT_ID;
+      } else {
+        agentId = process.env.MOHNISH_AGENT_ID; // Default to English
+      }
     } else if (opponent === 'aswath') {
-      agentId = process.env.ASWATH_AGENT_ID;
+      if (language === 'hindi') {
+        agentId = process.env.ASWATH_HINDI_AGENT_ID;
+      } else if (language === 'tamil') {
+        agentId = process.env.ASWATH_TAMIL_AGENT_ID;
+      } else {
+        agentId = process.env.ASWATH_AGENT_ID; // Default to English
+      }
     }
     
     console.log(`Using agent ID: ${agentId}`);

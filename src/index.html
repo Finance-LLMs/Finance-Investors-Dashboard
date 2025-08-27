@@ -262,6 +262,67 @@
             box-shadow: 0 10px 25px rgba(255, 215, 0, 0.5);
         }
 
+        /* Language button styles */
+        .language-buttons {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .language-button {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.2), rgba(255, 215, 0, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(255, 153, 51, 0.2);
+            color: white;
+        }
+
+        .language-button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.4), rgba(255, 215, 0, 0.3));
+            border-color: rgba(255, 215, 0, 0.6);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .language-button.selected {
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.6), rgba(255, 215, 0, 0.6));
+            border-color: rgba(255, 215, 0, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .language-name {
+            color: white;
+            font-weight: 600;
+            font-size: 0.7rem;
+            margin-bottom: 1px;
+            text-align: center;
+        }
+
+        .language-desc {
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .language-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: linear-gradient(135deg, rgba(128, 128, 128, 0.3), rgba(128, 128, 128, 0.2));
+            border-color: rgba(128, 128, 128, 0.4);
+        }
+
+        .language-button:disabled:hover {
+            transform: none;
+            background: linear-gradient(135deg, rgba(128, 128, 128, 0.3), rgba(128, 128, 128, 0.2));
+            border-color: rgba(128, 128, 128, 0.4);
+            box-shadow: 0 4px 12px rgba(255, 153, 51, 0.2);
+        }
+
         .opponent-name {
             color: white;
             font-weight: 700;
@@ -474,6 +535,18 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 6px;
             }
+            
+            .language-buttons {
+                gap: 3px;
+            }
+            
+            .language-button {
+                padding: 6px;
+            }
+            
+            .language-name {
+                font-size: 0.6rem;
+            }
 
             .header-text h2 {
                 font-size: 1rem;
@@ -529,6 +602,30 @@
                 </div>
 
                 <div class="form-controls">
+                    <div class="control-group">
+                        <label>Choose Language</label>
+                        <div class="language-buttons">
+                            <button type="button" class="language-button" data-language="english">
+                                <div class="language-info">
+                                    <div class="language-name">English</div>
+                                    <div class="language-desc">🇺🇸</div>
+                                </div>
+                            </button>
+                            <button type="button" class="language-button" data-language="hindi">
+                                <div class="language-info">
+                                    <div class="language-name">हिंदी</div>
+                                    <div class="language-desc">🇮🇳</div>
+                                </div>
+                            </button>
+                            <button type="button" class="language-button" data-language="tamil">
+                                <div class="language-info">
+                                    <div class="language-name">தமிழ்</div>
+                                    <div class="language-desc">🇮🇳</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    
                     <div class="control-group">
                         <label>Choose Your Finance Advisor</label>
                         <div class="opponent-buttons">

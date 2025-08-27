@@ -3,6 +3,7 @@ import { Conversation } from '@elevenlabs/client';
 
 // Global variables for Medical Debater interface
 let selectedAgent = '';
+let selectedLanguage = 'english'; // Default to English
 let currentTopic = '';
 
 let conversation = null;
@@ -402,6 +403,25 @@ function selectOpponent(opponentValue) {
     checkFormValidity();
 }
 
+// Handle language button selection
+function selectLanguage(languageValue) {
+    // Remove selection from all language buttons
+    document.querySelectorAll('.language-button').forEach(button => {
+        button.classList.remove('selected');
+    });
+    
+    // Add selection to clicked button
+    const selectedButton = document.querySelector(`[data-language="${languageValue}"]`);
+    if (selectedButton) {
+        selectedButton.classList.add('selected');
+    }
+    
+    // Update global selectedLanguage variable
+    selectedLanguage = languageValue;
+    
+    console.log(`Selected language: ${languageValue}`);
+}
+
 // Animate mouth when speaking
 function startMouthAnimation() {
     if (mouthAnimationInterval) return; // Already animating
@@ -593,7 +613,11 @@ async function getSignedUrl(opponent, mode = null) {
         if (mode) {
             url += `&mode=${mode}`;
         }
-        console.log('Requesting signed URL for:', opponent, 'mode:', mode, 'URL:', url);
+        // Add language parameter
+        if (selectedLanguage) {
+            url += `&language=${selectedLanguage}`;
+        }
+        console.log('Requesting signed URL for:', opponent, 'mode:', mode, 'language:', selectedLanguage, 'URL:', url);
         const response = await fetch(url);
         if (!response.ok) {
             console.error('Failed to get signed URL, status:', response.status);
@@ -655,8 +679,10 @@ function updateSpeakingStatus(mode) {
 // Function to disable/enable form controls
 function setFormControlsState(disabled) {
     const opponentButtons = document.querySelectorAll('.opponent-button');
+    const languageButtons = document.querySelectorAll('.language-button');
     
     opponentButtons.forEach(button => button.disabled = disabled);
+    languageButtons.forEach(button => button.disabled = disabled);
 }
 
 async function startConversation() {
@@ -1266,6 +1292,20 @@ document.addEventListener('DOMContentLoaded', () => {
             selectOpponent(opponentValue);
         });
     });
+    
+    // Add event listeners for language buttons
+    document.querySelectorAll('.language-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const languageValue = e.currentTarget.getAttribute('data-language');
+            selectLanguage(languageValue);
+        });
+    });
+    
+    // Set default language selection (English)
+    const defaultLanguageButton = document.querySelector('[data-language="english"]');
+    if (defaultLanguageButton) {
+        selectLanguage('english');
+    }
     
     // Add event listeners for conversation control buttons
     startButton.addEventListener('click', startConversation);
