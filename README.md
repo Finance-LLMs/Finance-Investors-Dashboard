@@ -10,12 +10,12 @@ An interactive conversational AI platform that enables users to engage in financ
 ## ✨ Features
 
 - **Indian Finance Experts**: Engage with AI versions of renowned Indian finance personalities and investment gurus
+- **Multi-Language Support**: Available in English, Hindi (हिंदी), and Tamil (தமிழ்) for broader accessibility
 - **Single Interface Mode**: Clean, professional dashboard interface for financial consultations  
 - **Financial Consultation**: Get personalized investment advice and financial insights
 - **Real-time Voice Conversation**: Powered by ElevenLabs' advanced voice AI technology
 - **Video Avatars**: High-quality video representations of each finance expert
-- **Animated Money Rain**: Immersive visual experience with Indian-themed money animations
-- **Indian Tricolor Theme**: Glassmorphic UI with Indian flag-inspired gradient backgrounds
+- **Comprehensive Disclaimer**: Built-in legal compliance with SEBI regulations and educational disclaimers
 - **Speaking Indicators**: Visual feedback showing when AI experts are responding
 - **Responsive Design**: Works seamlessly across desktop and mobile devices
 - **Professional Grade**: Built for investors, financial advisors, and finance enthusiasts
@@ -27,21 +27,39 @@ An interactive conversational AI platform that enables users to engage in financ
 - **MohnAIsh**: Investment Guru - AI representation of disciplined investment philosophy and market insights  
 - **AIswath**: Valuation Expert - Expert in company valuation, financial analysis, and market fundamentals
 
-*Each expert has unique conversation flows and can provide specialized advice in their area of expertise*
+*Each expert is available in multiple languages (English, Hindi, Tamil) and has unique conversation flows tailored to their area of expertise*
+
+## ⚖️ Legal Compliance & Educational Use
+
+This platform is designed with strict adherence to financial regulations and educational standards:
+
+- **SEBI Compliance**: Clear disclaimers that the platform is not SEBI-registered and does not provide investment advice
+- **Educational Purpose**: Explicitly positioned for financial literacy and educational use only
+- **AI Transparency**: Users are clearly informed that they are interacting with AI representations, not actual personalities
+- **Research Framework**: Developed by MIDAS Lab at IIIT Delhi for academic research in LLMs and finance
+- **Professional Guidance**: Built-in recommendations to consult SEBI-registered financial advisors for actual investment decisions
 
 ## 🚀 Technology Stack
 
 ### Frontend
 - **Vanilla JavaScript** with modern ES6+ features
 - **Webpack** for module bundling and development server
-- **CSS3** with glassmorphic design patterns
-- **Responsive HTML5** structure
+- **CSS3** with responsive glassmorphic design patterns
+- **Multi-language Support** with Unicode text rendering
+- **HTML5** with semantic structure and accessibility features
 
 ### Backend
-- **Node.js/Express** server for API endpoints
+- **Node.js/Express** server for API endpoints with language routing
 - **Python/FastAPI** alternative backend option
-- **ElevenLabs API** integration for conversational AI
+- **ElevenLabs API** integration for multi-language conversational AI
+- **Environment-based Configuration** for secure API key management
 - **CORS** enabled for cross-origin requests
+
+### AI & Language Features
+- **Multi-language AI Agents** for English, Hindi, and Tamil
+- **Real-time Voice Processing** with ElevenLabs SDK
+- **Language-specific Agent Routing** based on user selection
+- **Cultural Context Awareness** in AI responses
 
 ## 📋 Prerequisites
 
@@ -74,10 +92,25 @@ vim .env
 Add the following environment variables:
 ```env
 XI_API_KEY=your_elevenlabs_api_key_here
-SAURABH_AGENT_ID=saurabh_agent_id
-PARAG_AGENT_ID=parag_agent_id
-MOHNISH_AGENT_ID=mohnish_agent_id
-ASWATH_AGENT_ID=aswath_agent_id
+AGENT_ID=your_default_agent_id
+
+# English Agents
+SAURABH_AGENT_ID=saurabh_english_agent_id
+PARAG_AGENT_ID=parag_english_agent_id
+MOHNISH_AGENT_ID=mohnish_english_agent_id
+ASWATH_AGENT_ID=aswath_english_agent_id
+
+# Hindi Agents (हिंदी)
+SAURABH_HINDI_AGENT_ID=saurabh_hindi_agent_id
+PARAG_HINDI_AGENT_ID=parag_hindi_agent_id
+MOHNISH_HINDI_AGENT_ID=mohnish_hindi_agent_id
+ASWATH_HINDI_AGENT_ID=aswath_hindi_agent_id
+
+# Tamil Agents (தமிழ்)
+SAURABH_TAMIL_AGENT_ID=saurabh_tamil_agent_id
+PARAG_TAMIL_AGENT_ID=parag_tamil_agent_id
+MOHNISH_TAMIL_AGENT_ID=mohnish_tamil_agent_id
+ASWATH_TAMIL_AGENT_ID=aswath_tamil_agent_id
 ```
 
 ### 3. Install Dependencies
@@ -118,22 +151,24 @@ http://localhost:3000
 ## 🎯 Usage Guide
 
 1. **Access the Dashboard**: Open the application to see the Indian Finance Investors Dashboard
-2. **Select Finance Expert**: Choose from available AI financial advisors (Saurabh, Parag, Mohnish, or Aswath)
-3. **Start Consultation**: Click "Start Financial Consultation" to begin your voice conversation
-4. **Financial Discussion**: Ask questions about investments, market analysis, portfolio strategies, or seek financial advice
-5. **End Session**: Click "End Consultation" when finished
+2. **Select Language**: Choose from English, Hindi (हिंदी), or Tamil (தமிழ்) for your preferred conversation language
+3. **Select Finance Expert**: Choose from available AI financial advisors (Saurabh, Parag, Mohnish, or Aswath)
+4. **Start Consultation**: Click "Start Financial Consultation" to begin your voice conversation
+5. **Financial Discussion**: Ask questions about investments, market analysis, portfolio strategies, or seek financial advice
+6. **End Session**: Click "End Consultation" when finished
+7. **Legal Compliance**: Review the built-in disclaimer for SEBI compliance and educational use guidelines
 
 ## 🏗️ Project Structure
 
 ```
 Finance-Investors-Dashboard/
 ├── backend/
-│   ├── server.js          # Express.js server with finance expert routing
+│   ├── server.js          # Express.js server with multi-language routing
 │   └── server.py          # FastAPI alternative server
 ├── src/
-│   ├── index.html         # Main dashboard interface
+│   ├── index.html         # Main dashboard with language selection
 │   ├── app.js            # Core application logic
-│   ├── styles.css        # Global styles with Indian theme
+│   ├── styles.css        # Global styles with responsive design
 │   ├── images/           # Finance expert avatars and assets
 │   │   ├── saurabh.png   # SAIurabh avatar
 │   │   ├── parag.png     # PAIrag avatar  
@@ -145,7 +180,10 @@ Finance-Investors-Dashboard/
 │       ├── parag.mp4     # PAIrag video
 │       ├── mohnish.mp4   # MohnAIsh video
 │       └── aswath.mp4    # AIswath video
-├── package.json          # Node.js dependencies
+├── dist/                 # Webpack build output
+├── .env                  # Environment variables (not committed)
+├── .gitignore           # Git ignore rules
+├── package.json          # Node.js dependencies and scripts
 ├── requirements.txt      # Python dependencies  
 ├── webpack.config.js     # Webpack configuration
 └── README.md            # This file
@@ -164,9 +202,12 @@ Finance-Investors-Dashboard/
 ### Development Guidelines
 
 1. Follow modern JavaScript ES6+ standards
-2. Maintain responsive design principles
-3. Test across different browsers and devices
-4. Ensure API key security and never commit secrets
+2. Maintain responsive design principles across all screen sizes
+3. Ensure multi-language support and Unicode text handling
+4. Test across different browsers, devices, and language settings
+5. Maintain SEBI compliance and educational disclaimers
+6. Ensure API key security and never commit secrets to version control
+7. Follow cultural sensitivity guidelines for multi-language content
 
 ## 🤝 Contributing
 
