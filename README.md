@@ -92,7 +92,6 @@ vim .env
 Add the following environment variables:
 ```env
 XI_API_KEY=your_elevenlabs_api_key_here
-AGENT_ID=your_default_agent_id
 
 # English Agents
 SAURABH_AGENT_ID=saurabh_english_agent_id
