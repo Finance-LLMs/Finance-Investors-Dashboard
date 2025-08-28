@@ -646,6 +646,7 @@ function updateStatus(isConnected) {
 
 function updateSpeakingStatus(mode) {
     const statusElement = document.getElementById('speakingStatus');
+    const summaryButton = document.getElementById('summaryButton');
     
     // Update based on the exact mode string we receive
     const isSpeaking = mode.mode === 'speaking';
@@ -663,6 +664,11 @@ function updateSpeakingStatus(mode) {
         setTimeout(() => {
             startMouthAnimation();
         }, 100);
+        
+        // Disable summary button when agent is speaking
+        if (summaryButton) {
+            summaryButton.disabled = true;
+        }
     } else {
         console.log('Agent is now silent, pausing video');
         
@@ -671,9 +677,49 @@ function updateSpeakingStatus(mode) {
         
         // Also stop local animation
         stopMouthAnimation();
+        
+        // Only enable summary button when:
+        // 1. Agent is done speaking
+        // 2. Button should be visible
+        // 3. We're not in the middle of a summary request
+        if (summaryButton && summaryButton.style.display !== 'none' && !summarizeRequested) {
+            summaryButton.disabled = false;
+        }
+        
+        // If the agent just finished speaking and we requested a summary,
+        // this is likely the end of the summary response
+        if (summarizeRequested) {
+            console.log('Agent finished speaking after summary request');
+            // Reset the summary request state after a brief delay
+            // to ensure any follow-up API calls have completed
+            setTimeout(() => {
+                summarizeRequested = false;
+                
+                // Reset the button if it still exists and should be visible
+                if (summaryButton && summaryButton.style.display !== 'none') {
+                    // Reset button appearance
+                    summaryButton.disabled = false;
+                    summaryButton.classList.remove('loading');
+                    
+                    // Reset button text
+                    summaryButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                        Close Conversation
+                    `;
+                    console.log('Summary completed, button reset and re-enabled');
+                }
+            }, 1000); // Wait 1 second before resetting to ensure API operations completed
+        }
     }
     
-    console.log('Speaking status updated:', { mode, isSpeaking }); // Debug log
+    console.log('Speaking status updated:', { mode, isSpeaking, summarizeRequested }); // Debug log
 }
 
 // Function to disable/enable form controls
@@ -728,6 +774,13 @@ async function startConversation() {
                 startButton.style.display = 'none';
                 endButton.disabled = false;
                 endButton.style.display = 'flex';
+                
+                // Show and enable summary button
+                const summaryButton = document.getElementById('summaryButton');
+                if (summaryButton) {
+                    summaryButton.disabled = false;
+                    summaryButton.style.display = 'flex';
+                }
             },            
             onDisconnect: () => {
                 console.log('Disconnected');
@@ -737,6 +790,14 @@ async function startConversation() {
                 startButton.style.display = 'flex';
                 endButton.disabled = true;
                 endButton.style.display = 'none';
+                
+                // Hide summary button
+                const summaryButton = document.getElementById('summaryButton');
+                if (summaryButton) {
+                    summaryButton.disabled = true;
+                    summaryButton.style.display = 'none';
+                }
+                
                 updateSpeakingStatus({ mode: 'listening' }); // Reset to listening mode on disconnect
                 stopMouthAnimation(); // Ensure avatar animation stops
             },
@@ -747,6 +808,14 @@ async function startConversation() {
                 startButton.style.display = 'flex';
                 endButton.disabled = true;
                 endButton.style.display = 'none';
+                
+                // Hide summary button
+                const summaryButton = document.getElementById('summaryButton');
+                if (summaryButton) {
+                    summaryButton.disabled = true;
+                    summaryButton.style.display = 'none';
+                }
+                
                 alert('An error occurred during the conversation.');
             },
             onModeChange: (mode) => {
@@ -816,7 +885,7 @@ async function summarizeConversation() {
             // Try different methods in case the API has changed
             try {
                 // Prepare the summary message with clear instructions
-                const summaryPrompt = "Please summarize our entire debate so far with key points from both sides.";
+                const summaryPrompt = "summarise the entire conversation that we had and end with a closing statement";
                 
                 // Method 1: Using sendTextMessage (original method)
                 if (typeof conversation.sendTextMessage === 'function') {
@@ -882,7 +951,7 @@ async function summarizeConversation() {
                                     <line x1="3" y1="12" x2="3.01" y2="12"></line>
                                     <line x1="3" y1="18" x2="3.01" y2="18"></line>
                                 </svg>
-                                Summarize Debate
+                                Close Conversation
                             `;
                             console.log('Summary button reset by timeout fallback');
                         }
@@ -1310,6 +1379,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add event listeners for conversation control buttons
     startButton.addEventListener('click', startConversation);
     endButton.addEventListener('click', endConversation);
+    
+    // Add event listener for summary button
+    const summaryButton = document.getElementById('summaryButton');
+    if (summaryButton) {
+        summaryButton.addEventListener('click', summarizeConversation);
+    }
     
     // Initial check
     checkFormValidity();
