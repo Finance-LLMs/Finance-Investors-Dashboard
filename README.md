@@ -7,8 +7,6 @@
 
 An interactive conversational AI platform that enables users to engage in financial consultations with AI Indian finance experts and investors. Built with ElevenLabs Conversational AI SDK, this application features multiple AI financial advisors with distinct investment philosophies and expertise areas.
 
-
- Demo Video Link :- https://drive.google.com/file/d/1nVghL3d2gCV_Z4TwRHnflX0I9aFO8ZKk/view?usp=sharing
  
 ## ✨ Features
 
