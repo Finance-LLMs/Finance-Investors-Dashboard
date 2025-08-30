@@ -97,10 +97,10 @@ function createAvatarSVG() {
 function createCelebrityAvatar(opponent) {
     // Map for character videos - primary content
     const videoMap = {
-    'saurabh': 'saurabh.mp4',
-    'parag': 'parag.mp4',
-    'mohnish': 'mohnish.mp4',
-    'aswath': 'aswath.mp4',
+    'saurabh': 'abhay.mp4',
+    'parag': 'akshat.mp4',
+    'mohnish': 'tanmay.mp4',
+    'aswath': 'vikranth.mp4',
         // 'singapore_uncle': 'singapore_uncle.mp4'
     };
     

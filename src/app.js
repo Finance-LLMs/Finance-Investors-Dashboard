@@ -107,10 +107,10 @@ function createCelebrityAvatar(opponent) {
         'nelson': 'nelson.mp4',
         'michelle': 'barbarella.mp4',
         'taylor': 'taylor.mp4',
-        'parag': 'parag.mp4',
-        'mohnish': 'mohnish.mp4',
-        'saurabh': 'saurabh.mp4',
-        'aswath': 'aswath.mp4'
+        'parag': 'akshat.mp4',
+        'mohnish': 'tanmay.mp4',
+        'saurabh': 'abhay.mp4',
+        'aswath': 'vikranth.mp4'
     };
     
     // Fallback image map - only used if video fails completely
