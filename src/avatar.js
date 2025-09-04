@@ -97,19 +97,19 @@ function createAvatarSVG() {
 function createCelebrityAvatar(opponent) {
     // Map for character videos - primary content
     const videoMap = {
-    'saurabh': 'abhay.mp4',
-    'parag': 'akshat.mp4',
-    'mohnish': 'tanmay.mp4',
-    'aswath': 'vikranth.mp4',
+    'abhay': 'abhay.mp4',
+    'akshat': 'akshat.mp4',
+    'tanmay': 'tanmay.mp4',
+    'vikranth': 'vikranth.mp4',
         // 'singapore_uncle': 'singapore_uncle.mp4'
     };
     
     // Fallback image map - only used if video fails completely
     const imageMap = {
-        'saurabh': 'saurabh.jpg',
-    'parag': 'parag.jpg',
-    'mohnish': 'mohnish.jpg',
-    'aswath': 'aswath.jpg',
+        'abhay': 'abhay.jpg',
+    'akshat': 'akshat.jpg',
+    'tanmay': 'tanmay.jpg',
+    'vikranth': 'vikranth.jpg',
         'singapore_uncle': 'singapore_uncle.jpg'
     };
     
