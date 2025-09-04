@@ -18,37 +18,37 @@ app.get("/api/signed-url", async (req, res) => {
     console.log(`Getting signed URL for opponent: ${opponent}, mode: ${mode}, language: ${language}`);
     
     // Map opponent to specific agent ID based on language
-    if (opponent === 'saurabh') {
+    if (opponent === 'abhay') {
       if (language === 'hindi') {
-        agentId = process.env.SAURABH_HINDI_AGENT_ID;
+        agentId = process.env.ABHAY_HINDI_AGENT_ID;
       } else if (language === 'tamil') {
-        agentId = process.env.SAURABH_TAMIL_AGENT_ID;
+        agentId = process.env.ABHAY_TAMIL_AGENT_ID;
       } else {
-        agentId = process.env.SAURABH_AGENT_ID; // Default to English
+        agentId = process.env.ABHAY_AGENT_ID; // Default to English
       }
-    } else if (opponent === 'parag') {
+    } else if (opponent === 'akshat') {
       if (language === 'hindi') {
-        agentId = process.env.PARAG_HINDI_AGENT_ID;
+        agentId = process.env.AKSHAT_HINDI_AGENT_ID;
       } else if (language === 'tamil') {
-        agentId = process.env.PARAG_TAMIL_AGENT_ID;
+        agentId = process.env.AKSHAT_TAMIL_AGENT_ID;
       } else {
-        agentId = process.env.PARAG_AGENT_ID; // Default to English
+        agentId = process.env.AKSHAT_AGENT_ID; // Default to English
       }
-    } else if (opponent === 'mohnish') {
+    } else if (opponent === 'tanmay') {
       if (language === 'hindi') {
-        agentId = process.env.MOHNISH_HINDI_AGENT_ID;
+        agentId = process.env.TANMAY_HINDI_AGENT_ID;
       } else if (language === 'tamil') {
-        agentId = process.env.MOHNISH_TAMIL_AGENT_ID;
+        agentId = process.env.TANMAY_TAMIL_AGENT_ID;
       } else {
-        agentId = process.env.MOHNISH_AGENT_ID; // Default to English
+        agentId = process.env.TANMAY_AGENT_ID; // Default to English
       }
-    } else if (opponent === 'aswath') {
+    } else if (opponent === 'vikranth') {
       if (language === 'hindi') {
-        agentId = process.env.ASWATH_HINDI_AGENT_ID;
+        agentId = process.env.VIKRANTH_HINDI_AGENT_ID;
       } else if (language === 'tamil') {
-        agentId = process.env.ASWATH_TAMIL_AGENT_ID;
+        agentId = process.env.VIKRANTH_TAMIL_AGENT_ID;
       } else {
-        agentId = process.env.ASWATH_AGENT_ID; // Default to English
+        agentId = process.env.VIKRANTH_AGENT_ID; // Default to English
       }
     }
     
@@ -87,11 +87,6 @@ app.get("/api/getAgentId", (req, res) => {
   res.json({
     agentId: `${agentId}`,
   });
-});
-
-// Serve specific HTML files
-app.get("/controls.html", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist/controls.html"));
 });
 
 app.get("/avatar.html", (req, res) => {

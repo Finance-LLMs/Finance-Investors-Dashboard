@@ -24,10 +24,10 @@ Demo Video Link :- https://drive.google.com/file/d/1Mw5se0AKITVIK5RYNHLP254FPPw8
 
 ## 💼 Available Finance Experts
 
-- **SAIurabh**: Value Investor - AI version focused on value investing principles and long-term wealth creation
-- **PAIrag**: Wealth Manager - Specialized in wealth management, portfolio strategies, and financial planning
-- **MohnAIsh**: Investment Guru - AI representation of disciplined investment philosophy and market insights  
-- **AIswath**: Valuation Expert - Expert in company valuation, financial analysis, and market fundamentals
+- **Abhay**: Value Investor - AI version focused on value investing principles and long-term wealth creation
+- **Akshat**: Wealth Manager - Specialized in wealth management, portfolio strategies, and financial planning
+- **Tanmay**: Investment Guru - AI representation of disciplined investment philosophy and market insights  
+- **Vikranth**: Valuation Expert - Expert in company valuation, financial analysis, and market fundamentals
 
 *Each expert is available in multiple languages (English, Hindi, Tamil) and has unique conversation flows tailored to their area of expertise*
 
@@ -96,22 +96,22 @@ Add the following environment variables:
 XI_API_KEY=your_elevenlabs_api_key_here
 
 # English Agents
-SAURABH_AGENT_ID=saurabh_english_agent_id
-PARAG_AGENT_ID=parag_english_agent_id
-MOHNISH_AGENT_ID=mohnish_english_agent_id
-ASWATH_AGENT_ID=aswath_english_agent_id
+ABHAY_AGENT_ID=abhay_english_agent_id
+AKSHAT_AGENT_ID=akshat_english_agent_id
+TANMAY_AGENT_ID=tanmay_english_agent_id
+VIKRANTH_AGENT_ID=vikranth_english_agent_id
 
 # Hindi Agents (हिंदी)
-SAURABH_HINDI_AGENT_ID=saurabh_hindi_agent_id
-PARAG_HINDI_AGENT_ID=parag_hindi_agent_id
-MOHNISH_HINDI_AGENT_ID=mohnish_hindi_agent_id
-ASWATH_HINDI_AGENT_ID=aswath_hindi_agent_id
+ABHAY_HINDI_AGENT_ID=abhay_hindi_agent_id
+AKSHAT_HINDI_AGENT_ID=akshat_hindi_agent_id
+TANMAY_HINDI_AGENT_ID=tanmay_hindi_agent_id
+VIKRANTH_HINDI_AGENT_ID=vikranth_hindi_agent_id
 
 # Tamil Agents (தமிழ்)
-SAURABH_TAMIL_AGENT_ID=saurabh_tamil_agent_id
-PARAG_TAMIL_AGENT_ID=parag_tamil_agent_id
-MOHNISH_TAMIL_AGENT_ID=mohnish_tamil_agent_id
-ASWATH_TAMIL_AGENT_ID=aswath_tamil_agent_id
+ABHAY_TAMIL_AGENT_ID=abhay_tamil_agent_id
+AKSHAT_TAMIL_AGENT_ID=akshat_tamil_agent_id
+TANMAY_TAMIL_AGENT_ID=tanmay_tamil_agent_id
+VIKRANTH_TAMIL_AGENT_ID=vikranth_tamil_agent_id
 ```
 
 ### 3. Install Dependencies
@@ -153,7 +153,7 @@ http://localhost:3000
 
 1. **Access the Dashboard**: Open the application to see the Indian Finance Investors Dashboard
 2. **Select Language**: Choose from English, Hindi (हिंदी), or Tamil (தமிழ்) for your preferred conversation language
-3. **Select Finance Expert**: Choose from available AI financial advisors (Saurabh, Parag, Mohnish, or Aswath)
+3. **Select Finance Expert**: Choose from available AI financial advisors (Abhay, Akshat, Tanmay, or Vikranth)
 4. **Start Consultation**: Click "Start Financial Consultation" to begin your voice conversation
 5. **Financial Discussion**: Ask questions about investments, market analysis, portfolio strategies, or seek financial advice
 6. **End Session**: Click "End Consultation" when finished
@@ -164,30 +164,23 @@ http://localhost:3000
 ```
 Finance-Investors-Dashboard/
 ├── backend/
-│   ├── server.js          # Express.js server with multi-language routing
-│   └── server.py          # FastAPI alternative server
+│   ├── server.js           # Express.js server with multi-language routing
+│   └── server.py           # FastAPI alternative server
 ├── src/
-│   ├── index.html         # Main dashboard with language selection
-│   ├── app.js            # Core application logic
-│   ├── styles.css        # Global styles with responsive design
-│   ├── images/           # Finance expert avatars and assets
-│   │   ├── saurabh.png   # SAIurabh avatar
-│   │   ├── parag.png     # PAIrag avatar  
-│   │   ├── mohnish.png   # MohnAIsh avatar
-│   │   ├── aswath.png    # AIswath avatar
-│   │   └── finance/      # Financial themed assets
-│   └── videos/           # Expert video avatars
-│       ├── saurabh.mp4   # SAIurabh video
-│       ├── parag.mp4     # PAIrag video
-│       ├── mohnish.mp4   # MohnAIsh video
-│       └── aswath.mp4    # AIswath video
-├── dist/                 # Webpack build output
-├── .env                  # Environment variables (not committed)
-├── .gitignore           # Git ignore rules
-├── package.json          # Node.js dependencies and scripts
-├── requirements.txt      # Python dependencies  
-├── webpack.config.js     # Webpack configuration
-└── README.md            # This file
+│   ├── index.html          # Main dashboard with language selection
+│   ├── app.js              # Core application logic
+│   ├── styles.css          # Global styles with responsive design
+│   └── videos/             # Expert video avatars
+│       ├── abhay.mp4       # Abhay video
+│       ├── akshat.mp4      # Akshat video
+│       ├── tanmay.mp4      # Tanmay video
+│       └── vikranth.mp4    # Vikranth video
+├── dist/                   # Webpack build output
+├── .env                    # Environment variables (not committed)
+├── .gitignore              # Git ignore rules
+├── package.json            # Node.js dependencies and scripts
+├── webpack.config.js       # Webpack configuration
+└── README.md               # This file
 ```
 
 ## 🔧 Development
