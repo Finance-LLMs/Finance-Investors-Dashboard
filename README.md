@@ -9,6 +9,8 @@ An interactive conversational AI platform that enables users to engage in financ
 
 Demo Video Link :- https://drive.google.com/file/d/1Mw5se0AKITVIK5RYNHLP254FPPw8Abjx/view?usp=sharing
 
+Dashboard Link :- https://finance-dashboard.finance-midas.tech/
+
 ## ✨ Features
 
 - **Indian Finance Experts**: Engage with AI versions of renowned Indian finance personalities and investment gurus
